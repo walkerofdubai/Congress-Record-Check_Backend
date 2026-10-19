@@ -1,0 +1,9 @@
+# Save a copy as .dev.vars. Keep this file on your computer; never commit actual keys.
+# FEC: https://api.open.fec.gov/developers/
+FEC_API_KEY=
+# Congress.gov: https://api.congress.gov/sign-up/
+CONGRESS_API_KEY=
+# Local refresh runs automatically while npm start is running.
+LOCAL_AUTORUN=true
+# Optional: change the local port.
+PORT=8787

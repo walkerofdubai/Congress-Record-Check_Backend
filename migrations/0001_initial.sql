@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS jobs (
+ id TEXT PRIMARY KEY, kind TEXT NOT NULL, subject TEXT NOT NULL, args TEXT NOT NULL,
+ status TEXT NOT NULL DEFAULT 'pending', next_due INTEGER NOT NULL DEFAULT 0,
+ cursor TEXT, run_id TEXT, page INTEGER NOT NULL DEFAULT 0,
+ started_at TEXT, last_attempt TEXT, last_success TEXT, error TEXT,
+ failures INTEGER NOT NULL DEFAULT 0, published_run TEXT, checked_through TEXT
+);
+CREATE INDEX IF NOT EXISTS jobs_due ON jobs(next_due, kind);
+CREATE TABLE IF NOT EXISTS records (
+ run_id TEXT NOT NULL, id TEXT NOT NULL, payload TEXT NOT NULL,
+ PRIMARY KEY(run_id,id)
+);
+CREATE TABLE IF NOT EXISTS snapshots (
+ job_id TEXT PRIMARY KEY, run_id TEXT NOT NULL, payload TEXT NOT NULL, updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS refresh_history (
+ id INTEGER PRIMARY KEY AUTOINCREMENT, job_id TEXT NOT NULL, status TEXT NOT NULL,
+ at TEXT NOT NULL, message TEXT NOT NULL, row_count INTEGER NOT NULL DEFAULT 0
+);
+CREATE TABLE IF NOT EXISTS locks (name TEXT PRIMARY KEY, owner TEXT NOT NULL, expires_at INTEGER NOT NULL);
+CREATE TABLE IF NOT EXISTS metadata (key TEXT PRIMARY KEY, value TEXT NOT NULL);

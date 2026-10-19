@@ -1,0 +1,24 @@
+{
+  "name": "congress-record-check",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --env-file-if-exists=.dev.vars scripts/local.mjs",
+    "test": "node --test test/*.test.mjs",
+    "check": "node scripts/check.mjs",
+    "cloudflare:preview": "wrangler dev",
+    "cloudflare:deploy": "wrangler deploy",
+    "db:migrate": "wrangler d1 migrations apply congress-record-check --remote"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.0.0"
+  },
+  "devDependencies": {
+    "esbuild-wasm": "^0.28.2",
+    "wrangler": "^4.0.0"
+  }
+}

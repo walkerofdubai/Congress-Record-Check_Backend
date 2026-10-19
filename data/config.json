@@ -1,0 +1,1327 @@
+{
+  "cycle": 2026,
+  "congress": 119,
+  "session": 2,
+  "year": 2026,
+  "reviewedAt": "October 2, 2026",
+  "people": [
+    {
+      "id": "collins",
+      "name": "Susan M. Collins",
+      "short": "Collins",
+      "bioguide": "C001035",
+      "lis": null,
+      "fecCand": "S6ME00159",
+      "fecCmte": "C00314575",
+      "chamber": "S",
+      "state": "ME",
+      "race": "S-ME"
+    },
+    {
+      "id": "sullivan",
+      "name": "Dan Sullivan",
+      "short": "Sullivan",
+      "bioguide": "S001198",
+      "lis": null,
+      "fecCand": "S4AK00214",
+      "fecCmte": "C00570994",
+      "chamber": "S",
+      "state": "AK",
+      "race": "S-AK"
+    },
+    {
+      "id": "marshall",
+      "name": "Roger W. Marshall",
+      "short": "Marshall",
+      "bioguide": "M001198",
+      "lis": null,
+      "fecCand": "S0KS00315",
+      "fecCmte": "C00576173",
+      "chamber": "S",
+      "state": "KS",
+      "race": "S-KS"
+    },
+    {
+      "id": "ossoff",
+      "name": "Jon Ossoff",
+      "short": "Ossoff",
+      "bioguide": "O000174",
+      "lis": null,
+      "fecCand": "S8GA00180",
+      "fecCmte": "C00718866",
+      "chamber": "S",
+      "state": "GA",
+      "race": "S-GA"
+    },
+    {
+      "id": "booker",
+      "name": "Cory A. Booker",
+      "short": "Booker",
+      "bioguide": "B001288",
+      "lis": null,
+      "fecCand": "S4NJ00185",
+      "fecCmte": "C00540500",
+      "chamber": "S",
+      "state": "NJ",
+      "race": "S-NJ"
+    },
+    {
+      "id": "hickenlooper",
+      "name": "John W. Hickenlooper",
+      "short": "Hickenlooper",
+      "bioguide": "H000273",
+      "lis": null,
+      "fecCand": "S0CO00575",
+      "fecCmte": "C00716720",
+      "chamber": "S",
+      "state": "CO",
+      "race": "S-CO"
+    },
+    {
+      "id": "perry",
+      "name": "Scott Perry",
+      "short": "Perry",
+      "bioguide": "P000605",
+      "lis": null,
+      "fecCand": "H2PA04135",
+      "fecCmte": "C00510164",
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-10"
+    },
+    {
+      "id": "lawler",
+      "name": "Mike Lawler",
+      "short": "Lawler",
+      "bioguide": "L000599",
+      "lis": null,
+      "fecCand": "H2NY17162",
+      "fecCmte": "C00815415",
+      "chamber": "H",
+      "state": "NY",
+      "race": "H-NY-17"
+    },
+    {
+      "id": "evans",
+      "name": "Gabe Evans",
+      "short": "Evans",
+      "bioguide": "E000300",
+      "lis": null,
+      "fecCand": "H4CO08034",
+      "fecCmte": "C00849844",
+      "chamber": "H",
+      "state": "CO",
+      "race": "H-CO-08"
+    },
+    {
+      "id": "millermeeks",
+      "name": "Mariannette Miller-Meeks",
+      "short": "Miller-Meeks",
+      "bioguide": "M001215",
+      "lis": null,
+      "fecCand": "H8IA02043",
+      "fecCmte": "C00558825",
+      "chamber": "H",
+      "state": "IA",
+      "race": "H-IA-01"
+    },
+    {
+      "id": "kaptur",
+      "name": "Marcy Kaptur",
+      "short": "Kaptur",
+      "bioguide": "K000009",
+      "lis": null,
+      "fecCand": "H2OH09031",
+      "fecCmte": "C00154625",
+      "chamber": "H",
+      "state": "OH",
+      "race": "H-OH-09"
+    },
+    {
+      "id": "mgp",
+      "name": "Marie Gluesenkamp Perez",
+      "short": "Gluesenkamp Perez",
+      "bioguide": "G000600",
+      "lis": null,
+      "fecCand": "H2WA03217",
+      "fecCmte": "C00806174",
+      "chamber": "H",
+      "state": "WA",
+      "race": "H-WA-03"
+    },
+    {
+      "id": "gonzalez",
+      "name": "Vicente Gonzalez",
+      "short": "Gonzalez",
+      "bioguide": "G000581",
+      "lis": null,
+      "fecCand": "H6TX15162",
+      "fecCmte": "C00592659",
+      "chamber": "H",
+      "state": "TX",
+      "race": "H-TX-34"
+    },
+    {
+      "id": "castor",
+      "name": "Kathy Castor",
+      "short": "Castor",
+      "bioguide": "C001066",
+      "lis": null,
+      "fecCand": "H6FL11126",
+      "fecCmte": "C00410761",
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-14"
+    },
+    {
+      "id": "talarico",
+      "name": "James Talarico",
+      "short": "Talarico",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6TX00479",
+      "fecCmte": "C00919084",
+      "chamber": "S",
+      "state": "TX",
+      "race": "S-TX"
+    },
+    {
+      "id": "paxton",
+      "name": "Ken Paxton",
+      "short": "Paxton",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6TX00388",
+      "fecCmte": "C00901918",
+      "chamber": "S",
+      "state": "TX",
+      "race": "S-TX"
+    },
+    {
+      "id": "elsayed",
+      "name": "Abdul El-Sayed",
+      "short": "El-Sayed",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MI00418",
+      "fecCmte": "C00902668",
+      "chamber": "S",
+      "state": "MI",
+      "race": "S-MI"
+    },
+    {
+      "id": "rogers",
+      "name": "Mike Rogers",
+      "short": "Rogers",
+      "bioguide": "R000572",
+      "lis": null,
+      "fecCand": "S4MI00595",
+      "fecCmte": "C00849810",
+      "chamber": "S",
+      "state": "MI",
+      "race": "S-MI"
+    },
+    {
+      "id": "cooper",
+      "name": "Roy Cooper",
+      "short": "Cooper",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6NC00407",
+      "fecCmte": "C00913566",
+      "chamber": "S",
+      "state": "NC",
+      "race": "S-NC"
+    },
+    {
+      "id": "whatley",
+      "name": "Michael Whatley",
+      "short": "Whatley",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6NC00415",
+      "fecCmte": "C00913996",
+      "chamber": "S",
+      "state": "NC",
+      "race": "S-NC"
+    },
+    {
+      "id": "turek",
+      "name": "Josh Turek",
+      "short": "Turek",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6IA00298",
+      "fecCmte": "C00915645",
+      "chamber": "S",
+      "state": "IA",
+      "race": "S-IA"
+    },
+    {
+      "id": "hinson",
+      "name": "Ashley Hinson",
+      "short": "Hinson",
+      "bioguide": "H001091",
+      "lis": null,
+      "fecCand": "S6IA00314",
+      "fecCmte": "C00706267",
+      "chamber": "H",
+      "state": "IA",
+      "race": "S-IA"
+    },
+    {
+      "id": "pappas",
+      "name": "Chris Pappas",
+      "short": "Pappas",
+      "bioguide": "P000614",
+      "lis": null,
+      "fecCand": "S6NH00141",
+      "fecCmte": "C00660464",
+      "chamber": "H",
+      "state": "NH",
+      "race": "S-NH"
+    },
+    {
+      "id": "sununu",
+      "name": "John E. Sununu",
+      "short": "Sununu",
+      "bioguide": "S001078",
+      "lis": null,
+      "fecCand": "S6NH00208",
+      "fecCmte": "C00924092",
+      "chamber": "S",
+      "state": "NH",
+      "race": "S-NH"
+    },
+    {
+      "id": "flanagan",
+      "name": "Peggy Flanagan",
+      "short": "Flanagan",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MN00440",
+      "fecCmte": "C00897751",
+      "chamber": "S",
+      "state": "MN",
+      "race": "S-MN"
+    },
+    {
+      "id": "tafoya",
+      "name": "Michele Tafoya",
+      "short": "Tafoya",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MN00556",
+      "fecCmte": "C00935528",
+      "chamber": "S",
+      "state": "MN",
+      "race": "S-MN"
+    },
+    {
+      "id": "stratton",
+      "name": "Juliana Stratton",
+      "short": "Stratton",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6IL00458",
+      "fecCmte": "C00903252",
+      "chamber": "S",
+      "state": "IL",
+      "race": "S-IL"
+    },
+    {
+      "id": "tracy",
+      "name": "Don Tracy",
+      "short": "Tracy",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6IL00615",
+      "fecCmte": "C00917120",
+      "chamber": "S",
+      "state": "IL",
+      "race": "S-IL"
+    },
+    {
+      "id": "cbooker",
+      "name": "Charles Booker",
+      "short": "Booker",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6KY00385",
+      "fecCmte": "C00929208",
+      "chamber": "S",
+      "state": "KY",
+      "race": "S-KY"
+    },
+    {
+      "id": "barr",
+      "name": "Andy Barr",
+      "short": "Barr",
+      "bioguide": "B001282",
+      "lis": null,
+      "fecCand": "S6KY00286",
+      "fecCmte": "C00467571",
+      "chamber": "H",
+      "state": "KY",
+      "race": "S-KY"
+    },
+    {
+      "id": "wess",
+      "name": "Everett Wess",
+      "short": "Wess",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6AL00518",
+      "fecCmte": "C00935783",
+      "chamber": "S",
+      "state": "AL",
+      "race": "S-AL"
+    },
+    {
+      "id": "moore",
+      "name": "Barry Moore",
+      "short": "Moore",
+      "bioguide": "M001212",
+      "lis": null,
+      "fecCand": "S6AL00476",
+      "fecCmte": "C00720375",
+      "chamber": "H",
+      "state": "AL",
+      "race": "S-AL"
+    },
+    {
+      "id": "bankhead",
+      "name": "Alani Bankhead",
+      "short": "Bankhead",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MT00253",
+      "fecCmte": "C00937201",
+      "chamber": "S",
+      "state": "MT",
+      "race": "S-MT"
+    },
+    {
+      "id": "alme",
+      "name": "Kurt Alme",
+      "short": "Alme",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MT00295",
+      "fecCmte": "C00942060",
+      "chamber": "S",
+      "state": "MT",
+      "race": "S-MT"
+    },
+    {
+      "id": "bodnar",
+      "name": "Seth Bodnar",
+      "short": "Bodnar",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6MT00287",
+      "fecCmte": "C00941708",
+      "chamber": "S",
+      "state": "MT",
+      "race": "S-MT"
+    },
+    {
+      "id": "byrd",
+      "name": "James Byrd",
+      "short": "Byrd",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6WY00217",
+      "fecCmte": "C00938738",
+      "chamber": "S",
+      "state": "WY",
+      "race": "S-WY"
+    },
+    {
+      "id": "hageman",
+      "name": "Harriet Hageman",
+      "short": "Hageman",
+      "bioguide": "H001096",
+      "lis": null,
+      "fecCand": "S6WY00209",
+      "fecCmte": "C00788943",
+      "chamber": "H",
+      "state": "WY",
+      "race": "S-WY"
+    },
+    {
+      "id": "thomas",
+      "name": "N'Kiyla Jasmine Thomas",
+      "short": "Thomas",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6OK04163",
+      "fecCmte": "C00899559",
+      "chamber": "S",
+      "state": "OK",
+      "race": "S-OK"
+    },
+    {
+      "id": "hern",
+      "name": "Kevin Hern",
+      "short": "Hern",
+      "bioguide": "H001082",
+      "lis": null,
+      "fecCand": "S6OK04247",
+      "fecCmte": "C00943142",
+      "chamber": "H",
+      "state": "OK",
+      "race": "S-OK"
+    },
+    {
+      "id": "davis",
+      "name": "Jamie Davis",
+      "short": "Davis",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6LA00615",
+      "fecCmte": "C00929117",
+      "chamber": "S",
+      "state": "LA",
+      "race": "S-LA"
+    },
+    {
+      "id": "letlow",
+      "name": "Julia Letlow",
+      "short": "Letlow",
+      "bioguide": "L000595",
+      "lis": null,
+      "fecCand": "S6LA00664",
+      "fecCmte": "C00935411",
+      "chamber": "H",
+      "state": "LA",
+      "race": "S-LA"
+    },
+    {
+      "id": "husted",
+      "name": "Jon Husted",
+      "short": "Husted",
+      "bioguide": "H001104",
+      "lis": null,
+      "fecCand": "S6OH00304",
+      "fecCmte": "C00896019",
+      "chamber": "S",
+      "state": "OH",
+      "race": "S-OH"
+    },
+    {
+      "id": "brown",
+      "name": "Sherrod Brown",
+      "short": "Brown",
+      "bioguide": "B000944",
+      "lis": null,
+      "fecCand": "S6OH00163",
+      "fecCmte": "C00916288",
+      "chamber": "S",
+      "state": "OH",
+      "race": "S-OH"
+    },
+    {
+      "id": "ricketts",
+      "name": "Pete Ricketts",
+      "short": "Ricketts",
+      "bioguide": "R000618",
+      "lis": null,
+      "fecCand": "S6NE00129",
+      "fecCmte": "C00832436",
+      "chamber": "S",
+      "state": "NE",
+      "race": "S-NE"
+    },
+    {
+      "id": "osborn",
+      "name": "Dan Osborn",
+      "short": "Osborn",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S4NE00207",
+      "fecCmte": "C00901355",
+      "chamber": "S",
+      "state": "NE",
+      "race": "S-NE"
+    },
+    {
+      "id": "jackson",
+      "name": "Troy Jackson",
+      "short": "Jackson",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6ME00464",
+      "fecCmte": "C00955609",
+      "chamber": "S",
+      "state": "ME",
+      "race": "S-ME"
+    },
+    {
+      "id": "peltola",
+      "name": "Mary Peltola",
+      "short": "Peltola",
+      "bioguide": "P000619",
+      "lis": null,
+      "fecCand": "S6AK00276",
+      "fecCmte": "C00933978",
+      "chamber": "S",
+      "state": "AK",
+      "race": "S-AK"
+    },
+    {
+      "id": "hamilton",
+      "name": "Adam Hamilton",
+      "short": "Hamilton",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6KS00312",
+      "fecCmte": "C00948901",
+      "chamber": "S",
+      "state": "KS",
+      "race": "S-KS"
+    },
+    {
+      "id": "mcollins",
+      "name": "Mike Collins",
+      "short": "Collins",
+      "bioguide": "C001129",
+      "lis": null,
+      "fecCand": "S6GA00390",
+      "fecCmte": "C00544684",
+      "chamber": "H",
+      "state": "GA",
+      "race": "S-GA"
+    },
+    {
+      "id": "murphy",
+      "name": "Justin Murphy",
+      "short": "Murphy",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S4NJ00532",
+      "fecCmte": "C00865808",
+      "chamber": "S",
+      "state": "NJ",
+      "race": "S-NJ"
+    },
+    {
+      "id": "baisley",
+      "name": "Mark Baisley",
+      "short": "Baisley",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "S6CO00507",
+      "fecCmte": "C00932848",
+      "chamber": "S",
+      "state": "CO",
+      "race": "S-CO"
+    },
+    {
+      "id": "stelson",
+      "name": "Janelle Stelson",
+      "short": "Stelson",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H4PA10104",
+      "fecCmte": "C00852368",
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-10"
+    },
+    {
+      "id": "conley",
+      "name": "Cait Conley",
+      "short": "Conley",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H6NY17171",
+      "fecCmte": "C00900431",
+      "chamber": "H",
+      "state": "NY",
+      "race": "H-NY-17"
+    },
+    {
+      "id": "rutinel",
+      "name": "Manny Rutinel",
+      "short": "Rutinel",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H6CO08013",
+      "fecCmte": "C00896670",
+      "chamber": "H",
+      "state": "CO",
+      "race": "H-CO-08"
+    },
+    {
+      "id": "bohannan",
+      "name": "Christina Bohannan",
+      "short": "Bohannan",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H2IA02111",
+      "fecCmte": "C00787820",
+      "chamber": "H",
+      "state": "IA",
+      "race": "H-IA-01"
+    },
+    {
+      "id": "merrin",
+      "name": "Derek Merrin",
+      "short": "Merrin",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H4OH09169",
+      "fecCmte": "C00909630",
+      "chamber": "H",
+      "state": "OH",
+      "race": "H-OH-09"
+    },
+    {
+      "id": "braun",
+      "name": "John Braun",
+      "short": "Braun",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H6WA03275",
+      "fecCmte": "C00915884",
+      "chamber": "H",
+      "state": "WA",
+      "race": "H-WA-03"
+    },
+    {
+      "id": "flores",
+      "name": "Eric Flores",
+      "short": "Flores",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H6TX34080",
+      "fecCmte": "C00912246",
+      "chamber": "H",
+      "state": "TX",
+      "race": "H-TX-34"
+    },
+    {
+      "id": "beltran",
+      "name": "Mike Beltran",
+      "short": "Beltran",
+      "bioguide": null,
+      "lis": null,
+      "fecCand": "H6FL14237",
+      "fecCmte": "C00950832",
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-14"
+    },
+    {
+      "id": "H2AZ02360",
+      "name": "Juan Ciscomani",
+      "fecCand": "H2AZ02360",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "AZ",
+      "race": "H-AZ-06"
+    },
+    {
+      "id": "H6AZ06099",
+      "name": "JoAnna Mendoza",
+      "fecCand": "H6AZ06099",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "AZ",
+      "race": "H-AZ-06"
+    },
+    {
+      "id": "H2CA20094",
+      "name": "David Valadao",
+      "fecCand": "H2CA20094",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "CA",
+      "race": "H-CA-22"
+    },
+    {
+      "id": "H6CA22190",
+      "name": "Randy Villegas",
+      "fecCand": "H6CA22190",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "CA",
+      "race": "H-CA-22"
+    },
+    {
+      "id": "H6FL21059",
+      "name": "Pia Dandiya",
+      "fecCand": "H6FL21059",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-22"
+    },
+    {
+      "id": "H6FL22248",
+      "name": "Casey Askar",
+      "fecCand": "H6FL22248",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-22"
+    },
+    {
+      "id": "H2FL22171",
+      "name": "Jared Moskowitz",
+      "fecCand": "H2FL22171",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-25"
+    },
+    {
+      "id": "H6FL23188",
+      "name": "Scott Singer",
+      "fecCand": "H6FL23188",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "FL",
+      "race": "H-FL-25"
+    },
+    {
+      "id": "H2IA03119",
+      "name": "Zach Nunn",
+      "fecCand": "H2IA03119",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "IA",
+      "race": "H-IA-03"
+    },
+    {
+      "id": "H6IA03268",
+      "name": "Sarah Trone Garriott",
+      "fecCand": "H6IA03268",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "IA",
+      "race": "H-IA-03"
+    },
+    {
+      "id": "H2MI07123",
+      "name": "Tom Barrett",
+      "fecCand": "H2MI07123",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "MI",
+      "race": "H-MI-07"
+    },
+    {
+      "id": "H6MI07298",
+      "name": "William Lawrence",
+      "fecCand": "H6MI07298",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "MI",
+      "race": "H-MI-07"
+    },
+    {
+      "id": "H6MI10359",
+      "name": "Michael Bouchard",
+      "fecCand": "H6MI10359",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "MI",
+      "race": "H-MI-10"
+    },
+    {
+      "id": "H6MI10276",
+      "name": "Christina Hines",
+      "fecCand": "H6MI10276",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "MI",
+      "race": "H-MI-10"
+    },
+    {
+      "id": "H6NC11321",
+      "name": "Jennifer Balkcom",
+      "fecCand": "H6NC11321",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "NC",
+      "race": "H-NC-11"
+    },
+    {
+      "id": "H6NC11248",
+      "name": "Jamie Ager",
+      "fecCand": "H6NC11248",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "NC",
+      "race": "H-NC-11"
+    },
+    {
+      "id": "H2OH16051",
+      "name": "Max Miller",
+      "fecCand": "H2OH16051",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "OH",
+      "race": "H-OH-07"
+    },
+    {
+      "id": "H6OH07168",
+      "name": "Brian Poindexter",
+      "fecCand": "H6OH07168",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "OH",
+      "race": "H-OH-07"
+    },
+    {
+      "id": "H8PA15195",
+      "name": "Ryan Mackenzie",
+      "fecCand": "H8PA15195",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-07"
+    },
+    {
+      "id": "H6PA07188",
+      "name": "Bob Brooks",
+      "fecCand": "H6PA07188",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-07"
+    },
+    {
+      "id": "H4PA08124",
+      "name": "Rob Bresnahan",
+      "fecCand": "H4PA08124",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-08"
+    },
+    {
+      "id": "H6PA08293",
+      "name": "Paige Cognetti",
+      "fecCand": "H6PA08293",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "PA",
+      "race": "H-PA-08"
+    },
+    {
+      "id": "H0TX15124",
+      "name": "Monica De La Cruz",
+      "fecCand": "H0TX15124",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "TX",
+      "race": "H-TX-15"
+    },
+    {
+      "id": "H6TX15246",
+      "name": "Bobby Pulido",
+      "fecCand": "H6TX15246",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "TX",
+      "race": "H-TX-15"
+    },
+    {
+      "id": "H2VA02064",
+      "name": "Jen Kiggans",
+      "fecCand": "H2VA02064",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "VA",
+      "race": "H-VA-02"
+    },
+    {
+      "id": "H8VA02111",
+      "name": "Elaine Luria",
+      "fecCand": "H8VA02111",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "VA",
+      "race": "H-VA-02"
+    },
+    {
+      "id": "H0WI03175",
+      "name": "Derrick Van Orden",
+      "fecCand": "H0WI03175",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "WI",
+      "race": "H-WI-03"
+    },
+    {
+      "id": "H4WI03169",
+      "name": "Rebecca Cooke",
+      "fecCand": "H4WI03169",
+      "fecCmte": null,
+      "bioguide": null,
+      "chamber": "H",
+      "state": "WI",
+      "race": "H-WI-03"
+    }
+  ],
+  "selectedVotes": [
+    {
+      "id": "117-1-1",
+      "chamber": "S",
+      "congress": 117,
+      "session": 1,
+      "number": 1
+    },
+    {
+      "id": "117-1-59",
+      "chamber": "S",
+      "congress": 117,
+      "session": 1,
+      "number": 59
+    },
+    {
+      "id": "117-1-110",
+      "chamber": "S",
+      "congress": 117,
+      "session": 1,
+      "number": 110
+    },
+    {
+      "id": "117-1-314",
+      "chamber": "S",
+      "congress": 117,
+      "session": 1,
+      "number": 314
+    },
+    {
+      "id": "117-2-134",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 134
+    },
+    {
+      "id": "117-2-170",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 170
+    },
+    {
+      "id": "117-2-242",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 242
+    },
+    {
+      "id": "117-2-271",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 271
+    },
+    {
+      "id": "117-2-325",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 325
+    },
+    {
+      "id": "117-2-362",
+      "chamber": "S",
+      "congress": 117,
+      "session": 2,
+      "number": 362
+    },
+    {
+      "id": "118-1-146",
+      "chamber": "S",
+      "congress": 118,
+      "session": 1,
+      "number": 146
+    },
+    {
+      "id": "118-2-39",
+      "chamber": "S",
+      "congress": 118,
+      "session": 2,
+      "number": 39
+    },
+    {
+      "id": "118-2-154",
+      "chamber": "S",
+      "congress": 118,
+      "session": 2,
+      "number": 154
+    },
+    {
+      "id": "118-2-190",
+      "chamber": "S",
+      "congress": 118,
+      "session": 2,
+      "number": 190
+    },
+    {
+      "id": "119-1-7",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 7
+    },
+    {
+      "id": "119-1-15",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 15
+    },
+    {
+      "id": "119-1-50",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 50
+    },
+    {
+      "id": "119-1-52",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 52
+    },
+    {
+      "id": "119-1-61",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 61
+    },
+    {
+      "id": "119-1-133",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 133
+    },
+    {
+      "id": "119-1-318",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 318
+    },
+    {
+      "id": "119-1-372",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 372
+    },
+    {
+      "id": "119-1-411",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 411
+    },
+    {
+      "id": "119-1-598",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 598
+    },
+    {
+      "id": "119-1-608",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 608
+    },
+    {
+      "id": "119-1-618",
+      "chamber": "S",
+      "congress": 119,
+      "session": 1,
+      "number": 618
+    },
+    {
+      "id": "119-2-5",
+      "chamber": "S",
+      "congress": 119,
+      "session": 2,
+      "number": 5
+    },
+    {
+      "id": "119-2-253",
+      "chamber": "S",
+      "congress": 119,
+      "session": 2,
+      "number": 253
+    },
+    {
+      "id": "h-119-1-023",
+      "chamber": "H",
+      "year": 2025,
+      "number": 23
+    },
+    {
+      "id": "h-119-1-070",
+      "chamber": "H",
+      "year": 2025,
+      "number": 70
+    },
+    {
+      "id": "h-119-1-102",
+      "chamber": "H",
+      "year": 2025,
+      "number": 102
+    },
+    {
+      "id": "h-119-1-145",
+      "chamber": "H",
+      "year": 2025,
+      "number": 145
+    },
+    {
+      "id": "h-119-1-168",
+      "chamber": "H",
+      "year": 2025,
+      "number": 168
+    },
+    {
+      "id": "h-119-1-190",
+      "chamber": "H",
+      "year": 2025,
+      "number": 190
+    },
+    {
+      "id": "h-119-1-200",
+      "chamber": "H",
+      "year": 2025,
+      "number": 200
+    },
+    {
+      "id": "h-119-1-285",
+      "chamber": "H",
+      "year": 2025,
+      "number": 285
+    },
+    {
+      "id": "h-119-1-289",
+      "chamber": "H",
+      "year": 2025,
+      "number": 289
+    },
+    {
+      "id": "h-119-1-332",
+      "chamber": "H",
+      "year": 2025,
+      "number": 332
+    },
+    {
+      "id": "h-119-1-346",
+      "chamber": "H",
+      "year": 2025,
+      "number": 346
+    },
+    {
+      "id": "h-119-1-349",
+      "chamber": "H",
+      "year": 2025,
+      "number": 349
+    },
+    {
+      "id": "h-119-2-011",
+      "chamber": "H",
+      "year": 2026,
+      "number": 11
+    },
+    {
+      "id": "h-119-2-048",
+      "chamber": "H",
+      "year": 2026,
+      "number": 48
+    },
+    {
+      "id": "h-119-2-053",
+      "chamber": "H",
+      "year": 2026,
+      "number": 53
+    },
+    {
+      "id": "h-119-2-065",
+      "chamber": "H",
+      "year": 2026,
+      "number": 65
+    },
+    {
+      "id": "h-119-2-207",
+      "chamber": "H",
+      "year": 2026,
+      "number": 207
+    },
+    {
+      "id": "h-119-2-280",
+      "chamber": "H",
+      "year": 2026,
+      "number": 280
+    },
+    {
+      "id": "h-117-1-011",
+      "chamber": "H",
+      "year": 2021,
+      "number": 11
+    },
+    {
+      "id": "h-117-1-017",
+      "chamber": "H",
+      "year": 2021,
+      "number": 17
+    },
+    {
+      "id": "h-118-1-243",
+      "chamber": "H",
+      "year": 2023,
+      "number": 243
+    },
+    {
+      "id": "h-118-2-151",
+      "chamber": "H",
+      "year": 2024,
+      "number": 151
+    }
+  ]
+}

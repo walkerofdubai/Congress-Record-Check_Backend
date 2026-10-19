@@ -1,2 +1,7 @@
 node_modules/
 .local/
+.wrangler/
+.build/
+.dev.vars
+.env
+*.log
