@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {XMLParser} from 'fast-xml-parser';
 import {fecNext,normalizeCampaign,normalizeTransaction,normalizeVote,requestSource,summarizeTransactions} from '../src/sources.mjs';
-import {addJob,runRefresh,statement,getProfile} from '../src/refresh.mjs';
+import {addJob,runRefresh,statement,getProfile,getStatus} from '../src/refresh.mjs';
 import worker from '../src/worker.mjs';
 import {openDatabase} from '../scripts/sqlite.mjs';
 const migration=await fs.readFile(new URL('../migrations/0001_initial.sql',import.meta.url),'utf8');
@@ -53,6 +53,14 @@ test('multi-page transactions remain unpublished until the final page, then repl
   await runRefresh(env,{steps:1});assert.equal((await getProfile(env,'collins')).sections.pac,undefined);
   await statement(db,'UPDATE jobs SET next_due=0').run();await runRefresh(env,{steps:1});assert.equal((await getProfile(env,'collins')).sections.pac.total,150);
   phase=1;await statement(db,'UPDATE jobs SET next_due=0').run();await runRefresh(env,{steps:1});assert.equal((await getProfile(env,'collins')).sections.pac.total,25);db.close();
+});
+test('a published vote is never scheduled again and does not go stale',async()=>{
+  const db=database();const vote={chamber:'H',year:2026,number:1};await addJob(db,'vote:H:2026:1','vote','h-2026-1',vote);
+  const xml='<rollcall-vote><vote-metadata><rollcall-num>1</rollcall-num><action-date>6-Jan-2026</action-date><vote-question>Passage</vote-question></vote-metadata><vote-data><recorded-vote><legislator name-id="C001035">Collins</legislator><vote>Yea</vote></recorded-vote></vote-data></rollcall-vote>';
+  let requests=0;const env={DB:db,fetch:async()=>{requests++;return new Response(xml);}};
+  await runRefresh(env,{steps:1});
+  await statement(db,"UPDATE jobs SET last_success='2020-01-01T00:00:00.000Z'").run();await runRefresh(env,{steps:1});assert.equal(requests,1);
+  const job=(await getStatus(env)).jobs.find(j=>j.id==='vote:H:2026:1');assert.equal(job.status,'ready');assert.equal(job.stale,false);db.close();
 });
 test('concurrent refreshers respect the lock',async()=>{
   const db=database();await addJob(db,'campaign:collins','campaign','collins',args);
