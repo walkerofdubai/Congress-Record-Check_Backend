@@ -4,7 +4,7 @@ import {fetchPage,summarize,SourceError} from './sources.mjs';
 const DAY=86400000;
 // A recorded roll call does not change, so a published vote is never fetched again.
 const NEVER=Number.MAX_SAFE_INTEGER;
-const nextRefresh=kind=>kind==='vote'?NEVER:Date.now()+(kind==='committee'?7*DAY:DAY);
+const nextRefresh=(kind,from=Date.now())=>kind==='vote'?NEVER:from+(kind==='committee'?7*DAY:DAY);
 const nowISO=()=>new Date().toISOString();
 export const statement=(db,sql,...args)=>db.prepare(sql).bind(...args);
 export async function addJob(db,id,kind,subject,args,due=0) {
@@ -14,7 +14,22 @@ async function addFinance(db,p,committee,cycle) {
   await addJob(db,`campaign:${p.id}`,'campaign',p.id,{committee,cycle});
   await addJob(db,`pac:${p.id}`,'pac',p.id,{committee,cycle});
 }
-export async function initialize(db) {
+export const seedScope=c=>({cycle:c.cycle,congress:c.congress,session:c.session,year:c.year});
+// A bundled seed lets a new database start from previously published snapshots instead of empty.
+async function applySeed(db,seed) {
+  const scope=JSON.stringify(seedScope(config));
+  if(seed?.version!==1||JSON.stringify(seed.scope)!==scope||!Array.isArray(seed.jobs))return 0;
+  for(const j of seed.jobs) {
+    await addJob(db,j.id,j.kind,j.subject,j.args);
+    // Seeded data keeps its original check date, so an old seed is refreshed promptly once keys are present.
+    await db.batch([
+      statement(db,"UPDATE jobs SET args=?,status='ready',last_success=?,checked_through=?,published_run=?,next_due=? WHERE id=?",JSON.stringify(j.args),j.lastSuccess,j.checkedThrough,j.run,nextRefresh(j.kind,Date.parse(j.lastSuccess)),j.id),
+      statement(db,'INSERT OR REPLACE INTO snapshots(job_id,run_id,payload,updated_at) VALUES(?,?,?,?)',j.id,j.run,JSON.stringify(j.snapshot),j.lastSuccess)
+    ]);
+  }
+  return seed.jobs.length;
+}
+export async function initialize(db,seed=null) {
   // INSERT OR IGNORE preserves checkpoints and dates between restarts/deployments.
   const initialized=await statement(db,"SELECT value FROM metadata WHERE key='initialized'").first();
   if(initialized) return;
@@ -30,6 +45,7 @@ export async function initialize(db) {
     if(p.fecCand)await addJob(db,`outside:${p.id}`,'outside',p.id,{candidate:p.fecCand,cycle:c.cycle});
     if(p.bioguide)await addJob(db,`legislation:${p.id}`,'legislation',p.id,{bioguide:p.bioguide,congress:c.congress,cycle:c.cycle});
   }
+  if(seed&&await applySeed(db,seed))await statement(db,"INSERT OR REPLACE INTO metadata(key,value) VALUES('seeded',?)",seed.exportedAt).run();
   await statement(db,"INSERT OR REPLACE INTO metadata(key,value) VALUES('initialized',?)",nowISO()).run();
 }
 function needsKey(kind,env){return ['campaign','committee','pac','outside'].includes(kind)&&!env.FEC_API_KEY?'FEC':kind==='legislation'&&!env.CONGRESS_API_KEY?'Congress.gov':null;}

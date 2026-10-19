@@ -29,6 +29,12 @@ Each source is scheduled again 24 hours after completion, except individual roll
 
 Some snapshots can have different check and coverage dates. In particular, checking the FEC today does not create a newer campaign filing. Imported financial comparisons stay labeled as research snapshots; refreshed figures appear in **Latest records** so different reporting windows are not silently mixed.
 
+## Bundled snapshot
+
+`data/seed.json` holds published snapshots from a completed refresh, so a new install shows campaign, PAC, outside-spending, legislation and vote data immediately instead of waiting hours, and works without API keys. It is loaded only when `.local/records.sqlite` is new; an existing database is never overwritten. Seeded records keep their original check dates, so with API keys an old seed refreshes in the background on the normal schedule. A seed made for a different cycle, Congress or session is ignored.
+
+To update it, let the local server finish its refresh (every job on **Updates** has completed at least once), then run `npm run seed:export` and commit `data/seed.json`. The export stops if any job has not completed yet (`npm run seed:export -- --partial` exports what has), and refuses to write a file containing an API key.
+
 ## Profile Overview
 
 A candidate's page opens on its Overview tab: where the campaign's money comes from (FEC two-year receipts split into small donors, larger individual donors, PACs, party committees, the candidate's own money and a joint-fundraising/other remainder), outside money for and against with the largest spenders named, a per-issue comparison with the viewer's My alignment choices (no evidence is left blank, never scored as a mismatch), a strip showing where the candidate sits among their chamber's DW-NOMINATE scores, and a tally of checked statements that always shows how many were checked. Ethics appears as a short text list tagged allegation, investigation or confirmed finding. The tag is the `status` field of each entry in `public/research.json`; `npm test` fails if a displayed entry lacks one. The Methodology page defines the tags and how each visual is computed.

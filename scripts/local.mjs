@@ -16,7 +16,9 @@ const env={DB:db,LOCAL_MODE:true,FEC_API_KEY:process.env.FEC_API_KEY,CONGRESS_AP
   if(!file.startsWith(path.join(root,'public')+path.sep))return new Response('Not found',{status:404});
   try{return new Response(await fs.readFile(file),{headers:{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}});}catch{return new Response('Not found',{status:404});}
 }}};
-await initialize(db);
+// The bundled seed is only read when this computer's database is new.
+const seed=await fs.readFile(path.join(root,'data','seed.json'),'utf8').then(JSON.parse,()=>null);
+await initialize(db,seed);
 const port=Number(process.env.PORT||8787);
 if(!Number.isInteger(port)||port<1024||port>65535)throw new Error('PORT must be an integer from 1024 to 65535');
 const server=http.createServer(async(req,res)=>{

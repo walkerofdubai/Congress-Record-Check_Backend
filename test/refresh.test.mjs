@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {XMLParser} from 'fast-xml-parser';
 import {fecNext,normalizeCampaign,normalizeTransaction,normalizeVote,requestSource,summarizeTransactions} from '../src/sources.mjs';
-import {addJob,runRefresh,statement,getProfile,getStatus} from '../src/refresh.mjs';
+import {addJob,initialize,runRefresh,seedScope,statement,getProfile,getStatus} from '../src/refresh.mjs';
 import worker from '../src/worker.mjs';
 import {openDatabase} from '../scripts/sqlite.mjs';
 const migration=await fs.readFile(new URL('../migrations/0001_initial.sql',import.meta.url),'utf8');
@@ -61,6 +61,23 @@ test('a published vote is never scheduled again and does not go stale',async()=>
   await runRefresh(env,{steps:1});
   await statement(db,"UPDATE jobs SET last_success='2020-01-01T00:00:00.000Z'").run();await runRefresh(env,{steps:1});assert.equal(requests,1);
   const job=(await getStatus(env)).jobs.find(j=>j.id==='vote:H:2026:1');assert.equal(job.status,'ready');assert.equal(job.stale,false);db.close();
+});
+test('a new database starts from the bundled seed; a mismatched seed or an existing database is left alone',async()=>{
+  const config=JSON.parse(await fs.readFile(new URL('../data/config.json',import.meta.url),'utf8'));
+  const checked='2026-10-01T12:00:00.000Z',vote={chamber:'S',congress:117,session:1,number:1};
+  const seed={version:1,exportedAt:checked,scope:seedScope(config),jobs:[
+    {id:'campaign:collins',kind:'campaign',subject:'collins',args:{committee:args.committee,cycle:2026},lastSuccess:checked,checkedThrough:'2026-06-30',run:'r1',snapshot:normalizeCampaign(campaign(4321),args.committee,2026)},
+    {id:'vote:S:117:1:1',kind:'vote',subject:'117-1-1',args:vote,lastSuccess:checked,checkedThrough:null,run:'r2',snapshot:{id:'117-1-1',chamber:'S',number:1,date:'2021-01-06',positions:{collins:'Yea'}}}]};
+  const fresh=()=>{const db=openDatabase(':memory:');db.exec(migration);return db;};
+  let db=fresh();await initialize(db,seed);const env={DB:db};
+  const profile=await getProfile(env,'collins');assert.equal(profile.sections.campaign.receipts,4321);assert.equal(profile.votes[0].position,'Yea');
+  const jobs=Object.fromEntries((await statement(db,'SELECT id,status,next_due FROM jobs').all()).results.map(j=>[j.id,j]));
+  assert.equal(jobs['campaign:collins'].status,'ready');assert.equal(jobs['campaign:collins'].next_due,Date.parse(checked)+86400000);
+  assert.equal(jobs['vote:S:117:1:1'].next_due,Number.MAX_SAFE_INTEGER);assert.equal(jobs['pac:collins'].status,'pending');
+  await initialize(db,{...seed,jobs:[{...seed.jobs[0],snapshot:normalizeCampaign(campaign(1),args.committee,2026)}]});
+  assert.equal((await getProfile(env,'collins')).sections.campaign.receipts,4321);db.close();
+  db=fresh();await initialize(db,{...seed,scope:{...seed.scope,cycle:2028}});
+  assert.equal((await getProfile({DB:db},'collins')).sections.campaign,undefined);db.close();
 });
 test('concurrent refreshers respect the lock',async()=>{
   const db=database();await addJob(db,'campaign:collins','campaign','collins',args);
