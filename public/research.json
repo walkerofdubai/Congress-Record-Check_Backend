@@ -17406,6 +17406,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H6KS01179"
       ]
     },
     {
@@ -20913,6 +20916,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H8GA06195"
       ]
     },
     {
@@ -75163,6 +75169,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H0IA01174"
       ]
     },
     {
@@ -77152,6 +77161,9 @@
           "agree": 5,
           "n": 5
         }
+      ],
+      "fecCandPast": [
+        "H8NH01210"
       ]
     },
     {
@@ -78162,6 +78174,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "S0NH00201"
       ]
     },
     {
@@ -78814,7 +78829,10 @@
           "out": []
         }
       },
-      "funderPos": []
+      "funderPos": [],
+      "fecCandPast": [
+        "H8MN05155"
+      ]
     },
     {
       "id": "tafoya",
@@ -81743,7 +81761,10 @@
           "out": []
         }
       },
-      "funderPos": []
+      "funderPos": [],
+      "fecCandPast": [
+        "S0KY00420"
+      ]
     },
     {
       "id": "barr",
@@ -83916,6 +83937,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H0KY06104"
       ]
     },
     {
@@ -86621,6 +86645,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H8AL02171"
       ]
     },
     {
@@ -91814,6 +91841,9 @@
           "agree": 2,
           "n": 3
         }
+      ],
+      "fecCandPast": [
+        "H2WY00166"
       ]
     },
     {
@@ -95096,6 +95126,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H8OK01157"
       ]
     },
     {
@@ -98526,7 +98559,10 @@
           "out": []
         }
       },
-      "funderPos": []
+      "funderPos": [],
+      "fecCandPast": [
+        "H2LA05126"
+      ]
     },
     {
       "id": "husted",
@@ -109991,6 +110027,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H4ME02218"
       ]
     },
     {
@@ -111803,6 +111842,9 @@
           "agree": 0,
           "n": 0
         }
+      ],
+      "fecCandPast": [
+        "H2AK01158"
       ]
     },
     {
@@ -113681,6 +113723,9 @@
           "agree": 0,
           "n": 5
         }
+      ],
+      "fecCandPast": [
+        "H4GA10071"
       ]
     },
     {
@@ -190868,7 +190913,13 @@
           "why": "scorecard entry had a different date and tally; the match relied on recollection, not a page read"
         }
       ],
-      "nPositions": 14
+      "nPositions": 14,
+      "fecIds": [
+        {
+          "id": "C00003806",
+          "name": "AFL-CIO COPE Political Contributions Committee"
+        }
+      ]
     },
     {
       "key": "afp",
@@ -190881,7 +190932,13 @@
       "status": "pending",
       "notFound": "NOT CHECKED: WebFetch was unavailable because of a session limit hit during the Club for Growth research, so no AFP scorecard or key-vote page could be read and no position is recorded for any of the 50 votes; this is a gap, not evidence that AFP took no position. The one search run returned no AFP federal scorecard or key-vote page (only state report cards and an AFP petition page about H.R. 1).",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00687103",
+          "name": "Americans for Prosperity Action"
+        }
+      ]
     },
     {
       "key": "afscme",
@@ -190894,7 +190951,17 @@
       "status": "done",
       "notFound": "No current AFSCME congressional scorecard was readable: scorecard.afscme.org returned only placeholder template content, and the only PDF scorecards found are from 2014-2017. So no 2021-2026 scorecard was found. WebFetch then hit a session limit, so these were NOT checked: AFSCME press releases on the House passage of H.R. 1 (May 22, 2025) and the Senate passage of H.R. 1 (July 1, 2025) ('Diverting funding from vital public services to billionaires is inhumane', 'AFSCME members won't let Congress defund public services for billionaire tax cuts', 'As the economy sinks, senators vote to further enrich billionaires'), plus any AFSCME letters on ARP, IIJA, IRA, the 2023 debt deal, H.R. 1968, H.R. 5371, H.R. 4, the ACA tax-credit extension (H.R. 1834) or H.R. 6703. The May 13, 2025 statement opposing the House reconciliation 'plan' (committee text) was not recorded for h-119-1-145: it urges no vote and doesn't name the bill. Except the two recorded, none of the 50 votes has a confirmed AFSCME position.",
       "dropped": [],
-      "nPositions": 2
+      "nPositions": 2,
+      "fecIds": [
+        {
+          "id": "C90011172",
+          "name": "AFSCME Working Families Fund"
+        },
+        {
+          "id": "C00011114",
+          "name": "AFSCME PEOPLE"
+        }
+      ]
     },
     {
       "key": "ara",
@@ -190907,7 +190974,17 @@
       "status": "pending",
       "notFound": "Not checked because of a tool limit: WebFetch returned 'You've hit your session limit' before any Alliance page could be read, so no voting record was read and no position is recorded. The Alliance's 'Annual Congressional Voting Record' (https://retiredamericans.org/voting-record/) and the March 5, 2026 release of its 2025 record (https://retiredamericans.org/2025-retiree-voting-record-released/) showed up in search results but were not read. All 50 votes remain unchecked for this organization; this is not a finding that the Alliance scored none of them.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00955104",
+          "name": "Retired Americans Action"
+        },
+        {
+          "id": "C00436188",
+          "name": "Alliance for Retired Americans Political Action Fund"
+        }
+      ]
     },
     {
       "key": "cfg",
@@ -190920,7 +190997,17 @@
       "status": "pending",
       "notFound": "NOT CHECKED: WebFetch hit a session limit ('You've hit your session limit, resets 2:10pm America/New_York') on the first Club for Growth page, so no scorecard or key-vote page was read and no position is recorded for any of the 50 votes; this is a gap, not evidence that CfG took no position. Search results did surface pages to read on a re-run: the 2025 scorecard methodology (https://www.clubforgrowth.org/scorecards/2025-scorecard-methodology/), the 2025 scorecard PDF (https://www.clubforgrowth.org/wp-content/uploads/securepdfs/2026/06/2025-CFGF-Congressional-Scorecard-Final-web.pdf) and a key-vote alert titled 'Senate & House - YES - on H.R. 1, One Big Beautiful Bill Act' (https://www.clubforgrowth.org/key-vote-alert-senate-house-yes-on-h-r-1-one-big-beautiful-bill-act/); the 2021-2024 scorecards were not searched.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00487470",
+          "name": "Club for Growth Action"
+        },
+        {
+          "id": "C00432260",
+          "name": "Club for Growth PAC"
+        }
+      ]
     },
     {
       "key": "chamber",
@@ -190933,7 +191020,17 @@
       "status": "done",
       "notFound": "No year-specific How They Voted scorecard (2021-2026) could be read: uschamber.com/htv and the methodology page are landing pages with no vote lists. All positions therefore come from letters and statements. No Chamber letter or statement was found for the other 39 votes. These include ARPA, the 2024 border-package cloture, all nominations, the electoral-vote objections, the impeachment votes, WHPA, BSCA, the Respect for Marriage Act, the Right to Contraception Act, the Laken Riley Act, the GENIUS Act (Senate and House), both rescissions votes, the CRs (H.R. 1968 and H.R. 5371), S.J.Res. 77, the Venezuela war-powers votes, PAWA (H.R. 2550), H.R. 6703, H.R. 1834, H.R. 7148, H.R. 2913, H.R. 7008, H.R. 4405 and the SAVE Act. Most of these were not searched one by one because of the call budget.",
       "dropped": [],
-      "nPositions": 11
+      "nPositions": 11,
+      "fecIds": [
+        {
+          "id": "C00082040",
+          "name": "U.S. Chamber of Commerce PAC"
+        },
+        {
+          "id": "C90013145",
+          "name": "U.S. Chamber of Commerce (independent expenditures)"
+        }
+      ]
     },
     {
       "key": "giffords",
@@ -190945,7 +191042,13 @@
       "status": "pending",
       "notFound": "Not completed: WebFetch was blocked by a session limit (resets 2:10pm America/New_York, Oct. 3, 2026), so no Giffords page was read and nothing was recorded. No Giffords congressional scorecard turned up in search. Leads to read later for S. 2938 (Senate roll call 242, June 23, 2022): 'Giffords Urges Passage of Senate Deal on Gun Safety' (https://giffords.org/press-release/2022/06/giffords-urges-passage-of-senate-deal-on-gun-safety/) and 'Coming Together to Save Lives: Giffords Applauds Historic Senate Passage...' (https://giffords.org/press-release/2022/06/coming-together-to-save-lives-giffords-applauds-historic-senate-passage-of-bipartisan-gun-violence-prevention-package/). Positions on the other 49 votes were not searched.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00540443",
+          "name": "Giffords PAC"
+        }
+      ]
     },
     {
       "key": "hrc",
@@ -190963,7 +191066,13 @@
       "status": "pending",
       "notFound": "INCOMPLETE because of a tool session limit. hrc.org/scorecard links the 118th Congress PDF (https://hrc-prod-requests.s3-us-west-2.amazonaws.com/files/documents/118th-Congressional-Scorecard-HRC-2024-Final.pdf) and the 117th Congress PDF (https://hrc-prod-requests.s3-us-west-2.amazonaws.com/assets/117th-Congressional-Scorecard_web.cleaned.pdf). The fetch of the 117th PDF failed with 'You've hit your session limit', and the 118th PDF was never fetched. No 119th Congress (2025-2026) scorecard and no HRC key-vote letters were searched for. None of the 50 votes has been checked against an HRC scorecard, so the empty positions list means 'not checked', not 'not scored'.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00235853",
+          "name": "Human Rights Campaign PAC"
+        }
+      ]
     },
     {
       "key": "lcv",
@@ -191007,7 +191116,17 @@
       "status": "done",
       "notFound": "Could not read the full 2025 scorecard report (fetch truncated after Senate vote 20) or standalone 2023/2024 reports, so vote coverage for 2023-2026 comes from LCV's member vote listings (Heinrich, Casar), which list each year's scored and tracked votes. Not scored/listed by LCV: Senate 110 (ARP), 314 (IIJA), 242, 271 (CHIPS), 146 (FRA; LCV scored the MVP amendment roll 145 instead), 39, 154, 190, 7, 15, 50, 52, 61 (2025 confirmations scored were Zeldin, Burgum, Wright, Bondi, Vought), 133, 318, 598, 608, 618, and 2026 rolls 5 and 253; House 23, 70, 200, 285, 289, 346, 349, 2026 rolls 11, 48, 53, 65, 207, 280, plus 2023 roll 243 and 2024 roll 151. No 2026 scorecard has been published.",
       "dropped": [],
-      "nPositions": 15
+      "nPositions": 15,
+      "fecIds": [
+        {
+          "id": "C00486845",
+          "name": "LCV Victory Fund"
+        },
+        {
+          "id": "C00252940",
+          "name": "League of Conservation Voters Action Fund"
+        }
+      ]
     },
     {
       "key": "nfib",
@@ -191041,7 +191160,13 @@
           "why": "NFIB scored a vote on the Graham substitute amendment, which may not be the final-passage roll call"
         }
       ],
-      "nPositions": 3
+      "nPositions": 3,
+      "fecIds": [
+        {
+          "id": "C00101105",
+          "name": "NFIB Federal PAC"
+        }
+      ]
     },
     {
       "key": "nra",
@@ -191054,7 +191179,17 @@
       "status": "pending",
       "notFound": "Not completed: WebFetch hit a session limit ('You've hit your session limit · resets 2:10pm America/New_York') on the first NRA page fetch, so no NRA-ILA page was read and nothing was recorded. Leads to read later: NRA-ILA's 'NRA Announces Opposition To Senate Gun Control Legislation' (June 21, 2022, https://www.nraila.org/articles/20220621/nra-announces-opposition-to-senate-gun-control-legislation) and NRA-ILA grassroots alert https://www.nraila.org/grassroots-alerts/grassroots-alert/?id=12089. Both may cover S. 2938 (Senate roll call 242, June 23, 2022). NRA statements on other votes (e.g. the Jackson, Hegseth and Patel nominations) were not searched. NRA letter grades alone are not positions on a vote.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00741710",
+          "name": "NRA Victory Fund"
+        },
+        {
+          "id": "C00053553",
+          "name": "NRA Political Victory Fund"
+        }
+      ]
     },
     {
       "key": "nrlc",
@@ -191088,7 +191223,17 @@
       "status": "done",
       "notFound": "No NRLC House scorecards were read. No 119th Congress (2025-2026) scorecard was found in search. nrlc.org returned 403 errors for most pages (the H.R. 1319 Senate letter, the 2025 NRL News article on H.R. 1, and a release on a Democratic tax-and-spend bill), so I could not confirm any 2025-2026 position, such as on H.R. 1 (One Big Beautiful Bill Act), H.R. 6703, H.R. 1834 or the RFK Jr. nomination. The 117th and 118th Senate scorecards score no nominations (including Ketanji Brown Jackson) and none of the other Senate votes in the set (IIJA, IRA, Respect for Marriage, CHIPS, gun bill, debt limit, H.R. 815).",
       "dropped": [],
-      "nPositions": 3
+      "nPositions": 3,
+      "fecIds": [
+        {
+          "id": "C00509893",
+          "name": "National Right to Life Victory Fund"
+        },
+        {
+          "id": "C00111278",
+          "name": "National Right to Life PAC"
+        }
+      ]
     },
     {
       "key": "ppaf",
@@ -191112,7 +191257,21 @@
       "status": "done",
       "notFound": "The interactive Congressional Scorecard page (plannedparenthoodaction.org/congressional-scorecard) did not load its vote data, and no Senate member scorecard PDF could be found in search, so no Senate vote is recorded from the scorecard itself. The Senate positions above come from pre-vote statements instead. The House scorecard (2019-2026) scores only 3 of the 22 House votes in this set (H.R. 1 roll calls 145 and 190; H.R. 6703 roll call 349). The other House votes are not on it, including the 2021 electoral objection and impeachment, the debt limit, Ukraine aid, the CRs and appropriations, the SAVE Act, the Laken Riley Act, H.R. 1834 (ACA credits), Epstein files, and H.R. 7008. No pre-vote position was found for the remaining Senate votes, including the Jackson and RFK Jr. nominations; the scorecard page mentions only the Gorsuch, Kavanaugh and Barrett nominations.",
       "dropped": [],
-      "nPositions": 6
+      "nPositions": 6,
+      "fecIds": [
+        {
+          "id": "C00489799",
+          "name": "Planned Parenthood Votes"
+        },
+        {
+          "id": "C00314617",
+          "name": "Planned Parenthood Action Fund PAC"
+        },
+        {
+          "id": "C00887182",
+          "name": "Planned Parenthood Votes North Carolina"
+        }
+      ]
     },
     {
       "key": "rffa",
@@ -191124,7 +191283,21 @@
       "status": "pending",
       "notFound": "INCOMPLETE because of a tool session limit. RFFA does publish a congressional record: per-lawmaker 'Congressional Scorecard by Reproductive Freedom for All' pages (reproductivefreedomforall.org/lawmaker/...), per-vote 'Congressional Voting Record' pages (reproductivefreedomforall.org/vote/...), and a 'Congressional Records Downloadable PDFs' page (https://reproductivefreedomforall.org/resources/congressional-records-downloadable-pdf/). Search turned up vote pages that appear to match 4 of the 50 votes, but none could be read because WebFetch returned 'You've hit your session limit', so no direction was confirmed and nothing was recorded. The pages are: 'Jackson Confirmation' (https://reproductivefreedomforall.org/vote/jackson-confirmation/, likely 117-2-134); 'Right to Contraception Act S.4381' (https://reproductivefreedomforall.org/vote/right-to-contraception-act-s-4381/, likely 118-2-190; also https://reproductivefreedomforall.org/vote/right-to-contraception-act/); 'Attacks on Medicaid and Planned Parenthood H.R.1. Final Passage (Senate)' (https://reproductivefreedomforall.org/vote/attacks-on-medicaid-and-planned-parenthood/, likely 119-1-372); and 'Attacks on Medicaid and Planned Parenthood - Motion to Agree to the Senate-Passed Version of H.R.1.' (https://reproductivefreedomforall.org/vote/attacks-on-medicaid-and-planned-parenthood-motion-to-agree-to-the-senate-passed-version-of-h-r-1/, likely h-119-1-190). The only WHPA vote page found was for the H.R. 3755 motion to end debate (https://reproductivefreedomforall.org/vote/womens-health-protection-act-motion-to-end-debate-h-r-3755/, the Feb. 2022 vote, not in the set); no page for the May 2022 S. 4132 vote was seen. Not checked: the House H.R. 1 passage (May 22, 2025), H.R. 6703, H.R. 1834, the RFK Jr. nomination, and the rest of the 50 votes.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C90022245",
+          "name": "Reproductive Freedom for All"
+        },
+        {
+          "id": "C00738674",
+          "name": "Reproductive Freedom for All Freedom Fund"
+        },
+        {
+          "id": "C00079541",
+          "name": "Reproductive Freedom for All PAC (formerly NARAL Pro-Choice America PAC)"
+        }
+      ]
     },
     {
       "key": "scf",
@@ -191136,7 +191309,13 @@
       "status": "pending",
       "notFound": "Positions list is empty. One web search found no Senate Conservatives Fund scorecard or key-vote list for 2021-2026: results were FEC/ProPublica expenditure pages, CPAC ratings and senators' 2018 press releases. Whether SCF publishes vote positions could not be confirmed because WebFetch hit a session limit (resets 2:10pm America/New_York). The SCF Substack archive (https://senateconservatives.substack.com/archive) was surfaced but not read. No positions on any of the 50 votes were found.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00448696",
+          "name": "Senate Conservatives Fund"
+        }
+      ]
     },
     {
       "key": "seiu",
@@ -191148,7 +191327,13 @@
       "status": "pending",
       "notFound": "One web search ('SEIU congressional scorecard OR key vote letter Congress 2025') found no SEIU congressional scorecard; results were AFL-CIO and CWA scorecards, news, and an SEIU lobbying-disclosure item. Only search was possible because WebFetch was blocked by a session limit, so no SEIU page was read and SEIU key-vote letters and press statements on the 50 votes (e.g. ARP, IRA, H.R. 1 in 2025, the ACA tax-credit extension, the Protect America's Workforce Act) were NOT checked. The positions list is empty because nothing could be confirmed. It is not a finding that SEIU took no positions.",
       "dropped": [],
-      "nPositions": 0
+      "nPositions": 0,
+      "fecIds": [
+        {
+          "id": "C00004036",
+          "name": "SEIU COPE"
+        }
+      ]
     }
   ]
 }

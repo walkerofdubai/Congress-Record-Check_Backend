@@ -868,6 +868,92 @@ function keyVotesBlock(s,V,label,id){
 }
 // ---------- funders' and spenders' own published positions vs. the candidate's votes ----------
 const GP=DATA.groupPos||[], GPBY=Object.fromEntries(GP.map(g=>[g.key,g]));
+// ---------- money and votes over time: one group's money to or about a candidate, month by month, on the same axis as its key votes ----------
+const MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const monLabel=m=>`${MON[+m.slice(5,7)-1]} ${m.slice(0,4)}`;
+const nextMon=m=>{let y=+m.slice(0,4),k=+m.slice(5,7)+1;if(k>12){k=1;y++;}return `${y}-${String(k).padStart(2,'0')}`};
+// Months from the group: contributions from the FEC bulk file (all years); outside spending naming the candidate from the bulk
+// file before 2025 and from the reviewed 2025-26 data (the same rows as the totals above) after.
+function fundSeries(s,g){
+  const H=window.FUNDHIST;if(!H)return null;
+  const grp=(DATA.groupPos.find(x=>x.key===g.key)||{}).fecIds||[], ids=new Set(grp.map(f=>f.id));
+  const M=new Map(), add=(m,k,v)=>{const o=M.get(m)||{c:0,f:0,a:0};o[k]+=v;M.set(m,o);};
+  const h=(H.people[s.id]||{})[g.key]||{c:[],f:[],a:[]};
+  for(const k of ['c','f','a'])h[k].forEach(([m,v])=>add(m,k,v));
+  (IE.rows[s.race]||[]).forEach(r=>{if(r[0]<H.ieBefore||r[2]!==s.fecCand||!ids.has(cmOf(r[1])[0]))return;add(r[0].slice(0,7),r[3]==='S'?'f':'a',r[4]);});
+  const votes=g.compared.map((c,i)=>({c,i})).sort((a,b)=>a.c.date.localeCompare(b.c.date)).map((x,k)=>Object.assign({n:k+1},x));
+  let end=DATA.ie_asof.slice(0,7);
+  votes.forEach(v=>{if(v.c.date.slice(0,7)>end)end=v.c.date.slice(0,7)});
+  const months=[];for(let m=H.start.slice(0,7);m<=end;m=nextMon(m))months.push(m);
+  const tot={c:0,f:0,a:0};M.forEach(o=>{tot.c+=o.c;tot.f+=o.f;tot.a+=o.a;});
+  return {M,months,votes,tot,committees:grp.map(f=>f.name),H};
+}
+const voteNum=(g,i)=>1+g.compared.map((c,k)=>[c.date,k]).sort((a,b)=>a[0].localeCompare(b[0])||a[1]-b[1]).findIndex(x=>x[1]===i);
+function fundTimeline(s,g,id){
+  const d=fundSeries(s,g);if(!d)return '';
+  const {tot,M,votes,H}=d, none=!(tot.c||tot.f||tot.a);
+  const rows=d.months.filter(m=>M.has(m)||votes.some(v=>v.c.date.slice(0,7)===m));
+  const vt=v=>`#${v.n} ${esc(v.c.short)}: ${v.c.match===null?'did not vote':v.c.match?'✓ same as the group':'✕ opposite of the group'}`;
+  return `<div class="ftl-wrap"><div class="kicker" style="margin-top:14px">Money and votes over time</div>
+    <p class="small" style="margin:4px 0 6px">${none?`No money from ${esc(g.org)} to or about ${esc(s.short)} appears in the FEC data for ${fmtDate(H.start)} – ${fmtDate(DATA.ie_asof)}; only the votes are shown.`:`In this chart, ${fmtDate(H.start)} – ${fmtDate(DATA.ie_asof)}: contributions to the campaign <b class="num">${fmtFull(tot.c)}</b> · outside spending for ${esc(s.short)} <b class="num">${fmtFull(tot.f)}</b> · against ${esc(s.short)} <b class="num">${fmtFull(tot.a)}</b>.`}</p>
+    <div class="legend" style="margin:0 0 6px"><span><i style="background:var(--s1)"></i>Contributions to ${esc(s.short)}'s campaign</span><span><i style="background:var(--s3)"></i>Outside spending for ${esc(s.short)}</span><span><i style="background:var(--s2)"></i>Outside spending against ${esc(s.short)} (below the line)</span><span><i class="ftl-key same"></i>Voted the way ${esc(g.org)} wanted</span><span><i class="ftl-key opp"></i>Voted the opposite way</span></div>
+    <div class="ftl" id="${id}" data-person="${esc(s.id)}" data-group="${esc(g.key)}"></div>
+    <p class="small muted" style="margin:6px 0 0">Each bar is one month. Above the line is money for ${esc(s.short)}: checks to the campaign from the group's PACs, and outside ads or mail that name ${esc(s.short)} in support. Below the line is outside spending naming ${esc(s.short)} in opposition, which is money spent to defeat ${esc(s.short)}, not money ${esc(s.short)} received. The numbered circles are the votes in the table above, placed on their dates. Committees counted: ${esc(d.committees.join(', '))}. Sources: FEC bulk data for contributions (through ${fmtDate(H.contribThrough)}) and for outside spending before 2025; outside spending from 2025 on is the same data as the totals above. Outside spending counts only general-election items that name ${esc(s.short)} directly, so it can be lower than the totals above, which also count spending on opponents; primary spending is not shown. <b>Money arriving near a vote does not show that it influenced the vote.</b></p>
+    <details class="tv"><summary>Show as a table</summary><div class="tablewrap"><table><thead><tr><th>Month</th><th class="r">Contributions</th><th class="r">Outside for</th><th class="r">Outside against</th><th>Votes that month</th></tr></thead><tbody>${rows.map(m=>{const o=M.get(m)||{c:0,f:0,a:0};return `<tr><td class="mono" style="white-space:nowrap">${monLabel(m)}</td><td class="r">${o.c?fmtFull(o.c):'—'}</td><td class="r">${o.f?fmtFull(o.f):'—'}</td><td class="r">${o.a?fmtFull(o.a):'—'}</td><td class="small">${votes.filter(v=>v.c.date.slice(0,7)===m).map(vt).join('<br>')}</td></tr>`}).join('')||'<tr><td colspan="5" class="muted">No months with money or votes.</td></tr>'}</tbody></table></div></details></div>`;
+}
+function drawFundTL(el){
+  if(!el)return;
+  const s=byId[el.dataset.person], g=(s.funderPos||[]).find(x=>x.key===el.dataset.group), d=s&&g&&fundSeries(s,g);if(!d)return;
+  const {M,months,votes}=d, n=months.length;
+  const W=Math.max(300,el.clientWidth), small=W<560, mL=small?42:54, mR=8, top=20;
+  const mw=(W-mL-mR)/n, X=i=>mL+i*mw;
+  const xDate=iso=>{const i=months.indexOf(iso.slice(0,7));const dim=new Date(+iso.slice(0,4),+iso.slice(5,7),0).getDate();return X(Math.max(0,i)+(+iso.slice(8,10)-.5)/dim)};
+  let up=0,down=0;M.forEach(o=>{up=Math.max(up,o.c+o.f);down=Math.max(down,o.a)});
+  const P=small?110:140, total=up+down||1, upH=up||down?P*up/total:P/2, base=top+upH, k=P/total;
+  const plotBottom=top+P, axisY=plotBottom+(down?0:2);
+  let svg='';
+  // election days (first Tuesday after the first Monday in November, even years)
+  for(let y=+months[0].slice(0,4);y<=+months[n-1].slice(0,4);y++){if(y%2)continue;const m=`${y}-11`,i=months.indexOf(m);if(i<0)continue;const x=X(i);svg+=`<rect class="ftl-elec" x="${x}" y="${top}" width="${Math.max(2,mw)}" height="${P}"></rect>${small?'':`<text class="ftl-small" x="${x+mw/2}" y="${top-6}" text-anchor="middle">${y} election</text>`}`;}
+  // data end shading
+  const endI=months.indexOf(DATA.ie_asof.slice(0,7));if(endI>=0&&endI<n-1)svg+=`<rect class="ftl-nodata" x="${X(endI+1)}" y="${top}" width="${X(n)-X(endI+1)}" height="${P}"></rect>`;
+  svg+='@@GUIDES@@';
+  // bars and hover columns
+  const bw=Math.max(1,mw-(mw>4?1:0));
+  months.forEach((m,i)=>{
+    const o=M.get(m);if(!o)return;
+    const x=X(i);
+    const hc=o.c*k, hf=o.f*k, ha=o.a*k;
+    if(hc>0)svg+=`<rect class="ftl-c" x="${x}" y="${base-Math.max(2,hc)}" width="${bw}" height="${Math.max(2,hc)}"></rect>`;
+    if(hf>0)svg+=`<rect class="ftl-f" x="${x}" y="${base-(hc>0?Math.max(2,hc)+1:0)-Math.max(2,hf)}" width="${bw}" height="${Math.max(2,hf)}"></rect>`;
+    if(ha>0)svg+=`<rect class="ftl-a" x="${x}" y="${base}" width="${bw}" height="${Math.max(2,ha)}"></rect>`;
+    const tip=`${monLabel(m)} · contributions ${fmtFull(o.c)} · outside for ${fmtFull(o.f)} · outside against ${fmtFull(o.a)}`;
+    svg+=`<rect class="ftl-hit" x="${x}" y="${top}" width="${Math.max(mw,1)}" height="${P}" data-tip="${esc(tip)}"></rect>`;
+  });
+  // value scale: the line, and the largest month in each direction
+  svg+=`<line class="ftl-base" x1="${mL}" x2="${W-mR}" y1="${base}" y2="${base}"></line>`;
+  svg+=`<text class="ftl-y" x="${mL-6}" y="${base+4}" text-anchor="end">$0</text>`;
+  if(up)svg+=`<text class="ftl-y" x="${mL-6}" y="${top+9}" text-anchor="end">${fmt$(up)}</text><line class="ftl-grid" x1="${mL}" x2="${W-mR}" y1="${top}" y2="${top}"></line>`;
+  if(down)svg+=`<text class="ftl-y" x="${mL-6}" y="${plotBottom}" text-anchor="end">−${fmt$(down)}</text><line class="ftl-grid" x1="${mL}" x2="${W-mR}" y1="${plotBottom}" y2="${plotBottom}"></line>`;
+  // years
+  const yAx=axisY+14;
+  months.forEach((m,i)=>{if(m.endsWith('-01')){const x=X(i);svg+=`<line class="ftl-tick" x1="${x}" x2="${x}" y1="${axisY}" y2="${axisY+4}"></line>`;if(!small||(+m.slice(0,4))%2===0)svg+=`<text class="ftl-small" x="${x}" y="${yAx}" text-anchor="middle">${m.slice(0,4)}</text>`;}});
+  // votes: numbered circles on their dates, stacked when they would overlap
+  const r=small?8:9, laneTop=yAx+10, rows=[];
+  const placed=votes.map(v=>{const x=xDate(v.c.date);let row=0;while((rows[row]||[]).some(px=>Math.abs(px-x)<r*2+2))row++;(rows[row]=rows[row]||[]).push(x);return {v,x,row};});
+  const laneH=(rows.length||1)*(r*2+6);
+  let guides='';placed.forEach(({v,x})=>{guides+=`<line class="ftl-guide ${v.c.match===null?'nv':v.c.match?'same':'opp'}" x1="${x}" x2="${x}" y1="${top}" y2="${laneTop}"></line>`;});
+  placed.forEach(({v,x,row})=>{
+    const cy=laneTop+r+row*(r*2+6), cls=v.c.match===null?'nv':v.c.match?'same':'opp';
+    const tip=`#${v.n} ${fmtDate(v.c.date)} · ${v.c.short} · ${g.org} wanted ${v.c.wanted}, ${s.short} voted ${v.c.cast}${v.c.match===null?'':v.c.match?' (same)':' (opposite)'}`;
+    svg+=`<g class="ftl-vote ${cls}" data-tip="${esc(tip)}"><circle cx="${x}" cy="${cy}" r="${r}"></circle><text x="${x}" y="${cy+4}" text-anchor="middle">${v.n}</text></g>`;
+  });
+  svg=svg.replace('@@GUIDES@@',guides);
+  const H=laneTop+laneH+4;
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(g.org)}'s money to or about ${esc(s.name)} by month since ${monLabel(months[0])}, with ${votes.length} key votes on the same time axis. The table below the chart lists every month.">${svg}</svg>`;
+  bindTips(el);
+}
+function mountFundTL(root){root.querySelectorAll('.ftl').forEach(el=>{const f=()=>drawFundTL(document.getElementById(el.id));f();resizers.push(f);});}
+
 function fundersBlock(s){
   const F=s.funderPos||[];
   const noVotes=!realVotes(s,DATA.votes).length&&!realVotes(s,DATA.hvotes).length;
@@ -882,7 +968,7 @@ function fundersBlock(s){
     else if(noVotes)res=`<p class="small muted" style="margin:6px 0 0">${esc(s.short)} has no recorded congressional votes among the key votes, so there is nothing to compare.</p>`;
     else if(!g.compared.length)res=`<p class="small muted" style="margin:6px 0 0">No published position by ${esc(g.org)} was found on the key votes ${esc(s.short)} cast.</p>`;
     else res=`<p class="small" style="margin:6px 0 4px"><b>${esc(s.short)} voted the way ${esc(g.org)} wanted on ${g.agree} of ${g.n} key votes it scored or took a public position on.</b></p>
-      <div class="tablewrap"><table><thead><tr><th>Vote</th><th>${esc(g.org)} wanted</th><th>${esc(s.short)} voted</th><th>Same?</th><th>Group's own source</th></tr></thead><tbody>${g.compared.map(c=>{const v=(DATA.votes.concat(DATA.hvotes)).find(x=>x.id===c.voteId);return `<tr><td><a href="${voteUrl(v)}" target="_blank" rel="noopener">${esc(c.short)}</a><div class="small muted">${esc(c.chamber)} · ${fmtDate(c.date)}</div></td><td><span class="chip ${posClass(c.wanted)}">${esc(c.wanted)}</span></td><td><span class="chip ${posClass(c.cast)}">${esc(c.cast)}</span></td><td>${c.match===null?'<span class="muted">did not vote</span>':c.match?'<b style="color:var(--good)">✓ Same</b>':'<b style="color:var(--crit)">✕ Opposite</b>'}</td><td class="small">${c.basis==='scorecard'?'Scored in its scorecard':'Public position before the vote'}: <a href="${esc(c.src.u)}" target="_blank" rel="noopener">${esc(c.src.t)} ↗</a></td></tr>`}).join('')}</tbody></table></div>`;
+      <div class="tablewrap"><table><thead><tr><th>#</th><th>Vote</th><th>${esc(g.org)} wanted</th><th>${esc(s.short)} voted</th><th>Same?</th><th>Group's own source</th></tr></thead><tbody>${g.compared.map((c,ci)=>{const v=(DATA.votes.concat(DATA.hvotes)).find(x=>x.id===c.voteId);return `<tr><td><span class="ftl-num ${c.match===null?'nv':c.match?'same':'opp'}">${voteNum(g,ci)}</span></td><td><a href="${voteUrl(v)}" target="_blank" rel="noopener">${esc(c.short)}</a><div class="small muted">${esc(c.chamber)} · ${fmtDate(c.date)}</div></td><td><span class="chip ${posClass(c.wanted)}">${esc(c.wanted)}</span></td><td><span class="chip ${posClass(c.cast)}">${esc(c.cast)}</span></td><td>${c.match===null?'<span class="muted">did not vote</span>':c.match?'<b style="color:var(--good)">✓ Same</b>':'<b style="color:var(--crit)">✕ Opposite</b>'}</td><td class="small">${c.basis==='scorecard'?'Scored in its scorecard':'Public position before the vote'}: <a href="${esc(c.src.u)}" target="_blank" rel="noopener">${esc(c.src.t)} ↗</a></td></tr>`}).join('')}</tbody></table></div>${fundTimeline(s,g,'ftl-'+g.key)}`;
     return `<div class="mv"><h4>${esc(g.org)}</h4><p class="small" style="margin:0">${money(g)}${g.spenders.length?` <span class="muted">(${esc(g.spenders.join(', '))})</span>`:''}</p>${res}</div>`;}).join('');
   return head+body+`<p class="small muted" style="margin-top:10px">Organizations researched: ${GP.map(g=>esc(g.org)+(g.status==='pending'?' (in progress)':'')).join(', ')}. <a href="#method">How positions were collected</a>.</p></section>`;
 }
@@ -931,6 +1017,7 @@ function paneRecord(s,pane,focus){
   ${ethicsHTML(s)}`;
   mountIdeo('ideo2',s);
   mountKV('kv2',s);
+  mountFundTL(pane);
   pane.querySelectorAll('#rec-sv,#rec-hv').forEach(sec=>{const V=sec.id==='rec-sv'?SV:HV;const f=sec.querySelector('[data-vf]'),L=sec.querySelector('[data-vl]');
     const draw=a=>{L.innerHTML=V.filter(v=>!a||v.area===a).slice().sort((x,y)=>y.date.localeCompare(x.date)).map(v=>{const p=v.pos[s.id]||'—';return `<div class="vote"><div class="d">${v.date}</div><div><div class="t"><a href="${voteUrl(v)}" target="_blank" rel="noopener">${esc(v.short)}</a></div><div class="s">${esc(v.issue)} · ${esc(v.result)}</div><div class="s muted">${esc(v.area)}</div><div class="s" style="margin:4px 0">${leanTag(v)}</div>${billDetails(v)}</div><div class="pos">${voteText(v,p)}</div></div>`}).join('');};
     draw('');f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;f.querySelector('.active').classList.remove('active');b.classList.add('active');draw(b.dataset.a);});});
@@ -1171,6 +1258,14 @@ function renderMethod(){
     <p>For each issue, the Legislative record tab lists the candidate's recorded actions next to groups linked to that issue by one of three documented routes: the group's documented orientation or description (for example, a gun-rights or environmental group); its own name; or the industry sector this app assigned to a PAC (for example, oil and gas for climate and energy), with the reason shown. Amounts are PAC contributions to the campaign in the itemized reports and outside spending for or against the candidate, with dates. This is an association to explore, not evidence that money influenced a vote; groups often support candidates who already agree with them.</p>
     <h2>Funders' own positions vs. votes</h2>
     <p>For organizations that gave to a campaign or spent on a race and that publish congressional scorecards or "key vote" letters, the app records which way the organization wanted each of the key votes to go, from the organization's own scorecard or letter (or, as a second choice, a news report quoting it), and shows the candidate's recorded vote beside it. A position is recorded only for the same roll call (or, for a public letter, the same bill at the same stage); nothing is inferred from an organization's general mission. Two positions were left out because the exact roll call could not be confirmed from a page that was read (AFL-CIO on the March 2025 stopgap bill; NFIB on the Senate's 2025 budget-bill vote). Organizations researched: ${GP.map(g=>esc(g.org)+' ('+g.nPositions+' positions'+(g.status==='pending'?', research in progress':'')+')').join('; ')}. Groups are matched to money by the names of the committees they control. Party-aligned super PACs, which make most of the outside spending in these races, were not researched for bill positions. Agreement with a funder's positions is not evidence that money influenced a vote.</p>
+    <h3>Money and votes over time</h3>
+    <p>Under each comparison, a timeline shows that organization's money to or about the candidate month by month since January 2019, with the compared votes as numbered circles on the same time axis. Above the line: contributions to the candidate's campaign from the organization's PACs, and independent expenditures naming the candidate in support. Below the line: independent expenditures naming the candidate in opposition, which is money spent to defeat the candidate, not money the candidate received. The organization's FEC committees are listed under each chart, and include its own connected PAC where the FEC committee file names the organization.</p>
+    <ul class="list">
+      <li><b>Contributions</b> (direct and in-kind) come from the FEC bulk file of committee contributions to candidates for the 2020 through 2026 cycles, as reported by the giving committee, by transaction date. They include the candidate's earlier campaigns for another office (for example, a House member now running for the Senate), matched by FEC candidate ID. Memo lines are left out.</li>
+      <li><b>Outside spending before 2025</b> comes from the same bulk file. <b>From January 2025</b> it comes from the outside-spending data used everywhere else on this site, because the bulk file holds only regular reports and misses the most recent 24- and 48-hour notices.</li>
+      <li>Outside spending counts only general-election items (including runoffs held after a general election, such as Georgia's in January 2021) that name the candidate directly. Primary spending, and spending for or against an opponent, are not shown, so a chart's total can be lower than the totals above it.</li>
+      <li>Money arriving before or after a vote does not show that it influenced the vote. Groups mostly fund people who already vote their way, and spend most heavily in the months before an election.</li>
+    </ul>
     <h2>Glossary</h2>
     <dl class="kvd">
       <dt>Campaign funds raised</dt><dd>${esc(GLOSS.receipts)}</dd>

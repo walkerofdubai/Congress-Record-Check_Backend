@@ -41,6 +41,10 @@ A candidate's page opens on its Overview tab: where the campaign's money comes f
 
 The politics visual also scores how the candidate voted on key bills marked liberal or conservative. The marking is `liberalSide` / `leanNote` on each issue in `public/research.json`; the logic is in `public/lean.js` and is covered by `npm test`.
 
+## Money and votes over time
+
+On the Legislative record tab, each funder comparison has a timeline of that organization's money to or about the candidate since January 2019, with the compared votes on the same axis. `public/funder-history.json` holds the month-by-month figures. Rebuild it with `node scripts/build-funder-history.mjs` (downloads about 90 MB of FEC bulk files into `.local/fec-bulk/`; add `--refresh` to fetch newer files). It uses each group's FEC committee IDs (`groupPos[].fecIds`) and each candidate's current and earlier FEC candidate IDs (`fecCand`, `fecCandPast`) from `public/research.json`. Outside spending from January 2025 on comes from the reviewed outside-spending data instead, because the bulk file lags the latest notices.
+
 ## Reviewed research
 
 `public/research.json` contains the original researched snapshot, including biographies, race ratings, Voteview scores, ethics, statements, industry classifications and alignment coding. Edit this file to publish reviewed changes; refresh jobs never rewrite it. Its contents were preserved from the supplied document, not independently fact-checked by this conversion.
