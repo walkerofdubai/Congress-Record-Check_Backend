@@ -1,0 +1,156 @@
+{
+  "elsayed": {
+    "file": "data/portraits/elsayed.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "turek": {
+    "file": "data/portraits/turek.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "booker": {
+    "file": "data/portraits/booker.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "talarico": {
+    "file": "data/portraits/talarico.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "paxton": {
+    "file": "data/portraits/paxton.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cooper": {
+    "file": "data/portraits/cooper.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "whatley": {
+    "file": "data/portraits/whatley.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "flanagan": {
+    "file": "data/portraits/flanagan.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "tafoya": {
+    "file": "data/portraits/tafoya.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "stratton": {
+    "file": "data/portraits/stratton.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "tracy": {
+    "file": "data/portraits/tracy.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cbooker": {
+    "file": "data/portraits/cbooker.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "jackson": {
+    "file": "data/portraits/jackson.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "husted": {
+    "file": "data/portraits/husted.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "bohannan": {
+    "file": "data/portraits/bohannan.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "rutinel": {
+    "file": "data/portraits/rutinel.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "conley": {
+    "file": "data/portraits/conley.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "hamilton": {
+    "file": "data/portraits/hamilton.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "stelson": {
+    "file": "data/portraits/stelson.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "osborn": {
+    "file": "data/portraits/osborn.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "choke": 2
+  },
+  "bodnar": {
+    "file": "data/portraits/bodnar.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "alme": {
+    "file": "data/portraits/alme.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "choke": 2
+  },
+  "bankhead": {
+    "file": "data/portraits/bankhead.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "murphy": {
+    "file": "data/portraits/murphy.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "baisley": {
+    "file": "data/portraits/baisley.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "wess": {
+    "file": "data/portraits/wess.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "byrd": {
+    "file": "data/portraits/byrd.png",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "zoom": 0.85,
+    "nudge": 18
+  },
+  "thomas": {
+    "file": "data/portraits/thomas.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "davis": {
+    "file": "data/portraits/davis.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "merrin": {
+    "file": "data/portraits/merrin.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "braun": {
+    "file": "data/portraits/braun.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "flores": {
+    "file": "data/portraits/flores.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "beltran": {
+    "file": "data/portraits/beltran.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  }
+}

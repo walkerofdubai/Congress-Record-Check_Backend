@@ -227,7 +227,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "STOCK Act periodic transaction reports",
@@ -27016,7 +27017,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "open"
         },
         {
           "title": "Jan. 6 committee subpoena and Ethics Committee referral",
@@ -27035,7 +27037,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "open"
         }
       ],
       "ethicsSearched": "Searched news and official sources for STOCK Act late-filing reports, House Ethics Committee and OCE matters (including the Jan. 6 committee referral), and court proceedings over the FBI seizure of his phone; no STOCK Act late-disclosure reports were found.",
@@ -37418,7 +37421,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "ethicsSearched": "Searched news and official sources for STOCK Act late-filing reports, House Ethics Committee and OCE/Office of Congressional Conduct matters, financial-disclosure complaints, residency challenges and election contests involving Rep. Miller-Meeks; no STOCK Act late-trade reports were found.",
@@ -60886,7 +60890,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "open"
         }
       ],
       "fecMissing": false,
@@ -62625,7 +62630,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "2023 impeachment by the Texas House",
@@ -62644,7 +62650,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "Whistleblower lawsuit by former top aides",
@@ -62678,7 +62685,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "State Bar of Texas disciplinary lawsuit over 2020 election suit",
@@ -62697,7 +62705,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -64088,7 +64097,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "Timing of 2026 personal financial disclosure",
@@ -67118,7 +67128,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "Libel suit over 2000 attorney general campaign ad (Boyce & Isley v. Cooper)",
@@ -67133,7 +67144,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -77339,7 +77351,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -80963,7 +80976,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -84472,7 +84486,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -89055,7 +89070,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         },
         {
           "title": "Complaints over petition signature gathering",
@@ -89074,7 +89090,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "open"
         }
       ],
       "fecMissing": false,
@@ -98790,7 +98807,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -105715,7 +105733,8 @@
             }
           ],
           "sev": "warn",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "closed"
         }
       ],
       "fecMissing": false,
@@ -112496,7 +112515,8 @@
             }
           ],
           "sev": "neutral",
-          "status": "investigation"
+          "status": "investigation",
+          "stage": "open"
         }
       ],
       "fecMissing": false,
@@ -189346,7 +189366,9 @@
       "A": "Extend ACA premium subsidies and protect federal Medicaid funding",
       "B": "Let enhanced ACA subsidies lapse and reduce federal Medicaid spending",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "econ",
+      "statement": "Congress should extend the enhanced ACA premium subsidies and protect federal Medicaid funding."
     },
     {
       "id": "taxes",
@@ -189355,7 +189377,9 @@
       "A": "Raise taxes on corporations or high earners to fund public programs",
       "B": "Cut taxes and cut government spending",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "econ",
+      "statement": "Government should raise taxes on corporations or high earners to pay for public programs."
     },
     {
       "id": "immigration",
@@ -189364,7 +189388,9 @@
       "A": "Expand immigration detention and enforcement",
       "B": "Limit expansions of detention and enforcement",
       "liberalSide": "B",
-      "leanNote": null
+      "leanNote": null,
+      "group": "imm",
+      "statement": "The federal government should expand immigration detention and enforcement."
     },
     {
       "id": "abortion",
@@ -189373,7 +189399,9 @@
       "A": "Protect legal access to abortion",
       "B": "Restrict abortion",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "rights",
+      "statement": "Legal access to abortion should be protected."
     },
     {
       "id": "civil",
@@ -189382,7 +189410,9 @@
       "A": "Write these rights into law",
       "B": "Oppose these bills",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "rights",
+      "statement": "Same-sex marriage and access to contraception should be written into law."
     },
     {
       "id": "guns",
@@ -189391,7 +189421,9 @@
       "A": "Add gun-safety regulations",
       "B": "Expand gun rights or oppose new restrictions",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "rights",
+      "statement": "Lawmakers should add new gun-safety regulations."
     },
     {
       "id": "climate",
@@ -189400,7 +189432,9 @@
       "A": "Support clean-energy and climate measures",
       "B": "Roll back or block clean-energy and climate measures",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "env",
+      "statement": "Government should support clean-energy and climate measures."
     },
     {
       "id": "tariffs",
@@ -189409,7 +189443,9 @@
       "A": "Keep the tariffs",
       "B": "End the tariff emergency",
       "liberalSide": null,
-      "leanNote": "Tariffs do not map cleanly onto liberal versus conservative: free-trade conservatives and many liberals both oppose them, and the current fight is mostly over one president’s policy."
+      "leanNote": "Tariffs do not map cleanly onto liberal versus conservative: free-trade conservatives and many liberals both oppose them, and the current fight is mostly over one president’s policy.",
+      "group": "econ",
+      "statement": "The 2025 emergency tariffs on Canadian imports should stay in place."
     },
     {
       "id": "ukraine",
@@ -189418,7 +189454,9 @@
       "A": "Fund aid to Ukraine",
       "B": "Oppose aid to Ukraine",
       "liberalSide": null,
-      "leanNote": "Support for Ukraine aid cuts across both parties’ wings, so a Yea is not reliably the liberal or the conservative side."
+      "leanNote": "Support for Ukraine aid cuts across both parties’ wings, so a Yea is not reliably the liberal or the conservative side.",
+      "group": "foreign",
+      "statement": "The United States should keep funding military and economic aid to Ukraine."
     },
     {
       "id": "warpowers",
@@ -189427,7 +189465,9 @@
       "A": "Require congressional approval / withdraw forces",
       "B": "Leave the decision to the President",
       "liberalSide": null,
-      "leanNote": "Whether to limit presidential war powers has depended on who holds the White House, so it is not a fixed liberal or conservative position."
+      "leanNote": "Whether to limit presidential war powers has depended on who holds the White House, so it is not a fixed liberal or conservative position.",
+      "group": "foreign",
+      "statement": "U.S. military action against Venezuela should require the approval of Congress."
     },
     {
       "id": "jan6",
@@ -189436,7 +189476,9 @@
       "A": "Certify the results and hold Trump accountable",
       "B": "Object to certification and oppose impeachment",
       "liberalSide": null,
-      "leanNote": "Objecting to electoral votes and impeaching a president are partisan and institutional questions, not a liberal versus conservative policy position."
+      "leanNote": "Objecting to electoral votes and impeaching a president are partisan and institutional questions, not a liberal versus conservative policy position.",
+      "group": "imm",
+      "statement": "The 2020 election results should have been certified, and President Trump impeached or convicted over January 6."
     },
     {
       "id": "labor",
@@ -189445,7 +189487,9 @@
       "A": "Strengthen bargaining rights and raise wage floors",
       "B": "Oppose these measures",
       "liberalSide": "A",
-      "leanNote": null
+      "leanNote": null,
+      "group": "econ",
+      "statement": "Union bargaining rights should be strengthened and minimum wages set by law raised."
     },
     {
       "id": "voting",
@@ -189454,7 +189498,9 @@
       "A": "Require them",
       "B": "Oppose these requirements",
       "liberalSide": "B",
-      "leanNote": null
+      "leanNote": null,
+      "group": "imm",
+      "statement": "Voters should have to show photo ID or proof of citizenship to vote or register."
     },
     {
       "id": "infra",
@@ -189463,7 +189509,9 @@
       "A": "Support these investments",
       "B": "Oppose them",
       "liberalSide": null,
-      "leanNote": "Infrastructure and industrial-policy investment drew bipartisan support from both wings, so it is not marked."
+      "leanNote": "Infrastructure and industrial-policy investment drew bipartisan support from both wings, so it is not marked.",
+      "group": "econ",
+      "statement": "Government should make large investments in infrastructure and industry, like the 2021 infrastructure law and the CHIPS Act."
     },
     {
       "id": "vouchers",
@@ -189472,7 +189520,9 @@
       "A": "Create or expand them",
       "B": "Oppose them",
       "liberalSide": "B",
-      "leanNote": null
+      "leanNote": null,
+      "group": "rights",
+      "statement": "Public money should help pay private-school costs, through vouchers or education savings accounts."
     }
   ],
   "typeLabel": {

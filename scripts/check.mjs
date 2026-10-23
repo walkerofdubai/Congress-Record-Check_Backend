@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import {spawnSync} from 'node:child_process';
 import config from '../data/config.json' with {type:'json'};
-const files=['src/sources.mjs','src/refresh.mjs','src/worker.mjs','scripts/local.mjs','public/boot.js','public/live.js','public/app.js','public/lean.js','scripts/build-funder-history.mjs'];
+const files=['src/sources.mjs','src/refresh.mjs','src/worker.mjs','scripts/local.mjs','public/boot.js','public/live.js','public/app.js','public/lean.js','public/grades.js','scripts/build-funder-history.mjs'];
 for(const file of files){const result=spawnSync(process.execPath,['--check',file],{stdio:'inherit'});if(result.status)process.exit(result.status);}
 const research=JSON.parse(fs.readFileSync('public/research.json','utf8'));
 if(new Set(config.people.map(p=>p.id)).size!==config.people.length)throw new Error('Duplicate person IDs');

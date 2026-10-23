@@ -1,0 +1,268 @@
+{
+  "about": "Transparent portraits for the home cards. See scripts/build-portraits.py.",
+  "built": "2026-10-22",
+  "people": {
+    "collins": {
+      "file": "portraits/collins.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/C001035.jpg"
+    },
+    "sullivan": {
+      "file": "portraits/sullivan.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/S001198.jpg"
+    },
+    "marshall": {
+      "file": "portraits/marshall.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/M001198.jpg"
+    },
+    "ossoff": {
+      "file": "portraits/ossoff.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/O000174.jpg"
+    },
+    "booker": {
+      "file": "portraits/booker.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "hickenlooper": {
+      "file": "portraits/hickenlooper.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/H000273.jpg"
+    },
+    "perry": {
+      "file": "portraits/perry.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/P000605.jpg"
+    },
+    "lawler": {
+      "file": "portraits/lawler.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/L000599.jpg"
+    },
+    "evans": {
+      "file": "portraits/evans.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/E000300.jpg"
+    },
+    "millermeeks": {
+      "file": "portraits/millermeeks.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/M001215.jpg"
+    },
+    "kaptur": {
+      "file": "portraits/kaptur.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/K000009.jpg"
+    },
+    "mgp": {
+      "file": "portraits/mgp.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/G000600.jpg"
+    },
+    "gonzalez": {
+      "file": "portraits/gonzalez.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/G000581.jpg"
+    },
+    "castor": {
+      "file": "portraits/castor.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/C001066.jpg"
+    },
+    "talarico": {
+      "file": "portraits/talarico.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "paxton": {
+      "file": "portraits/paxton.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "elsayed": {
+      "file": "portraits/elsayed.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "rogers": {
+      "file": "portraits/rogers.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/R000572.jpg"
+    },
+    "cooper": {
+      "file": "portraits/cooper.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "whatley": {
+      "file": "portraits/whatley.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "turek": {
+      "file": "portraits/turek.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "hinson": {
+      "file": "portraits/hinson.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/H001091.jpg"
+    },
+    "pappas": {
+      "file": "portraits/pappas.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/P000614.jpg"
+    },
+    "sununu": {
+      "file": "portraits/sununu.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/S001078.jpg"
+    },
+    "flanagan": {
+      "file": "portraits/flanagan.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "tafoya": {
+      "file": "portraits/tafoya.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "stratton": {
+      "file": "portraits/stratton.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "tracy": {
+      "file": "portraits/tracy.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "cbooker": {
+      "file": "portraits/cbooker.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "barr": {
+      "file": "portraits/barr.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/B001282.jpg"
+    },
+    "wess": {
+      "file": "portraits/wess.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "moore": {
+      "file": "portraits/moore.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/M001212.jpg"
+    },
+    "bankhead": {
+      "file": "portraits/bankhead.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "alme": {
+      "file": "portraits/alme.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "bodnar": {
+      "file": "portraits/bodnar.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "byrd": {
+      "file": "portraits/byrd.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "hageman": {
+      "file": "portraits/hageman.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/H001096.jpg"
+    },
+    "thomas": {
+      "file": "portraits/thomas.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "hern": {
+      "file": "portraits/hern.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/H001082.jpg"
+    },
+    "davis": {
+      "file": "portraits/davis.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "letlow": {
+      "file": "portraits/letlow.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/L000595.jpg"
+    },
+    "husted": {
+      "file": "portraits/husted.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "brown": {
+      "file": "portraits/brown.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/B000944.jpg"
+    },
+    "ricketts": {
+      "file": "portraits/ricketts.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/R000618.jpg"
+    },
+    "osborn": {
+      "file": "portraits/osborn.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "jackson": {
+      "file": "portraits/jackson.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "peltola": {
+      "file": "portraits/peltola.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/450x550/P000619.jpg"
+    },
+    "hamilton": {
+      "file": "portraits/hamilton.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "mcollins": {
+      "file": "portraits/mcollins.webp",
+      "credit": "Official congressional portrait (public domain), via the unitedstates/images project",
+      "src": "https://raw.githubusercontent.com/unitedstates/images/gh-pages/congress/original/C001129.jpg"
+    },
+    "murphy": {
+      "file": "portraits/murphy.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "baisley": {
+      "file": "portraits/baisley.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "stelson": {
+      "file": "portraits/stelson.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "conley": {
+      "file": "portraits/conley.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "rutinel": {
+      "file": "portraits/rutinel.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "bohannan": {
+      "file": "portraits/bohannan.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "merrin": {
+      "file": "portraits/merrin.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "braun": {
+      "file": "portraits/braun.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "flores": {
+      "file": "portraits/flores.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    },
+    "beltran": {
+      "file": "portraits/beltran.webp",
+      "credit": "Photo supplied by the site's editor for use on this site"
+    }
+  }
+}
