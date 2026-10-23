@@ -6,14 +6,17 @@ const day = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice
 const money = v => { if (v == null || v === '') return null; const n=Number(v); if(!Number.isFinite(n)) throw new Error('Source returned an invalid amount'); return n; };
 const sum = (rows, get) => Math.round(rows.reduce((n,r)=>n+Math.round((get(r)||0)*100),0))/100;
 const nameKey = v => String(v||'').normalize('NFKD').replace(/[^a-z]/gi,'').toLowerCase();
-const allowedHosts = new Set(['api.open.fec.gov','api.congress.gov','www.senate.gov','clerk.house.gov']);
+const allowedHosts = new Set(['api.open.fec.gov','api.congress.gov','www.senate.gov','clerk.house.gov','api.govinfo.gov','www.govinfo.gov']);
 export class SourceError extends Error { constructor(message, retryAfter=0,statusCode=0){super(message);this.retryAfter=retryAfter;this.statusCode=statusCode;} }
 
-export async function requestSource(url, env, {json=true,allow404=false}={}) {
+// GovInfo and Congress.gov both accept api.data.gov keys, so the Congress.gov key is used unless a separate one is set.
+export const govinfoKey=env=>env.GOVINFO_API_KEY||env.CONGRESS_API_KEY;
+export async function requestSource(url, env, {json=true,allow404=false,html=false}={}) {
   const u=new URL(url); if(u.protocol!=='https:' || !allowedHosts.has(u.hostname)) throw new SourceError('Unapproved data source');
   if(u.hostname==='api.open.fec.gov') { if(!env.FEC_API_KEY) throw new SourceError('FEC API key needed'); u.searchParams.set('api_key',env.FEC_API_KEY); }
   if(u.hostname==='api.congress.gov') { if(!env.CONGRESS_API_KEY) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',env.CONGRESS_API_KEY); }
-  const response=await (env.fetch||fetch)(u,{headers:{Accept:json?'application/json':'application/xml,text/xml'},signal:AbortSignal.timeout(20000),redirect:'error'});
+  if(u.hostname==='api.govinfo.gov') { if(!govinfoKey(env)) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',govinfoKey(env)); }
+  const response=await (env.fetch||fetch)(u,{headers:{Accept:html?'text/html':json?'application/json':'application/xml,text/xml'},signal:AbortSignal.timeout(20000),redirect:'error'});
   if(response.status===404 && allow404) return null;
   if(!response.ok) {
     const retry=response.headers.get('retry-after');
@@ -21,6 +24,7 @@ export async function requestSource(url, env, {json=true,allow404=false}={}) {
     throw new SourceError(`${u.hostname} returned HTTP ${response.status}`,seconds*1000,response.status);
   }
   const text=await response.text(); if(text.length>12_000_000) throw new SourceError('Source response exceeds safe page size');
+  if(html) { if(!/<pre[\s>]/i.test(text)) throw new SourceError('Source returned an unexpected document'); return text; }
   if(json) { try {
     // FEC identifiers can exceed JavaScript's safe integer range. Preserve them before parsing.
     return JSON.parse(u.hostname==='api.open.fec.gov'?text.replace(/("(?:sub_id|original_sub_id|last_index)"\s*:\s*)(\d+)(?=\s*[,}])/g,'$1"$2"'):text);
@@ -114,6 +118,55 @@ export function normalizeVote(document,args,people) {
   result.source=voteURL(args);return result;
 }
 
+// Congressional Record: a daily issue's MODS lists every section with its speakers' Bioguide IDs and text labels.
+export function normalizeRecordIssue(document,args,people) {
+  const mods=document.mods;if(!mods)throw new SourceError('Congressional Record metadata missing');
+  const tracked=new Map(people.filter(p=>p.bioguide).map(p=>[p.bioguide,p.id]));const rows=[];
+  for(const item of list(mods.relatedItem)) {
+    const e=item.extension;if(!e)continue;
+    const granule=String(item['@_ID']||'').replace(/^id-/,'');
+    const speakers=list(e.congMember).filter(m=>m['@_role']==='SPEAKING'&&tracked.has(m['@_bioGuideId'])).map(m=>({person:tracked.get(m['@_bioGuideId']),label:list(m.name).find(n=>n['@_type']==='parsed')?.['#text']||null}));
+    if(!speakers.length)continue;
+    if(!granule.startsWith(args.package+'-'))throw new SourceError('Congressional Record section identity mismatch');
+    const title=list(item.titleInfo)[0]?.title;
+    rows.push({id:granule,package:args.package,date:day(e.granuleDate)||args.date,title:typeof title==='string'?title:String(title?.['#text']||'Untitled section'),chamber:e.granuleClass||null,speakers});
+  }
+  return rows;
+}
+const entities={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' '};
+const speakerLabel=/^(?:(?:Mr|Ms|Mrs|Miss|Dr)\. [A-Z][A-Z'\- ]*[A-Z](?: of [A-Z][A-Za-z ]+)?|The (?:PRESIDING OFFICER|SPEAKER|CHAIR|ACTING PRESIDENT|PRESIDENT|VICE PRESIDENT|CHAIRMAN|CHAIRWOMAN|CLERK)[A-Za-z ()]*)\. /;
+const labelKey=v=>String(v||'').replace(/\s+/g,' ').trim().toLowerCase();
+// The Record's text is a fixed-width <pre> block; a paragraph starts with a two-space indent and a turn with a speaker label.
+export function extractTurns(html,labels,{single=false}={}) {
+  const body=(html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i)?.[1]||'').replace(/<[^>]+>/g,'').replace(/&(#\d+|#x[\da-f]+|\w+);/gi,(m,c)=>c[0]==='#'?String.fromCodePoint(c[1]==='x'||c[1]==='X'?parseInt(c.slice(2),16):Number(c.slice(1))):entities[c.toLowerCase()]??m);
+  const paragraphs=[];let current=null;
+  for(const line of body.split(/\r?\n/)) {
+    if(/^\s*\[(?:\[Page [^\]]+\]|Congressional Record|Senate|House|Extensions of Remarks|Pages? [^\]]+|Daily Digest)[^\]]*\]?\]\s*$/i.test(line)||/^From the Congressional Record Online/.test(line))continue;
+    if(!line.trim()){current=null;continue;}
+    if(/^ {2}\S/.test(line)||!current){current=[line.trim()];paragraphs.push(current);}else current.push(line.trim());
+  }
+  const wanted=new Map(labels.map(l=>[labelKey(l),[]]));let speaker=null;const all=[];
+  for(const p of paragraphs) {
+    let text=p.join(' ').replace(/\s+/g,' ').trim();
+    if(/^ *[A-Z0-9 ,.'\-:;()]+$/.test(p[0])&&p.length===1&&!speakerLabel.test(text)){continue;}
+    const m=text.match(speakerLabel);if(m){speaker=labelKey(m[0].slice(0,-2));text=text.slice(m[0].length);}
+    all.push(text);if(speaker&&wanted.has(speaker))wanted.get(speaker).push(text);
+  }
+  // Extensions of Remarks are written by one member and often carry no spoken label.
+  if(single&&labels.length===1&&!wanted.get(labelKey(labels[0])).length)wanted.set(labelKey(labels[0]),all);
+  return Object.fromEntries(labels.map(l=>[l,wanted.get(labelKey(l))]));
+}
+const SPEECH_LIMIT=40_000;
+export function normalizeSpeech(html,args) {
+  const turns=extractTurns(html,args.speakers.map(s=>s.label).filter(Boolean),{single:args.chamber==='EXTENSIONS'});
+  const speakers={};
+  for(const s of args.speakers){const parts=s.label?turns[s.label]:[];const text=parts.join('\n\n');
+    speakers[s.person]={label:s.label,paragraphs:parts.length,text:text.slice(0,SPEECH_LIMIT),truncated:text.length>SPEECH_LIMIT,matched:parts.length>0};}
+  return {id:args.granule,package:args.package,date:args.date,title:args.title,chamber:args.chamber,speakers,
+    source:`https://www.govinfo.gov/app/details/${args.package}/${args.granule}`};
+}
+const recordStart=a=>a.since||a.start;
+
 export async function fetchPage(job,env,config) {
   const a=JSON.parse(job.args),through=(job.started_at||new Date().toISOString()).slice(0,10);
   if(job.kind==='campaign'){
@@ -158,6 +211,16 @@ export async function fetchPage(job,env,config) {
     if(d===null)return {rows:[],next:null,nextProbe:number};
     return {rows:[normalizeVote(d,args,config.people)],next:String(number+1)};
   }
+  if(job.kind==='crec-index') {
+    // Lists daily issues modified since the last completed check, so revised issues are seen again.
+    const url=job.cursor||(()=>{const u=new URL(`https://api.govinfo.gov/collections/CREC/${recordStart(a)}T00:00:00Z`);u.searchParams.set('pageSize','100');u.searchParams.set('offsetMark','*');u.searchParams.set('congress',String(a.congress));return u.href;})();
+    const d=await requestSource(url,env);if(!Array.isArray(d.packages))throw new SourceError('Congressional Record listing incomplete');
+    const rows=d.packages.filter(p=>/^CREC-\d{4}-\d{2}-\d{2}$/.test(p.packageId||'')&&day(p.dateIssued)>=a.start).map(p=>({id:p.packageId,date:day(p.dateIssued),lastModified:p.lastModified||null}));
+    let next=d.nextPage||null;if(next){const u=new URL(next);u.searchParams.delete('api_key');next=u.href;if(next===job.cursor)throw new SourceError('Congressional Record pagination stopped advancing');}
+    return {rows,next};
+  }
+  if(job.kind==='crec-package') return {rows:normalizeRecordIssue(await requestSource(`https://api.govinfo.gov/packages/${a.package}/mods`,env,{json:false}),a,config.people),next:null};
+  if(job.kind==='speech') return {rows:[normalizeSpeech(await requestSource(`https://www.govinfo.gov/content/pkg/${a.package}/html/${a.granule}.htm`,env,{html:true}),a)],next:null};
   throw new SourceError('Unknown refresh job');
 }
 
@@ -167,6 +230,8 @@ export function summarize(job,rows) {
   if(job.kind==='legislation')return {count:rows.length,congress:a.congress,rows:rows.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,100),rowLimit:100};
   if(job.kind==='house-next')return {count:rows.length,rows:rows.sort((a,b)=>b.number-a.number).slice(0,30)};
   if(job.kind==='senate-index')return {rows};
+  if(job.kind==='crec-index')return {count:rows.length,since:recordStart(a),through:job.started_at.slice(0,10)};
+  if(job.kind==='crec-package')return {date:a.date,count:rows.length,rows:rows.sort((x,y)=>x.id.localeCompare(y.id))};
   if(!rows.length)throw new SourceError('No validated record to publish');
   return rows[0];
 }

@@ -10,6 +10,6 @@ test('a rate limit pauses all jobs using the same API key',async()=>{
   let requests=0;const started=Date.now();
   await runRefresh({DB:db,FEC_API_KEY:'test',fetch:async()=>{requests++;return new Response('rate limited',{status:429,headers:{'Retry-After':'120'}});}},{steps:8});
   assert.equal(requests,1);
-  const jobs=(await statement(db,'SELECT next_due FROM jobs').all()).results;
+  const jobs=(await statement(db,"SELECT next_due FROM jobs WHERE kind='campaign'").all()).results;
   assert.ok(jobs.every(j=>j.next_due>=started+120000));db.close();
 });
