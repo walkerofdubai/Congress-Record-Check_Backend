@@ -1,12 +1,23 @@
 import config from '../data/config.json' with {type:'json'};
-import {fetchPage,govinfoKey,summarize,SourceError} from './sources.mjs';
+import {diffPlatform,fetchPage,govinfoKey,summarize,SourceError} from './sources.mjs';
 
 const DAY=86400000;
 // A recorded roll call or Congressional Record section does not change, so once published it is never fetched again.
 const NEVER=Number.MAX_SAFE_INTEGER;
 const FINAL=['vote','crec-package','speech'];
-const nextRefresh=(kind,from=Date.now())=>FINAL.includes(kind)?NEVER:from+(kind==='committee'?7*DAY:DAY);
-const FEC_KINDS=['campaign','committee','pac','outside'],GOVINFO_KINDS=['crec-index','crec-package'];
+// Campaign sites are searched and crawled monthly to stay within Tavily's free monthly credits.
+const INTERVAL={committee:7*DAY,'campaign-site':30*DAY,platform:30*DAY};
+const nextRefresh=(kind,from=Date.now())=>FINAL.includes(kind)?NEVER:from+(INTERVAL[kind]||DAY);
+const FEC_KINDS=['campaign','committee','pac','outside'],GOVINFO_KINDS=['crec-index','crec-package'],TAVILY_KINDS=['campaign-site','platform'];
+// Jobs sharing an API key: blocked together without it, and paused together when that source rate-limits.
+// Released FEC and Congress.gov jobs run first (due 0), as before; others queue behind sources already due.
+const KEYED=[
+  {kinds:FEC_KINDS,label:'FEC',has:e=>!!e.FEC_API_KEY,first:true},
+  {kinds:['legislation'],label:'Congress.gov',has:e=>!!e.CONGRESS_API_KEY,first:true},
+  {kinds:GOVINFO_KINDS,label:'Congress.gov',has:e=>!!govinfoKey(e),also:['speech']},
+  {kinds:TAVILY_KINDS,label:'Tavily',has:e=>!!e.TAVILY_API_KEY}
+];
+const kindList=kinds=>kinds.map(k=>`'${k}'`).join(',');
 // Detail jobs are listed as one aggregate row on the Updates screen; there can be thousands.
 const AGGREGATED={'crec-package':'Congressional Record issues','speech':'Congressional Record speeches'};
 const nowISO=()=>new Date().toISOString();
@@ -36,8 +47,14 @@ async function applySeed(db,seed) {
 export async function initialize(db,seed=null) {
   // INSERT OR IGNORE preserves checkpoints and dates between restarts/deployments.
   const c=config;
-  // Added outside the first-run block so databases created before speeches existed also get it.
+  // Added outside the first-run block so databases created before these sources existed also get them.
   await addJob(db,'crec-index','crec-index','Congress',{start:`${c.cycle-1}-01-01`,congress:c.congress});
+  for(const p of c.people){
+    // A campaignSite set in data/config.json confirms or corrects the searched site; changing it reruns the job.
+    const args=JSON.stringify({name:p.name,chamber:p.chamber,state:p.state,override:p.campaignSite||null});
+    await addJob(db,`campaign-site:${p.id}`,'campaign-site',p.id,JSON.parse(args),Date.now());
+    await statement(db,"UPDATE jobs SET args=?,next_due=? WHERE id=? AND args!=? AND status!='running'",args,Date.now(),`campaign-site:${p.id}`,args).run();
+  }
   const initialized=await statement(db,"SELECT value FROM metadata WHERE key='initialized'").first();
   if(initialized) return;
   await addJob(db,'senate-index','senate-index','Senate',{congress:c.congress,session:c.session});
@@ -54,7 +71,7 @@ export async function initialize(db,seed=null) {
   if(seed&&await applySeed(db,seed))await statement(db,"INSERT OR REPLACE INTO metadata(key,value) VALUES('seeded',?)",seed.exportedAt).run();
   await statement(db,"INSERT OR REPLACE INTO metadata(key,value) VALUES('initialized',?)",nowISO()).run();
 }
-function needsKey(kind,env){return FEC_KINDS.includes(kind)&&!env.FEC_API_KEY?'FEC':kind==='legislation'&&!env.CONGRESS_API_KEY||GOVINFO_KINDS.includes(kind)&&!govinfoKey(env)?'Congress.gov':null;}
+function needsKey(kind,env){return KEYED.find(k=>k.kinds.includes(kind)&&!k.has(env))?.label||null;}
 // Discovery jobs queue their detail jobs as pages arrive. Detail jobs are due now, not at time zero,
 // so a large backfill waits its turn behind sources that were already due.
 async function register(db,job,rows) {
@@ -74,12 +91,10 @@ export async function runRefresh(env,{steps=8}={}) {
   let processed=0;
   try {
     // Missing keys are a setup state. Do not consume the work budget retrying them.
-    await statement(db,"UPDATE jobs SET status='blocked',error='FEC API key needed' WHERE kind IN ('campaign','committee','pac','outside') AND status!='blocked' AND ?=0",env.FEC_API_KEY?1:0).run();
-    await statement(db,"UPDATE jobs SET status='blocked',error='Congress.gov API key needed' WHERE kind='legislation' AND status!='blocked' AND ?=0",env.CONGRESS_API_KEY?1:0).run();
-    await statement(db,"UPDATE jobs SET status='blocked',error='Congress.gov API key needed' WHERE kind IN ('crec-index','crec-package') AND status!='blocked' AND ?=0",govinfoKey(env)?1:0).run();
-    if(env.FEC_API_KEY)await statement(db,"UPDATE jobs SET status='pending',error=NULL,next_due=0 WHERE status='blocked' AND kind IN ('campaign','committee','pac','outside')").run();
-    if(env.CONGRESS_API_KEY)await statement(db,"UPDATE jobs SET status='pending',error=NULL,next_due=0 WHERE status='blocked' AND kind='legislation'").run();
-    if(govinfoKey(env))await statement(db,"UPDATE jobs SET status='pending',error=NULL,next_due=? WHERE status='blocked' AND kind IN ('crec-index','crec-package')",Date.now()).run();
+    for(const k of KEYED){
+      if(!k.has(env))await statement(db,`UPDATE jobs SET status='blocked',error=? WHERE kind IN (${kindList(k.kinds)}) AND status!='blocked'`,`${k.label} API key needed`).run();
+      else await statement(db,`UPDATE jobs SET status='pending',error=NULL,next_due=? WHERE status='blocked' AND kind IN (${kindList(k.kinds)})`,k.first?0:Date.now()).run();
+    }
     for(let step=0;step<Math.min(steps,8);step++) {
       const job=await statement(db,"SELECT * FROM jobs WHERE status!='blocked' AND next_due<=? ORDER BY next_due, CASE kind WHEN 'senate-index' THEN 0 WHEN 'house-next' THEN 1 WHEN 'campaign' THEN 2 WHEN 'vote' THEN 3 ELSE 4 END, id LIMIT 1",Date.now()).first();
       if(!job)break;
@@ -100,6 +115,10 @@ export async function runRefresh(env,{steps=8}={}) {
         }
         const records=(await statement(db,'SELECT payload FROM records WHERE run_id=?',job.run_id).all()).results.map(r=>JSON.parse(r.payload));
         let snapshot=summarize(job,records);
+        if(job.kind==='platform'){
+          const previous=await statement(db,'SELECT payload FROM snapshots WHERE job_id=?',job.id).first();
+          snapshot.changes=diffPlatform(previous&&JSON.parse(previous.payload),snapshot.sections);snapshot.credits=result.credits;
+        }
         const completed=nowISO(),oldRun=job.published_run;
         const through=snapshot.end||snapshot.through||snapshot.date||null;
         // Snapshot publication and success stamp are atomic; unfinished pages are never served.
@@ -115,6 +134,10 @@ export async function runRefresh(env,{steps=8}={}) {
         // The next listing starts two days before this check began, overlapping in case of publication lag.
         if(job.kind==='crec-index')await statement(db,'UPDATE jobs SET args=? WHERE id=?',JSON.stringify({...JSON.parse(job.args),since:new Date(Date.parse(job.started_at)-2*DAY).toISOString().slice(0,10)}),job.id).run();
         if(job.kind==='crec-package')for(const g of snapshot.rows)await addJob(db,`speech:${g.id}`,'speech',g.id,{package:g.package,granule:g.id,date:g.date,title:g.title,chamber:g.chamber,speakers:g.speakers},Date.now());
+        // Only an accepted site is crawled. A different accepted site replaces the crawl target and recrawls now.
+        if(job.kind==='campaign-site'&&snapshot.site){const args=JSON.stringify({site:snapshot.site});
+          await addJob(db,`platform:${job.subject}`,'platform',job.subject,{site:snapshot.site},Date.now());
+          await statement(db,"UPDATE jobs SET args=?,next_due=? WHERE id=? AND args!=? AND status!='running'",args,Date.now(),`platform:${job.subject}`,args).run();}
       }catch(error){
         // Never save upstream URLs or response bodies: they may contain API credentials.
         const message=error instanceof SourceError?error.message:'Source request or validation failed; previous data retained';
@@ -123,11 +146,11 @@ export async function runRefresh(env,{steps=8}={}) {
           statement(db,"UPDATE jobs SET status='error',failures=failures+1,last_attempt=?,error=?,next_due=?,run_id=NULL,cursor=NULL,page=0 WHERE id=?",nowISO(),message,Date.now()+delay,job.id),
           statement(db,'INSERT INTO refresh_history(job_id,status,at,message) VALUES(?,?,?,?)',job.id,'error',nowISO(),message)
         ]);
-        if(error.statusCode===429){
-          const until=Date.now()+Math.max(delay,error.retryAfter||60*60_000);
-          if(['campaign','committee','pac','outside'].includes(job.kind))await statement(db,"UPDATE jobs SET next_due=MAX(next_due,?) WHERE kind IN ('campaign','committee','pac','outside')",until).run();
-          else if(job.kind==='legislation')await statement(db,"UPDATE jobs SET next_due=MAX(next_due,?) WHERE kind='legislation'",until).run();
-          else if(['crec-index','crec-package','speech'].includes(job.kind))await statement(db,"UPDATE jobs SET next_due=MAX(next_due,?) WHERE kind IN ('crec-index','crec-package','speech') AND status!='ready'",until).run();
+        // 429 is a rate limit. Tavily's 432/433 mean the plan's or pay-as-you-go credits are used up: pause for a day.
+        const group=KEYED.find(k=>k.kinds.includes(job.kind)||k.also?.includes(job.kind));
+        if(group&&(error.statusCode===429||TAVILY_KINDS.includes(job.kind)&&[432,433].includes(error.statusCode))){
+          const until=Date.now()+Math.max(delay,error.retryAfter||(error.statusCode===429?60*60_000:DAY));
+          await statement(db,`UPDATE jobs SET next_due=MAX(next_due,?) WHERE kind IN (${kindList([...group.kinds,...group.also||[]])})`,until).run();
         }
         if(job.run_id){const published=await statement(db,'SELECT published_run FROM jobs WHERE id=?',job.id).first();if(published?.published_run!==job.run_id)await statement(db,'DELETE FROM records WHERE run_id=?',job.run_id).run();}
       }
@@ -150,7 +173,7 @@ export async function getStatus(env) {
     j.stale=FINAL.includes(j.kind)?!j.last_success:!j.last_success||Date.now()-Date.parse(j.last_success)>36*60*60_000;
     j.name??=config.people.find(p=>p.id===j.subject)?.name||j.subject;
   }
-  return {generatedAt:nowISO(),local:env.LOCAL_MODE===true,reviewedAt:config.reviewedAt,cycle:config.cycle,keys:{fec:!!env.FEC_API_KEY,congress:!!env.CONGRESS_API_KEY},jobs,
+  return {generatedAt:nowISO(),local:env.LOCAL_MODE===true,reviewedAt:config.reviewedAt,cycle:config.cycle,keys:{fec:!!env.FEC_API_KEY,congress:!!env.CONGRESS_API_KEY,tavily:!!env.TAVILY_API_KEY},jobs,
     history:(await statement(env.DB,'SELECT job_id,status,at,message,row_count FROM refresh_history ORDER BY id DESC LIMIT 60').all()).results};
 }
 export async function getProfile(env,id) {

@@ -10,7 +10,7 @@ await fs.mkdir(path.join(root,'.local'),{recursive:true});
 const db=openDatabase(path.join(root,'.local','records.sqlite'));
 db.exec(await fs.readFile(path.join(root,'migrations','0001_initial.sql'),'utf8'));
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml','.webp':'image/webp'};
-const env={DB:db,LOCAL_MODE:true,FEC_API_KEY:process.env.FEC_API_KEY,CONGRESS_API_KEY:process.env.CONGRESS_API_KEY,ASSETS:{async fetch(req){
+const env={DB:db,LOCAL_MODE:true,FEC_API_KEY:process.env.FEC_API_KEY,CONGRESS_API_KEY:process.env.CONGRESS_API_KEY,GOVINFO_API_KEY:process.env.GOVINFO_API_KEY,TAVILY_API_KEY:process.env.TAVILY_API_KEY,ASSETS:{async fetch(req){
   const url=new URL(req.url);let relative;try{relative=decodeURIComponent(url.pathname);}catch{return new Response('Invalid path',{status:400});}
   const file=path.resolve(root,'public','.'+(relative==='/'?'/index.html':relative));
   if(!file.startsWith(path.join(root,'public')+path.sep))return new Response('Not found',{status:404});

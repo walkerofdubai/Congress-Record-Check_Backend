@@ -30,9 +30,18 @@ Each source is scheduled again 24 hours after completion, except individual roll
 
 Some snapshots can have different check and coverage dates. In particular, checking the FEC today does not create a newer campaign filing. Imported financial comparisons stay labeled as research snapshots; refreshed figures appear in **Latest records** so different reporting windows are not silently mixed.
 
+## Campaign websites and platforms
+
+With a `TAVILY_API_KEY` in `.dev.vars`, each person in `data/config.json` gets two monthly jobs:
+
+1. **Campaign website:** a Tavily search for the person's campaign site. Results from news, reference, social, fundraising-platform and government domains are discarded. A site is accepted only when its domain contains the person's surname, the result shows campaign evidence (for example "for Senate", "donate", "paid for by"), and it leads the next candidate clearly. Otherwise the job publishes the top candidates and nothing is crawled. Set `campaignSite` for that person in `data/config.json` to confirm or correct a site; a hand-set site skips the search.
+2. **Campaign platform:** a Tavily crawl of an accepted site's home, issues, priorities, platform and about pages (up to 20 pages on the same domain). Each page is split into one statement per heading; navigation, fundraising and very short blocks are dropped. Each capture is compared with the previous one, so added, changed and removed statements are reported. A crawl that returns no pages keeps the previous capture.
+
+Statements are saved as published on the site: not reviewed, not classified by issue, and they do not affect any grade. A month of searches and crawls for all 87 people is roughly 500 Tavily credits, within the free plan's 1,000. When Tavily reports the plan's credits are used up (HTTP 432 or 433), Tavily jobs pause for a day while other sources continue.
+
 ## Planned: statement classification
 
-Statements are currently collected only. Later development will add a classifier model pipeline that assigns each collected statement to the issues in `public/research.json` and marks whether it is a specific, checkable commitment, so it can be matched to later votes and sponsorships. Classifier output will go to a review queue before anything reaches reviewed research or affects a grade; refresh jobs will continue never to rewrite `public/research.json`.
+Statements (floor speeches and campaign platforms) are currently collected only. Later development will add a classifier model pipeline that assigns each collected statement to the issues in `public/research.json` and marks whether it is a specific, checkable commitment, so it can be matched to later votes and sponsorships. Classifier output will go to a review queue before anything reaches reviewed research or affects a grade; refresh jobs will continue never to rewrite `public/research.json`.
 
 ## Bundled snapshot
 

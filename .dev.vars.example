@@ -3,6 +3,8 @@
 FEC_API_KEY=
 # Congress.gov: https://api.congress.gov/sign-up/
 CONGRESS_API_KEY=
+# Tavily: https://app.tavily.com (campaign website search and platform extraction)
+TAVILY_API_KEY=
 # Local refresh runs automatically while npm start is running.
 LOCAL_AUTORUN=true
 # Optional: change the local port.

@@ -1252,7 +1252,7 @@ function recordInto(s,host){
     draw('');f.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;f.querySelector('.active').classList.remove('active');b.classList.add('active');draw(b.dataset.a);});});
   host.querySelectorAll('.jump a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=document.getElementById(a.getAttribute('href').slice(1));if(t)t.scrollIntoView({behavior:'smooth',block:'start'});}));
   bindTips(host);
-  window.RecordLive.profile(s,host.querySelector('#live-records'),['legislation','votes','speeches']);
+  window.RecordLive.profile(s,host.querySelector('#live-records'),['legislation','votes','speeches','platform']);
 }
 
 // ---------- Promises Delivered tab: the grade, then every statement check behind it ----------

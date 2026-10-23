@@ -6,17 +6,21 @@ const day = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice
 const money = v => { if (v == null || v === '') return null; const n=Number(v); if(!Number.isFinite(n)) throw new Error('Source returned an invalid amount'); return n; };
 const sum = (rows, get) => Math.round(rows.reduce((n,r)=>n+Math.round((get(r)||0)*100),0))/100;
 const nameKey = v => String(v||'').normalize('NFKD').replace(/[^a-z]/gi,'').toLowerCase();
-const allowedHosts = new Set(['api.open.fec.gov','api.congress.gov','www.senate.gov','clerk.house.gov','api.govinfo.gov','www.govinfo.gov']);
+const allowedHosts = new Set(['api.open.fec.gov','api.congress.gov','www.senate.gov','clerk.house.gov','api.govinfo.gov','www.govinfo.gov','api.tavily.com']);
 export class SourceError extends Error { constructor(message, retryAfter=0,statusCode=0){super(message);this.retryAfter=retryAfter;this.statusCode=statusCode;} }
 
 // GovInfo and Congress.gov both accept api.data.gov keys, so the Congress.gov key is used unless a separate one is set.
 export const govinfoKey=env=>env.GOVINFO_API_KEY||env.CONGRESS_API_KEY;
-export async function requestSource(url, env, {json=true,allow404=false,html=false}={}) {
+export async function requestSource(url, env, {json=true,allow404=false,html=false,body=null,timeout=20000}={}) {
   const u=new URL(url); if(u.protocol!=='https:' || !allowedHosts.has(u.hostname)) throw new SourceError('Unapproved data source');
   if(u.hostname==='api.open.fec.gov') { if(!env.FEC_API_KEY) throw new SourceError('FEC API key needed'); u.searchParams.set('api_key',env.FEC_API_KEY); }
   if(u.hostname==='api.congress.gov') { if(!env.CONGRESS_API_KEY) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',env.CONGRESS_API_KEY); }
   if(u.hostname==='api.govinfo.gov') { if(!govinfoKey(env)) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',govinfoKey(env)); }
-  const response=await (env.fetch||fetch)(u,{headers:{Accept:html?'text/html':json?'application/json':'application/xml,text/xml'},signal:AbortSignal.timeout(20000),redirect:'error'});
+  const headers={Accept:html?'text/html':json?'application/json':'application/xml,text/xml'};
+  // Tavily takes its key in a header, never the URL.
+  if(u.hostname==='api.tavily.com') { if(!env.TAVILY_API_KEY) throw new SourceError('Tavily API key needed'); headers.Authorization=`Bearer ${env.TAVILY_API_KEY}`; }
+  if(body)headers['Content-Type']='application/json';
+  const response=await (env.fetch||fetch)(u,{method:body?'POST':'GET',headers,body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(timeout),redirect:'error'});
   if(response.status===404 && allow404) return null;
   if(!response.ok) {
     const retry=response.headers.get('retry-after');
@@ -167,6 +171,63 @@ export function normalizeSpeech(html,args) {
 }
 const recordStart=a=>a.since||a.start;
 
+// Campaign websites. Search results are scored; only a clear match is accepted, otherwise it is left for review
+// (set campaignSite in data/config.json to confirm or correct one by hand).
+const notCampaign=['wikipedia.org','ballotpedia.org','fec.gov','opensecrets.org','votesmart.org','x.com','twitter.com','facebook.com','instagram.com','youtube.com','linkedin.com','tiktok.com','threads.net','bsky.app','reddit.com','medium.com','substack.com','actblue.com','secure.actblue.com','winred.com','secure.winred.com','nytimes.com','washingtonpost.com','politico.com','thehill.com','axios.com','cnn.com','foxnews.com','apnews.com','reuters.com','nbcnews.com','cbsnews.com','abcnews.go.com','npr.org','rollcall.com','govtrack.us','congress.gov','house.gov','senate.gov','britannica.com','justfacts.com','270towin.com','cookpolitical.com','realclearpolling.com','vote411.org','isidewith.com','followthemoney.org','legistorm.com'];
+const surnameOf=name=>nameKey(String(name).replace(/\s+(Jr\.?|Sr\.?|III|II|IV)$/i,'').split(' ').at(-1));
+export function campaignSiteQuery(p,year){return `${p.name} ${year} campaign website ${p.chamber==='S'?'U.S. Senate':'U.S. House'} ${p.state}`;}
+export function chooseCampaignSite(results,person) {
+  const surname=surnameOf(person.name),first=nameKey(person.name.split(' ')[0]),hosts=new Map();
+  for(const r of results||[]) {
+    let u;try{u=new URL(r.url);}catch{continue;}
+    const host=u.hostname.toLowerCase().replace(/^www\./,'');
+    if(u.protocol!=='https:'&&u.protocol!=='http:'||host.endsWith('.gov')||host.endsWith('.mil')||notCampaign.some(d=>host===d||host.endsWith('.'+d)))continue;
+    const key=nameKey(host.split('.').slice(0,-1).join('')),text=`${r.title||''} ${r.content||''}`;
+    let score=0;
+    if(surname&&key.includes(surname))score+=3;
+    if(first&&key.includes(first))score+=1;
+    if(surname&&nameKey(text).includes(surname))score+=2;
+    if(/\b(for (u\.?s\.? )?(senate|congress)|donate|volunteer|chip in|join (our|the) (team|campaign)|paid for by)\b/i.test(text))score+=2;
+    if(/^\/?$/.test(u.pathname))score+=1;
+    const h=hosts.get(host)||{host,score:0,hits:0,title:r.title||'',surnameInHost:surname&&key.includes(surname)};
+    h.score=Math.max(h.score,score);h.hits++;hosts.set(host,h);
+  }
+  const ranked=[...hosts.values()].map(h=>({...h,score:h.score+Math.min(h.hits-1,2)})).sort((a,b)=>b.score-a.score||a.host.localeCompare(b.host));
+  const [best,next]=ranked;
+  // Accept only a domain that carries the surname, with campaign evidence, and a clear lead over the runner-up.
+  const confident=!!best&&best.surnameInHost&&best.score>=6&&(!next||best.score-next.score>=2||!next.surnameInHost);
+  return {site:confident?`https://${best.host}/`:null,confidence:confident?'high':best?'low':'none',candidates:ranked.slice(0,5).map(({host,score,title})=>({host,score,title}))};
+}
+
+// Platform pages: issue, priority and about pages, split into one statement per heading.
+const platformPaths=['^/?$','/(issues?|priorities|platform|policy|policies|plans?|agenda|vision|positions?|values|about|meet[-a-z]*|record|accomplishments|why[-a-z]*)(/.*)?$'];
+const boilerplate=/^(donate|volunteer|sign up|join (us|the team)|contact|privacy|cookie|shop|store|events?|news|press|get involved|subscribe|paid for by|menu|search|share|follow)\b/i;
+const PAGE_LIMIT=30_000;
+function fnv(text){let h=0x811c9dc5;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h.toString(16).padStart(8,'0');}
+export function platformSections(url,markdown) {
+  const clean=String(markdown||'').slice(0,PAGE_LIMIT).replace(/!\[[^\]]*\]\([^)]*\)/g,'').replace(/\[([^\]]*)\]\([^)]*\)/g,'$1').replace(/\r/g,'');
+  const sections=[];let heading=null,lines=[];
+  const flush=()=>{const text=lines.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+    // Short or navigation-like blocks are not statements.
+    if(heading&&text.length>=120&&!boilerplate.test(heading)&&text.split(/\s+/).length>=20)sections.push({id:fnv(url+'\n'+heading),url,heading,text,hash:fnv(text)});lines=[];};
+  for(const line of clean.split('\n')){const m=line.match(/^#{1,4}\s+(.+?)\s*#*\s*$/);if(m){flush();heading=m[1].replace(/[*_`]/g,'').trim();}else lines.push(line);}
+  flush();return sections;
+}
+export function normalizePlatform(d,site) {
+  if(!Array.isArray(d?.results))throw new SourceError('Tavily crawl response incomplete');
+  const host=new URL(site).hostname.replace(/^www\./,'');
+  const pages=d.results.filter(r=>{try{return new URL(r.url).hostname.replace(/^www\./,'')===host;}catch{return false;}});
+  if(!pages.length)throw new SourceError('Campaign website returned no pages; previous capture retained');
+  return pages.map(p=>({id:p.url,url:p.url,chars:String(p.raw_content||'').length,sections:platformSections(p.url,p.raw_content)}));
+}
+// Compares a new platform capture with the previous one, so edits and removed promises are visible.
+export function diffPlatform(previous,current) {
+  if(!previous?.sections)return {first:true,added:current.length,changed:0,removed:[]};
+  const old=new Map(previous.sections.map(s=>[s.id,s]));let added=0,changed=0;
+  for(const s of current){const o=old.get(s.id);if(!o)added++;else if(o.hash!==s.hash)changed++;old.delete(s.id);}
+  return {first:false,added,changed,removed:[...old.values()].map(s=>({url:s.url,heading:s.heading,lastSeen:previous.checkedThrough||null}))};
+}
+
 export async function fetchPage(job,env,config) {
   const a=JSON.parse(job.args),through=(job.started_at||new Date().toISOString()).slice(0,10);
   if(job.kind==='campaign'){
@@ -221,6 +282,16 @@ export async function fetchPage(job,env,config) {
   }
   if(job.kind==='crec-package') return {rows:normalizeRecordIssue(await requestSource(`https://api.govinfo.gov/packages/${a.package}/mods`,env,{json:false}),a,config.people),next:null};
   if(job.kind==='speech') return {rows:[normalizeSpeech(await requestSource(`https://www.govinfo.gov/content/pkg/${a.package}/html/${a.granule}.htm`,env,{html:true}),a)],next:null};
+  if(job.kind==='campaign-site') {
+    if(a.override)return {rows:[{id:job.subject,site:a.override,confidence:'confirmed',source:'config',candidates:[]}],next:null};
+    const d=await requestSource('https://api.tavily.com/search',env,{body:{query:campaignSiteQuery(a,config.year),search_depth:'basic',max_results:10,country:'united states',exclude_domains:notCampaign.slice(0,150)}});
+    if(!Array.isArray(d.results))throw new SourceError('Tavily search response incomplete');
+    return {rows:[{id:job.subject,...chooseCampaignSite(d.results,a),source:'tavily',query:campaignSiteQuery(a,config.year)}],next:null};
+  }
+  if(job.kind==='platform') {
+    const d=await requestSource('https://api.tavily.com/crawl',env,{timeout:170_000,body:{url:a.site,max_depth:2,max_breadth:40,limit:20,select_paths:platformPaths,allow_external:false,extract_depth:'basic',format:'markdown',timeout:150,include_usage:true}});
+    return {rows:normalizePlatform(d,a.site),next:null,credits:d.usage?.credits??null};
+  }
   throw new SourceError('Unknown refresh job');
 }
 
@@ -232,6 +303,9 @@ export function summarize(job,rows) {
   if(job.kind==='senate-index')return {rows};
   if(job.kind==='crec-index')return {count:rows.length,since:recordStart(a),through:job.started_at.slice(0,10)};
   if(job.kind==='crec-package')return {date:a.date,count:rows.length,rows:rows.sort((x,y)=>x.id.localeCompare(y.id))};
+  if(job.kind==='platform'){const pages=rows.sort((x,y)=>x.url.localeCompare(y.url));
+    return {site:a.site,through:job.started_at.slice(0,10),pages:pages.map(p=>({url:p.url,chars:p.chars,sections:p.sections.length})),sections:pages.flatMap(p=>p.sections),
+      scope:'Text from the campaign website as crawled. Not reviewed, and not classified by issue.'};}
   if(!rows.length)throw new SourceError('No validated record to publish');
   return rows[0];
 }
