@@ -3,15 +3,16 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 import {XMLParser} from 'fast-xml-parser';
 import {fecNext,normalizeCampaign,normalizeTransaction,normalizeVote,requestSource,summarizeTransactions} from '../src/sources.mjs';
-import {addJob,initialize,runRefresh,seedScope,statement,getProfile,getStatus} from '../src/refresh.mjs';
+import {addJob,initialize,runRefresh,seedScope,statement,getProfile,getStatus,getCards} from '../src/refresh.mjs';
 import worker from '../src/worker.mjs';
 import {openDatabase} from '../scripts/sqlite.mjs';
+import {feedSignature,voterHashes} from '../src/refresh.mjs';
 const migration=await fs.readFile(new URL('../migrations/0001_initial.sql',import.meta.url),'utf8');
 const args={committee:'C00314575',candidate:'S6ME00159',cycle:2026};
 const campaign=(receipts=1000)=>({committee_id:args.committee,cycle:2026,coverage_start_date:'2025-01-01',coverage_end_date:'2026-06-30',receipts,last_cash_on_hand_end_period:200,last_debts_owed_by_committee:0,disbursements:800});
 const pac=(id,amount=100)=>({sub_id:id,committee_id:args.committee,transaction_id:'T'+id,contribution_receipt_amount:amount,contribution_receipt_date:'2026-02-01',contributor_name:'Example PAC',file_number:1234});
 const response=obj=>new Response(JSON.stringify(obj),{headers:{'content-type':'application/json'}});
-function database(){const db=openDatabase(':memory:');db.exec(migration);db.exec("INSERT INTO metadata VALUES ('initialized','test fixture')");return db;}
+function database(){const db=openDatabase(':memory:');db.exec(migration);db.exec(`INSERT INTO metadata VALUES ('initialized','test fixture'),('feeds','${feedSignature()}')`);return db;}
 
 test('FEC seek pagination preserves exact cursor values and rejects a repeated cursor',()=>{
   const url='https://api.open.fec.gov/v1/schedules/schedule_a/?per_page=100';
@@ -65,7 +66,7 @@ test('a published vote is never scheduled again and does not go stale',async()=>
 test('a new database starts from the bundled seed; a mismatched seed or an existing database is left alone',async()=>{
   const config=JSON.parse(await fs.readFile(new URL('../data/config.json',import.meta.url),'utf8'));
   const checked='2026-10-01T12:00:00.000Z',vote={chamber:'S',congress:117,session:1,number:1};
-  const seed={version:1,exportedAt:checked,scope:seedScope(config),jobs:[
+  const seed={version:1,exportedAt:checked,scope:seedScope(config),voters:voterHashes(),jobs:[
     {id:'campaign:collins',kind:'campaign',subject:'collins',args:{committee:args.committee,cycle:2026},lastSuccess:checked,checkedThrough:'2026-06-30',run:'r1',snapshot:normalizeCampaign(campaign(4321),args.committee,2026)},
     {id:'vote:S:117:1:1',kind:'vote',subject:'117-1-1',args:vote,lastSuccess:checked,checkedThrough:null,run:'r2',snapshot:{id:'117-1-1',chamber:'S',number:1,date:'2021-01-06',positions:{collins:'Yea'}}}]};
   const fresh=()=>{const db=openDatabase(':memory:');db.exec(migration);return db;};
@@ -85,16 +86,48 @@ test('concurrent refreshers respect the lock',async()=>{
   const result=await runRefresh({DB:db},{steps:1});assert.equal(result.busy,true);db.close();
 });
 test('manual refresh cannot be triggered cross-origin or on the hosted worker',async()=>{
-  const request=new Request('http://localhost:8787/api/refresh',{method:'POST',headers:{Origin:'https://evil.example','X-Requested-With':'CongressRecordCheck'}});
+  const request=new Request('http://localhost:8787/api/refresh',{method:'POST',headers:{Origin:'https://evil.example','X-Requested-With':'PublicLedger'}});
   assert.equal((await worker.fetch(request,{LOCAL_MODE:true},{})).status,403);
   assert.equal((await worker.fetch(request,{LOCAL_MODE:false},{})).status,403);
 });
-test('House vote mapping uses Bioguide IDs; Senate uses an exact name/state match',()=>{
+test('House vote mapping uses Bioguide IDs; Senate uses LIS member IDs, never names',()=>{
   const parser=new XMLParser({ignoreAttributes:false,parseTagValue:false});
-  const senate=parser.parse('<roll_call_vote><congress>119</congress><session>2</session><vote_number>1</vote_number><vote_date>January 6, 2026, 12:00 PM</vote_date><vote_title>Example vote</vote_title><members><member><last_name>Collins</last_name><state>ME</state><vote_cast>Nay</vote_cast></member><member><last_name>Collins</last_name><state>GA</state><vote_cast>Yea</vote_cast></member></members></roll_call_vote>');
-  const people=[{id:'collins',name:'Susan M. Collins',bioguide:'C001035',state:'ME',chamber:'S'}];
+  const senate=parser.parse('<roll_call_vote><congress>119</congress><session>2</session><vote_number>1</vote_number><vote_date>January 6, 2026, 12:00 PM</vote_date><vote_title>Example vote</vote_title><members><member><last_name>Collins</last_name><party>R</party><state>ME</state><lis_member_id>S252</lis_member_id><vote_cast>Nay</vote_cast></member><member><last_name>Collins</last_name><party>R</party><state>GA</state><lis_member_id>S999</lis_member_id><vote_cast>Yea</vote_cast></member><member><last_name>King</last_name><party>I</party><state>ME</state><lis_member_id>S363</lis_member_id><vote_cast>Yea</vote_cast></member></members></roll_call_vote>');
+  const people=[{id:'collins',name:'Susan M. Collins',bioguide:'C001035',lis:'S252',state:'ME',chamber:'S'},{id:'king',name:'Angus S. King',bioguide:'K000383',lis:null,state:'ME',chamber:'S'}];
   const v=normalizeVote(senate,{chamber:'S',congress:119,session:2,number:1},people);assert.equal(v.positions.collins,'Nay');
+  assert.equal(v.positions.king,undefined,'no LIS ID, so no inferred vote even though the surname and state match');
+  assert.deepEqual(v.byParty,{R:{Nay:1,Yea:1},I:{Yea:1}},'party totals from every member in the file');
   assert.throws(()=>normalizeVote(senate,{chamber:'S',congress:119,session:2,number:2},people),/identity/);
-  const house=parser.parse('<rollcall-vote><vote-metadata><rollcall-num>1</rollcall-num><action-date>6-Jan-2026</action-date><vote-question>Passage</vote-question></vote-metadata><vote-data><recorded-vote><legislator name-id="C001035">Another name</legislator><vote>Yea</vote></recorded-vote></vote-data></rollcall-vote>');
-  assert.equal(normalizeVote(house,{chamber:'H',year:2026,number:1},people).positions.collins,'Yea');
+  const house=parser.parse('<rollcall-vote><vote-metadata><rollcall-num>1</rollcall-num><action-date>6-Jan-2026</action-date><vote-question>Passage</vote-question></vote-metadata><vote-data><recorded-vote><legislator name-id="C001035" party="R">Another name</legislator><vote>Yea</vote></recorded-vote><recorded-vote><legislator name-id="X000001" party="D">Someone</legislator><vote>No</vote></recorded-vote></vote-data></rollcall-vote>');
+  const hv=normalizeVote(house,{chamber:'H',year:2026,number:1},people);
+  assert.equal(hv.positions.collins,'Yea');assert.deepEqual(hv.byParty,{R:{Yea:1},D:{Nay:1}},'"No" counts as Nay');
+});
+
+test('adding a senator reads the Senate roll calls already read once more, so their positions are filled in',async()=>{
+  const db=openDatabase(':memory:');db.exec(migration);await initialize(db);
+  await statement(db,"UPDATE jobs SET status='ready',last_success='2026-10-01T00:00:00Z',next_due=? WHERE kind='vote'",Date.now()+864e5).run();
+  const senateVote=(await statement(db,"SELECT id FROM jobs WHERE id LIKE 'vote:S:%' LIMIT 1").first()).id,houseVote=(await statement(db,"SELECT id FROM jobs WHERE id LIKE 'vote:H:%' LIMIT 1").first())?.id;
+  const {default:config}=await import('../data/config.json',{with:{type:'json'}});
+  config.people.push({id:'newsenator',name:'New Senator',short:'Senator',bioguide:'N000001',lis:'S999',chamber:'S',state:'ME',ids:{},social:{bluesky:[],threads:[]},inOffice:true,official:null});
+  try{
+    await initialize(db);
+    assert.equal((await statement(db,'SELECT status FROM jobs WHERE id=?',senateVote).first()).status,'pending');
+    if(houseVote)assert.equal((await statement(db,'SELECT status FROM jobs WHERE id=?',houseVote).first()).status,'ready','House roll calls are not read again for a senator');
+    assert.ok(await statement(db,"SELECT id FROM jobs WHERE id='legislation:newsenator'").first(),'the new senator gets their own jobs');
+    await statement(db,"UPDATE jobs SET status='ready' WHERE kind='vote'").run();await initialize(db);
+    assert.equal((await statement(db,'SELECT status FROM jobs WHERE id=?',senateVote).first()).status,'ready','only once');
+  }finally{config.people.pop();}
+  db.close();
+});
+
+test('the home cards get everyone\'s campaign and outside-money totals in one request',async()=>{
+  const db=database();
+  await addJob(db,'campaign:murkowski','campaign','murkowski',args);await addJob(db,'outside:murkowski','outside','murkowski',args);
+  const snap=(id,payload)=>statement(db,'INSERT INTO snapshots(job_id,run_id,payload,updated_at) VALUES(?,?,?,?)',id,'r',JSON.stringify(payload),'2026-10-01').run();
+  await snap('campaign:murkowski',{receipts:1234,cash:50,start:'2025-01-01',end:'2026-09-30',rows:[]});
+  await snap('outside:murkowski',{support:10,oppose:20,through:'2026-10-20',rows:[{amount:10}]});
+  const {people}=await getCards({DB:db});
+  assert.deepEqual(people.murkowski,{campaign:{receipts:1234,cash:50,start:'2025-01-01',end:'2026-09-30'},outside:{support:10,oppose:20,through:'2026-10-20'}});
+  const res=await worker.fetch(new Request('http://x/api/cards'),{DB:db},{});assert.equal(res.status,200);
+  db.close();
 });

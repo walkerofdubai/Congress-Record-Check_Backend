@@ -1,40 +1,151 @@
 import { XMLParser, XMLValidator } from 'fast-xml-parser';
 
 const xml = new XMLParser({ignoreAttributes:false,parseTagValue:false,trimValues:true});
-const list = v => v == null ? [] : Array.isArray(v) ? v : [v];
-const day = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice(0,10) : null;
+export const list = v => v == null ? [] : Array.isArray(v) ? v : [v];
+export const day = v => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}/.test(v) ? v.slice(0,10) : null;
 const money = v => { if (v == null || v === '') return null; const n=Number(v); if(!Number.isFinite(n)) throw new Error('Source returned an invalid amount'); return n; };
 const sum = (rows, get) => Math.round(rows.reduce((n,r)=>n+Math.round((get(r)||0)*100),0))/100;
-const nameKey = v => String(v||'').normalize('NFKD').replace(/[^a-z]/gi,'').toLowerCase();
-const allowedHosts = new Set(['api.open.fec.gov','api.congress.gov','www.senate.gov','clerk.house.gov','api.govinfo.gov','www.govinfo.gov','api.tavily.com']);
+// Every approved host, and how its key is sent: `keys` are the .dev.vars names tried in order (GovInfo and
+// Regulations.gov also accept the Congress.gov key, since all three are api.data.gov keys); `query` or `header` says
+// where it goes. `optional` hosts also work without a key. `agent` hosts require a contact line as the User-Agent.
+// `site` hosts are websites read directly (pages, files and feeds posted for people) rather than APIs; the app lists
+// their jobs under Website updates.
+// perRun: the most requests to a source in one refresh run (the local server runs once a minute), kept under each
+// source's published or reported rate limit; sources without one get DEFAULT_PER_RUN.
+export const DEFAULT_PER_RUN=5;
+export const HOSTS = {
+  'api.open.fec.gov':{name:'FEC',keys:['FEC_API_KEY'],query:'api_key',perRun:15},
+  'api.congress.gov':{name:'Congress.gov',keys:['CONGRESS_API_KEY'],query:'api_key',perRun:40},
+  'www.senate.gov':{name:'Senate.gov',site:true,perRun:10},
+  'clerk.house.gov':{name:'House Clerk',site:true,perRun:10},
+  // UCLA's roll-call archive (free downloads, no key): the backup for Senate votes Senate.gov won't send.
+  'voteview.com':{name:'Voteview',site:true,perRun:10},
+  'disclosures-clerk.house.gov':{name:'House Clerk disclosures',site:true,perRun:10},
+  // The Senate's financial disclosure site. It is a website, not an API: a session agrees to its terms first.
+  'efdsearch.senate.gov':{name:'Senate eFD',site:true,perRun:10,ua:'PublicLedger/1.0 (public-records research; non-commercial)'},
+  'api.govinfo.gov':{name:'GovInfo',keys:['GOVINFO_API_KEY','CONGRESS_API_KEY'],query:'api_key',perRun:15},
+  'api.votesmart.org':{name:'Vote Smart',keys:['VOTESMART_API_KEY'],query:'key'},
+  'v3.openstates.org':{name:'Open States',keys:['OPENSTATES_API_KEY'],header:'X-API-KEY'},
+  'api.legiscan.com':{name:'LegiScan',keys:['LEGISCAN_API_KEY'],query:'key'},
+  'lda.gov':{name:'LDA.gov',keys:['LDA_API_KEY'],header:'Authorization',prefix:'Token ',optional:true,perRun:10},
+  'efile.fara.gov':{name:'FARA'},
+  'www.bargo.ai':{name:'Bargo',keys:['BARGO_API_KEY'],header:'X-Api-Key',optional:true},
+  'api.eulerpool.com':{name:'Eulerpool',keys:['EULERPOOL_API_KEY'],header:'Authorization',prefix:'Bearer '},
+  'financialmodelingprep.com':{name:'Financial Modeling Prep',keys:['FMP_API_KEY'],query:'apikey'},
+  'www.courtlistener.com':{name:'CourtListener',keys:['COURTLISTENER_API_TOKEN'],header:'Authorization',prefix:'Token ',perRun:3},
+  'factchecktools.googleapis.com':{name:'Google',keys:['GOOGLE_API_KEY'],query:'key',perRun:10},
+  'www.googleapis.com':{name:'Google',keys:['GOOGLE_API_KEY'],query:'key',perRun:10},
+  'api.nytimes.com':{name:'New York Times',keys:['NYT_API_KEY'],query:'api-key',perRun:4},
+  'api.gdeltproject.org':{name:'GDELT',perRun:2},
+  'api.regulations.gov':{name:'Regulations.gov',keys:['REGULATIONS_API_KEY','CONGRESS_API_KEY'],query:'api_key',perRun:15},
+  'api.sam.gov':{name:'SAM.gov',keys:['SAM_API_KEY'],query:'api_key',perRun:1},
+  'api.usaspending.gov':{name:'USAspending',perRun:10},
+  'www.federalregister.gov':{name:'Federal Register',perRun:10},
+  'public.api.bsky.app':{name:'Bluesky',perRun:10},
+  // Threads keyword search (Meta). Searching other people's public posts needs the threads_keyword_search permission
+  // approved in App Review; a user can run 2,200 searches a day.
+  'graph.threads.net':{name:'Threads',keys:['THREADS_ACCESS_TOKEN'],query:'access_token',perRun:20},
+  // Not a hostname: the shared entry for every member's official website (any *.senate.gov or *.house.gov host without
+  // an entry of its own), used for their press-release feeds. The feed job counts against this one limit.
+  'official-sites':{name:'Official member websites',site:true,perRun:10},
+  'web.archive.org':{name:'Wayback Machine',perRun:3},
+  // Tavily: campaign website search and crawl. 432 and 433 mean its monthly credits are used up. A crawl can take minutes.
+  'api.tavily.com':{name:'Tavily',keys:['TAVILY_API_KEY'],header:'Authorization',prefix:'Bearer ',quota:[432,433],perRun:2},
+  'www.justice.gov':{name:'Justice Department'},
+  'projects.propublica.org':{name:'ProPublica Nonprofit Explorer'},
+  'www.sec.gov':{name:'SEC EDGAR',agent:'SEC_USER_AGENT',perRun:10},
+  'data.sec.gov':{name:'SEC EDGAR',agent:'SEC_USER_AGENT',perRun:10},
+};
+// Query parameters that can carry a credential; they are removed from any URL that is saved (a next-page link).
+const SECRET_PARAMS=['api_key','key','apikey','api-key','token','access_token'];
+export function cleanURL(url){const u=new URL(url);for(const k of SECRET_PARAMS)u.searchParams.delete(k);return u.href;}
+// The approval entry for a hostname: its own entry, or the shared one for members' official websites.
+const OFFICIAL_SITE=/^(?:[a-z0-9-]+\.)+(?:senate|house)\.gov$/;
+export const hostRule=host=>HOSTS[host]||(OFFICIAL_SITE.test(host)?HOSTS['official-sites']:null);
+// The name of the missing setup item for a host, or null when it can be used.
+export function missingKey(host,env){
+  const h=hostRule(host);if(!h)return 'Approved source';
+  if(h.agent&&!env[h.agent])return 'SEC contact line';
+  if(h.keys&&!h.optional&&!h.keys.some(k=>env[k]))return h.name;
+  return null;
+}
 export class SourceError extends Error { constructor(message, retryAfter=0,statusCode=0){super(message);this.retryAfter=retryAfter;this.statusCode=statusCode;} }
 
-// GovInfo and Congress.gov both accept api.data.gov keys, so the Congress.gov key is used unless a separate one is set.
-export const govinfoKey=env=>env.GOVINFO_API_KEY||env.CONGRESS_API_KEY;
-export async function requestSource(url, env, {json=true,allow404=false,html=false,body=null,timeout=20000}={}) {
-  const u=new URL(url); if(u.protocol!=='https:' || !allowedHosts.has(u.hostname)) throw new SourceError('Unapproved data source');
-  if(u.hostname==='api.open.fec.gov') { if(!env.FEC_API_KEY) throw new SourceError('FEC API key needed'); u.searchParams.set('api_key',env.FEC_API_KEY); }
-  if(u.hostname==='api.congress.gov') { if(!env.CONGRESS_API_KEY) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',env.CONGRESS_API_KEY); }
-  if(u.hostname==='api.govinfo.gov') { if(!govinfoKey(env)) throw new SourceError('Congress.gov API key needed'); u.searchParams.set('api_key',govinfoKey(env)); }
-  const headers={Accept:html?'text/html':json?'application/json':'application/xml,text/xml'};
-  // Tavily takes its key in a header, never the URL.
-  if(u.hostname==='api.tavily.com') { if(!env.TAVILY_API_KEY) throw new SourceError('Tavily API key needed'); headers.Authorization=`Bearer ${env.TAVILY_API_KEY}`; }
+// as: 'json' (default), 'xml', 'text' or 'bytes'. A body is sent as JSON with POST, and a form as an HTML form post.
+// allow lists HTTP statuses that return null instead of failing (allow404 is the same as allow:[404]); a 3xx in allow
+// is returned rather than followed. follow allows up to 3 redirects, each to an approved https host; otherwise any
+// redirect fails. headers adds request headers (never a credential header); withHeaders returns {body, status,
+// headers} so a caller can read the response's cookies.
+export async function requestSource(url, env, {json=true,as=json?'json':'xml',allow404=false,allow=allow404?[404]:[],follow=false,body=null,form=null,headers:extra=null,withHeaders=false,timeout=20000}={}) {
+  let u=new URL(url),h=hostRule(u.hostname); if(u.protocol!=='https:' || !h) throw new SourceError('Unapproved data source');
+  const missing=missingKey(u.hostname,env);if(missing)throw new SourceError(`${missing} API key needed`);
+  const headers={Accept:as==='json'?'application/json':as==='xml'?'application/rss+xml,application/atom+xml,application/xml,text/xml':'*/*'};
+  const key=h.keys&&h.keys.map(k=>env[k]).find(Boolean);
+  if(key){if(h.query)u.searchParams.set(h.query,key);else headers[h.header]=(h.prefix||'')+key;}
+  if(h.ua)headers['User-Agent']=h.ua;
+  if(h.agent)headers['User-Agent']=env[h.agent];
+  for(const [k,v] of Object.entries(extra||{}))if(v!=null&&!/^(authorization|x-api-key)$/i.test(k))headers[k]=String(v);
   if(body)headers['Content-Type']='application/json';
-  const response=await (env.fetch||fetch)(u,{method:body?'POST':'GET',headers,body:body?JSON.stringify(body):undefined,signal:AbortSignal.timeout(timeout),redirect:'error'});
-  if(response.status===404 && allow404) return null;
+  if(form)headers['Content-Type']='application/x-www-form-urlencoded';
+  const payload=form?new URLSearchParams(form).toString():body?JSON.stringify(body):undefined;
+  const manual=follow||allow.some(s=>s>=300&&s<400);
+  let response;
+  for(let hop=0;;hop++){
+    response=await (env.fetch||fetch)(u,{method:payload?'POST':'GET',headers,body:payload,signal:AbortSignal.timeout(timeout),redirect:manual?'manual':'error'});
+    if(!follow||response.status<300||response.status>=400||allow.includes(response.status))break;
+    const to=response.headers.get('location');
+    if(!to||hop>=3)throw new SourceError('Source redirected too many times');
+    const next=new URL(to,u);
+    // A redirect may not leave the approved hosts, and never carries a key to a different host.
+    if(next.protocol!=='https:'||!hostRule(next.hostname)||(key&&next.hostname!==u.hostname))throw new SourceError('Source redirected to an unapproved address');
+    u=next;
+  }
+  const out=b=>withHeaders?{body:b,status:response.status,headers:response.headers}:b;
+  if(allow.includes(response.status)) return out(null);
   if(!response.ok) {
     const retry=response.headers.get('retry-after');
     const seconds=retry ? (Number.isFinite(Number(retry))?Number(retry):Math.max(0,(Date.parse(retry)-Date.now())/1000)):0;
     throw new SourceError(`${u.hostname} returned HTTP ${response.status}`,seconds*1000,response.status);
   }
+  if(as==='bytes'){const b=new Uint8Array(await response.arrayBuffer());if(b.length>40_000_000)throw new SourceError('Source response exceeds safe page size');return out(b);}
   const text=await response.text(); if(text.length>12_000_000) throw new SourceError('Source response exceeds safe page size');
-  if(html) { if(!/<pre[\s>]/i.test(text)) throw new SourceError('Source returned an unexpected document'); return text; }
-  if(json) { try {
+  if(as==='text')return out(text);
+  if(as==='json') { try {
     // FEC identifiers can exceed JavaScript's safe integer range. Preserve them before parsing.
-    return JSON.parse(u.hostname==='api.open.fec.gov'?text.replace(/("(?:sub_id|original_sub_id|last_index)"\s*:\s*)(\d+)(?=\s*[,}])/g,'$1"$2"'):text);
+    return out(JSON.parse(u.hostname==='api.open.fec.gov'?text.replace(/("(?:sub_id|original_sub_id|last_index)"\s*:\s*)(\d+)(?=\s*[,}])/g,'$1"$2"'):text));
   }catch{throw new SourceError('Source returned invalid JSON');} }
+  return out(parseXML(text));
+}
+// Cookies a response sets, added to a jar ({name: value}), and the Cookie header that sends them back.
+export function addCookies(jar,headers){
+  const list=headers?.getSetCookie?.()??String(headers?.get?.('set-cookie')||'').split(/,(?=\s*[^;,=\s]+=)/).filter(Boolean);
+  for(const c of list){const m=String(c).match(/^\s*([^=;\s]+)=([^;]*)/);if(m)jar[m[1]]=m[2];}
+  return jar;
+}
+export const cookieHeader=jar=>Object.entries(jar||{}).map(([k,v])=>`${k}=${v}`).join('; ');
+export function parseXML(text){
   if(!text.trim().startsWith('<')||XMLValidator.validate(text)!==true||/<html[\s>]/i.test(text)) throw new SourceError('Source returned an invalid XML document');
   return xml.parse(text);
+}
+// Reads one file from a ZIP archive (stored or deflated), for the House Clerk's yearly disclosure index.
+export async function unzipFile(bytes,match){
+  const v=new DataView(bytes.buffer,bytes.byteOffset,bytes.byteLength);
+  let eocd=-1;for(let i=bytes.length-22;i>=Math.max(0,bytes.length-65557);i--)if(v.getUint32(i,true)===0x06054b50){eocd=i;break;}
+  if(eocd<0)throw new SourceError('Archive is not a ZIP file');
+  let p=v.getUint32(eocd+16,true);const n=v.getUint16(eocd+10,true);
+  for(let k=0;k<n;k++){
+    if(v.getUint32(p,true)!==0x02014b50)throw new SourceError('Archive directory is damaged');
+    const method=v.getUint16(p+10,true),size=v.getUint32(p+20,true),nameLen=v.getUint16(p+28,true),extra=v.getUint16(p+30,true),comment=v.getUint16(p+32,true),local=v.getUint32(p+42,true);
+    const name=new TextDecoder().decode(bytes.subarray(p+46,p+46+nameLen));
+    if(match.test(name)){
+      const start=local+30+v.getUint16(local+26,true)+v.getUint16(local+28,true),data=bytes.subarray(start,start+size);
+      if(method===0)return new TextDecoder().decode(data);
+      if(method!==8)throw new SourceError('Archive uses an unsupported compression method');
+      return new TextDecoder().decode(await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).arrayBuffer());
+    }
+    p+=46+nameLen+extra+comment;
+  }
+  throw new SourceError('Expected file is missing from the archive');
 }
 
 function api(path,params) {const u=new URL(path,'https://api.open.fec.gov/v1/');for(const[k,v]of Object.entries(params))if(v!=null)u.searchParams.set(k,v);return u.href;}
@@ -99,81 +210,43 @@ export function summarizeTransactions(rows,kind,args,through) {
 }
 
 export function voteURL(args) {return args.chamber==='S'?`https://www.senate.gov/legislative/LIS/roll_call_votes/vote${args.congress}${args.session}/vote_${args.congress}_${args.session}_${String(args.number).padStart(5,'0')}.xml`:`https://clerk.house.gov/evs/${args.year}/roll${String(args.number).padStart(3,'0')}.xml`;}
+// A recorded vote as Yea or Nay where it means one ("Aye", "No", "Guilty", "Not Guilty"); anything else as written.
+export const castOf=v=>({yea:'Yea',aye:'Yea',yes:'Yea',guilty:'Yea',nay:'Nay',no:'Nay','not guilty':'Nay'})[String(v??'').trim().toLowerCase()]||String(v??'').trim();
+// How each party voted, from every member in the official file: {R:{Yea:n,Nay:n,...},D:{...},I:{...}}. It lets a
+// person's vote be compared with the rest of their party's (the Donor Loyalty Index).
+export function partyTally(members){
+  const out={};
+  for(const [party,cast] of members){const p=String(party??'').trim().toUpperCase().slice(0,1),c=castOf(cast);if(!p||!c)continue;(out[p]||={})[c]=(out[p][c]||0)+1;}
+  return out;
+}
 export function normalizeVote(document,args,people) {
   let result;
   if(args.chamber==='S') {
     const v=document.roll_call_vote;if(!v||Number(v.vote_number)!==Number(args.number)||Number(v.congress)!==Number(args.congress)||Number(v.session)!==Number(args.session))throw new SourceError('Senate vote identity mismatch');
     const members=list(v.members?.member);if(members.length<1)throw new SourceError('Senate vote has no member records');
-    const positions={}; for(const p of people.filter(p=>p.bioguide&&p.chamber==='S')) {
-      const surname=nameKey(p.name.replace(/\s+(Jr\.?|III|II)$/,'').split(' ').at(-1));
-      const matches=members.filter(m=>m.state===p.state && (p.lis?m.lis_member_id===p.lis:nameKey(m.last_name)===surname));
+    // Senators are matched by their official LIS member ID (from congress-legislators); anyone without one gets no position.
+    const positions={}; for(const p of people.filter(p=>p.lis)) {
+      const matches=members.filter(m=>m.lis_member_id===p.lis);
       if(matches.length===1)positions[p.id]=matches[0].vote_cast;
     }
     const date=new Date(v.vote_date.replace(/,\s+\d\d?:\d\d.*$/,'')+' UTC');
     if(!Number.isFinite(+date))throw new SourceError('Senate vote date invalid');
-    result={id:`s-${args.congress}-${args.session}-${args.number}`,chamber:'S',number:Number(args.number),date:date.toISOString().slice(0,10),title:v.vote_title||v.vote_document_text||v.question,question:v.vote_question_text||v.question,result:v.vote_result_text||v.vote_result,positions};
+    result={id:`s-${args.congress}-${args.session}-${args.number}`,chamber:'S',number:Number(args.number),date:date.toISOString().slice(0,10),title:v.vote_title||v.vote_document_text||v.question,question:v.vote_question_text||v.question,result:v.vote_result_text||v.vote_result,positions,byParty:partyTally(members.map(m=>[m.party,m.vote_cast]))};
   }else{
     const root=document['rollcall-vote'],v=root?.['vote-metadata'];if(!v||Number(v['rollcall-num'])!==Number(args.number))throw new SourceError('House vote identity mismatch');
     const members=list(root['vote-data']?.['recorded-vote']);if(!members.length)throw new SourceError('House vote has no member records');
     const positions={};for(const p of people.filter(p=>p.bioguide)){const m=members.find(m=>m.legislator?.['@_name-id']===p.bioguide);if(m)positions[p.id]=m.vote;}
     const date=new Date(v['action-date']+' UTC');if(!Number.isFinite(+date)||date.getUTCFullYear()!==Number(args.year))throw new SourceError('House vote date mismatch');
-    result={id:`h-${args.year}-${args.number}`,chamber:'H',number:Number(args.number),date:date.toISOString().slice(0,10),title:v['vote-desc']||v['legis-num']||v['vote-question'],question:v['vote-question'],result:v['vote-result'],positions};
+    result={id:`h-${args.year}-${args.number}`,chamber:'H',number:Number(args.number),date:date.toISOString().slice(0,10),title:v['vote-desc']||v['legis-num']||v['vote-question'],question:v['vote-question'],result:v['vote-result'],positions,
+      byParty:partyTally(members.map(m=>[m.legislator?.['@_party'],m.vote]))};
   }
   result.source=voteURL(args);return result;
 }
 
-// Congressional Record: a daily issue's MODS lists every section with its speakers' Bioguide IDs and text labels.
-export function normalizeRecordIssue(document,args,people) {
-  const mods=document.mods;if(!mods)throw new SourceError('Congressional Record metadata missing');
-  const tracked=new Map(people.filter(p=>p.bioguide).map(p=>[p.bioguide,p.id]));const rows=[];
-  for(const item of list(mods.relatedItem)) {
-    const e=item.extension;if(!e)continue;
-    const granule=String(item['@_ID']||'').replace(/^id-/,'');
-    const speakers=list(e.congMember).filter(m=>m['@_role']==='SPEAKING'&&tracked.has(m['@_bioGuideId'])).map(m=>({person:tracked.get(m['@_bioGuideId']),label:list(m.name).find(n=>n['@_type']==='parsed')?.['#text']||null}));
-    if(!speakers.length)continue;
-    if(!granule.startsWith(args.package+'-'))throw new SourceError('Congressional Record section identity mismatch');
-    const title=list(item.titleInfo)[0]?.title;
-    rows.push({id:granule,package:args.package,date:day(e.granuleDate)||args.date,title:typeof title==='string'?title:String(title?.['#text']||'Untitled section'),chamber:e.granuleClass||null,speakers});
-  }
-  return rows;
-}
-const entities={amp:'&',lt:'<',gt:'>',quot:'"',apos:"'",nbsp:' '};
-const speakerLabel=/^(?:(?:Mr|Ms|Mrs|Miss|Dr)\. [A-Z][A-Z'\- ]*[A-Z](?: of [A-Z][A-Za-z ]+)?|The (?:PRESIDING OFFICER|SPEAKER|CHAIR|ACTING PRESIDENT|PRESIDENT|VICE PRESIDENT|CHAIRMAN|CHAIRWOMAN|CLERK)[A-Za-z ()]*)\. /;
-const labelKey=v=>String(v||'').replace(/\s+/g,' ').trim().toLowerCase();
-// The Record's text is a fixed-width <pre> block; a paragraph starts with a two-space indent and a turn with a speaker label.
-export function extractTurns(html,labels,{single=false}={}) {
-  const body=(html.match(/<pre[^>]*>([\s\S]*?)<\/pre>/i)?.[1]||'').replace(/<[^>]+>/g,'').replace(/&(#\d+|#x[\da-f]+|\w+);/gi,(m,c)=>c[0]==='#'?String.fromCodePoint(c[1]==='x'||c[1]==='X'?parseInt(c.slice(2),16):Number(c.slice(1))):entities[c.toLowerCase()]??m);
-  const paragraphs=[];let current=null;
-  for(const line of body.split(/\r?\n/)) {
-    if(/^\s*\[(?:\[Page [^\]]+\]|Congressional Record|Senate|House|Extensions of Remarks|Pages? [^\]]+|Daily Digest)[^\]]*\]?\]\s*$/i.test(line)||/^From the Congressional Record Online/.test(line))continue;
-    if(!line.trim()){current=null;continue;}
-    if(/^ {2}\S/.test(line)||!current){current=[line.trim()];paragraphs.push(current);}else current.push(line.trim());
-  }
-  const wanted=new Map(labels.map(l=>[labelKey(l),[]]));let speaker=null;const all=[];
-  for(const p of paragraphs) {
-    let text=p.join(' ').replace(/\s+/g,' ').trim();
-    if(/^ *[A-Z0-9 ,.'\-:;()]+$/.test(p[0])&&p.length===1&&!speakerLabel.test(text)){continue;}
-    const m=text.match(speakerLabel);if(m){speaker=labelKey(m[0].slice(0,-2));text=text.slice(m[0].length);}
-    all.push(text);if(speaker&&wanted.has(speaker))wanted.get(speaker).push(text);
-  }
-  // Extensions of Remarks are written by one member and often carry no spoken label.
-  if(single&&labels.length===1&&!wanted.get(labelKey(labels[0])).length)wanted.set(labelKey(labels[0]),all);
-  return Object.fromEntries(labels.map(l=>[l,wanted.get(labelKey(l))]));
-}
-const SPEECH_LIMIT=40_000;
-export function normalizeSpeech(html,args) {
-  const turns=extractTurns(html,args.speakers.map(s=>s.label).filter(Boolean),{single:args.chamber==='EXTENSIONS'});
-  const speakers={};
-  for(const s of args.speakers){const parts=s.label?turns[s.label]:[];const text=parts.join('\n\n');
-    speakers[s.person]={label:s.label,paragraphs:parts.length,text:text.slice(0,SPEECH_LIMIT),truncated:text.length>SPEECH_LIMIT,matched:parts.length>0};}
-  return {id:args.granule,package:args.package,date:args.date,title:args.title,chamber:args.chamber,speakers,
-    source:`https://www.govinfo.gov/app/details/${args.package}/${args.granule}`};
-}
-const recordStart=a=>a.since||a.start;
-
+const nameKey = v => String(v||'').normalize('NFKD').replace(/[^a-z]/gi,'').toLowerCase();
 // Campaign websites. Search results are scored; only a clear match is accepted, otherwise it is left for review
 // (set campaignSite in data/config.json to confirm or correct one by hand).
-const notCampaign=['wikipedia.org','ballotpedia.org','fec.gov','opensecrets.org','votesmart.org','x.com','twitter.com','facebook.com','instagram.com','youtube.com','linkedin.com','tiktok.com','threads.net','bsky.app','reddit.com','medium.com','substack.com','actblue.com','secure.actblue.com','winred.com','secure.winred.com','nytimes.com','washingtonpost.com','politico.com','thehill.com','axios.com','cnn.com','foxnews.com','apnews.com','reuters.com','nbcnews.com','cbsnews.com','abcnews.go.com','npr.org','rollcall.com','govtrack.us','congress.gov','house.gov','senate.gov','britannica.com','justfacts.com','270towin.com','cookpolitical.com','realclearpolling.com','vote411.org','isidewith.com','followthemoney.org','legistorm.com'];
+export const notCampaign=['wikipedia.org','ballotpedia.org','fec.gov','opensecrets.org','votesmart.org','x.com','twitter.com','facebook.com','instagram.com','youtube.com','linkedin.com','tiktok.com','threads.net','bsky.app','reddit.com','medium.com','substack.com','actblue.com','secure.actblue.com','winred.com','secure.winred.com','nytimes.com','washingtonpost.com','politico.com','thehill.com','axios.com','cnn.com','foxnews.com','apnews.com','reuters.com','nbcnews.com','cbsnews.com','abcnews.go.com','npr.org','rollcall.com','govtrack.us','congress.gov','house.gov','senate.gov','britannica.com','justfacts.com','270towin.com','cookpolitical.com','realclearpolling.com','vote411.org','isidewith.com','followthemoney.org','legistorm.com'];
 const surnameOf=name=>nameKey(String(name).replace(/\s+(Jr\.?|Sr\.?|III|II|IV)$/i,'').split(' ').at(-1));
 export function campaignSiteQuery(p,year){return `${p.name} ${year} campaign website ${p.chamber==='S'?'U.S. Senate':'U.S. House'} ${p.state}`;}
 export function chooseCampaignSite(results,person) {
@@ -200,7 +273,7 @@ export function chooseCampaignSite(results,person) {
 }
 
 // Platform pages: issue, priority and about pages, split into one statement per heading.
-const platformPaths=['^/?$','/(issues?|priorities|platform|policy|policies|plans?|agenda|vision|positions?|values|about|meet[-a-z]*|record|accomplishments|why[-a-z]*)(/.*)?$'];
+export const platformPaths=['^/?$','/(issues?|priorities|platform|policy|policies|plans?|agenda|vision|positions?|values|about|meet[-a-z]*|record|accomplishments|why[-a-z]*)(/.*)?$'];
 const boilerplate=/^(donate|volunteer|sign up|join (us|the team)|contact|privacy|cookie|shop|store|events?|news|press|get involved|subscribe|paid for by|menu|search|share|follow)\b/i;
 const PAGE_LIMIT=30_000;
 function fnv(text){let h=0x811c9dc5;for(let i=0;i<text.length;i++){h^=text.charCodeAt(i);h=Math.imul(h,0x01000193)>>>0;}return h.toString(16).padStart(8,'0');}
@@ -249,10 +322,13 @@ export async function fetchPage(job,env,config) {
     return {rows:d.results.map(r=>normalizeTransaction(r,job.kind,a)),next};
   }
   if(job.kind==='legislation') {
-    const url=job.cursor||`https://api.congress.gov/v3/member/${a.bioguide}/sponsored-legislation?format=json&limit=250&fromDateTime=${a.cycle-1}-01-01T00%3A00%3A00Z`;
+    // Every bill they sponsored from the Congress that includes historyFrom (2016: the 114th) on.
+    const since=Number(config?.historyFrom)||2016,first=Math.floor((since-1789)/2)+1;
+    const url=job.cursor||`https://api.congress.gov/v3/member/${a.bioguide}/sponsored-legislation?format=json&limit=250&fromDateTime=${since}-01-01T00%3A00%3A00Z`;
     const d=await requestSource(url,env);if(!Array.isArray(d.sponsoredLegislation)||!d.pagination)throw new SourceError('Sponsored legislation response incomplete');
     const types={HR:'house-bill',S:'senate-bill',HJRES:'house-joint-resolution',SJRES:'senate-joint-resolution',HCONRES:'house-concurrent-resolution',SCONRES:'senate-concurrent-resolution',HRES:'house-resolution',SRES:'senate-resolution'};
-    const rows=d.sponsoredLegislation.filter(r=>Number(r.congress)===Number(a.congress)).map(r=>{
+    // Amendments a senator sponsored are listed too; they have no bill number or title and are left out.
+    const rows=d.sponsoredLegislation.filter(r=>Number(r.congress)>=first&&r.amendmentNumber==null&&!/AMDT$/i.test(r.type||'')).map(r=>{
       if(!types[r.type]||!r.number||!(r.title||r.latestTitle)||!day(r.introducedDate))throw new SourceError('Legislation record incomplete');
       return {id:`${r.congress}-${r.type}-${r.number}`,title:r.title||r.latestTitle,measure:`${r.type} ${r.number}`,date:day(r.introducedDate),latestAction:r.latestAction?.text||null,actionDate:day(r.latestAction?.actionDate),source:`https://www.congress.gov/bill/${r.congress}th-congress/${types[r.type]}/${r.number}`};
     });
@@ -272,40 +348,16 @@ export async function fetchPage(job,env,config) {
     if(d===null)return {rows:[],next:null,nextProbe:number};
     return {rows:[normalizeVote(d,args,config.people)],next:String(number+1)};
   }
-  if(job.kind==='crec-index') {
-    // Lists daily issues modified since the last completed check, so revised issues are seen again.
-    const url=job.cursor||(()=>{const u=new URL(`https://api.govinfo.gov/collections/CREC/${recordStart(a)}T00:00:00Z`);u.searchParams.set('pageSize','100');u.searchParams.set('offsetMark','*');u.searchParams.set('congress',String(a.congress));return u.href;})();
-    const d=await requestSource(url,env);if(!Array.isArray(d.packages))throw new SourceError('Congressional Record listing incomplete');
-    const rows=d.packages.filter(p=>/^CREC-\d{4}-\d{2}-\d{2}$/.test(p.packageId||'')&&day(p.dateIssued)>=a.start).map(p=>({id:p.packageId,date:day(p.dateIssued),lastModified:p.lastModified||null}));
-    let next=d.nextPage||null;if(next){const u=new URL(next);u.searchParams.delete('api_key');next=u.href;if(next===job.cursor)throw new SourceError('Congressional Record pagination stopped advancing');}
-    return {rows,next};
-  }
-  if(job.kind==='crec-package') return {rows:normalizeRecordIssue(await requestSource(`https://api.govinfo.gov/packages/${a.package}/mods`,env,{json:false}),a,config.people),next:null};
-  if(job.kind==='speech') return {rows:[normalizeSpeech(await requestSource(`https://www.govinfo.gov/content/pkg/${a.package}/html/${a.granule}.htm`,env,{html:true}),a)],next:null};
-  if(job.kind==='campaign-site') {
-    if(a.override)return {rows:[{id:job.subject,site:a.override,confidence:'confirmed',source:'config',candidates:[]}],next:null};
-    const d=await requestSource('https://api.tavily.com/search',env,{body:{query:campaignSiteQuery(a,config.year),search_depth:'basic',max_results:10,country:'united states',exclude_domains:notCampaign.slice(0,150)}});
-    if(!Array.isArray(d.results))throw new SourceError('Tavily search response incomplete');
-    return {rows:[{id:job.subject,...chooseCampaignSite(d.results,a),source:'tavily',query:campaignSiteQuery(a,config.year)}],next:null};
-  }
-  if(job.kind==='platform') {
-    const d=await requestSource('https://api.tavily.com/crawl',env,{timeout:170_000,body:{url:a.site,max_depth:2,max_breadth:40,limit:20,select_paths:platformPaths,allow_external:false,extract_depth:'basic',format:'markdown',timeout:150,include_usage:true}});
-    return {rows:normalizePlatform(d,a.site),next:null,credits:d.usage?.credits??null};
-  }
   throw new SourceError('Unknown refresh job');
 }
 
 export function summarize(job,rows) {
   const a=JSON.parse(job.args),through=job.started_at.slice(0,10);
   if(['pac','outside'].includes(job.kind))return summarizeTransactions(rows,job.kind,a,through);
-  if(job.kind==='legislation')return {count:rows.length,congress:a.congress,rows:rows.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,100),rowLimit:100};
+  if(job.kind==='legislation'){const by={};for(const r of rows)by[r.id.split('-')[0]]=(by[r.id.split('-')[0]]||0)+1;
+    return {count:rows.length,congress:a.congress,rows:rows.sort((a,b)=>b.date.localeCompare(a.date)).slice(0,300),rowLimit:300,byCongress:by,bills:rows.map(r=>r.id.toLowerCase())};}
   if(job.kind==='house-next')return {count:rows.length,rows:rows.sort((a,b)=>b.number-a.number).slice(0,30)};
   if(job.kind==='senate-index')return {rows};
-  if(job.kind==='crec-index')return {count:rows.length,since:recordStart(a),through:job.started_at.slice(0,10)};
-  if(job.kind==='crec-package')return {date:a.date,count:rows.length,rows:rows.sort((x,y)=>x.id.localeCompare(y.id))};
-  if(job.kind==='platform'){const pages=rows.sort((x,y)=>x.url.localeCompare(y.url));
-    return {site:a.site,through:job.started_at.slice(0,10),pages:pages.map(p=>({url:p.url,chars:p.chars,sections:p.sections.length})),sections:pages.flatMap(p=>p.sections),
-      scope:'Text from the campaign website as crawled. Not reviewed, and not classified by issue.'};}
   if(!rows.length)throw new SourceError('No validated record to publish');
   return rows[0];
 }

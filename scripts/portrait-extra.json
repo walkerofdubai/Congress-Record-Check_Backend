@@ -152,5 +152,412 @@
     "credit": "Photo supplied by the site's editor for use on this site",
     "tighten": true,
     "choke": 2
+  },
+  "trump": {
+    "file": "data/portraits/trump.jpg",
+    "credit": "Official presidential portrait (public domain, U.S. government work), supplied by the site's editor"
+  },
+  "mgp": {
+    "file": "data/portraits/mgp.jpg",
+    "credit": "Official congressional portrait (public domain), supplied by the site's editor",
+    "tighten": true
+  },
+  "armstrong": {
+    "file": "data/portraits/armstrong.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "grahamnordone": {
+    "file": "data/portraits/grahamnordone.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "sanders": {
+    "file": "data/portraits/sanders.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "whitehouse": {
+    "file": "data/portraits/whitehouse.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "schumer": {
+    "file": "data/portraits/schumer.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": "right"
+  },
+  "reed": {
+    "file": "data/portraits/reed.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "capito": {
+    "file": "data/portraits/capito.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "shaheen": {
+    "file": "data/portraits/shaheen.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "gillibrand": {
+    "file": "data/portraits/gillibrand.png",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "model": 1
+  },
+  "klobuchar": {
+    "file": "data/portraits/klobuchar.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "moran": {
+    "file": "data/portraits/moran.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "risch": {
+    "file": "data/portraits/risch.png",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": "right"
+  },
+  "markey": {
+    "file": "data/portraits/markey.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "boozman": {
+    "file": "data/portraits/boozman.png",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cotton": {
+    "file": "data/portraits/cotton.png",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "gallego": {
+    "file": "data/portraits/gallego.png",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "kelly": {
+    "file": "data/portraits/kelly.png",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "schiff": {
+    "file": "data/portraits/schiff.png",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "bennet": {
+    "file": "data/portraits/bennet.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "smooth": true
+  },
+  "blumenthal": {
+    "file": "data/portraits/blumenthal.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cmurphy": {
+    "file": "data/portraits/cmurphy.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "coons": {
+    "file": "data/portraits/coons.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "ricketts": {
+    "file": "data/portraits/ricketts.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "curtis": {
+    "file": "data/portraits/curtis.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cornyn": {
+    "file": "data/portraits/cornyn.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "murkowski": {
+    "file": "data/portraits/murkowski.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "britt": {
+    "file": "data/portraits/britt.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "hirono": {
+    "file": "data/portraits/hirono.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "schatz": {
+    "file": "data/portraits/schatz.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "grassley": {
+    "file": "data/portraits/grassley.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "crapo": {
+    "file": "data/portraits/crapo.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "duckworth": {
+    "file": "data/portraits/duckworth.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "choke": 2
+  },
+  "durbin": {
+    "file": "data/portraits/durbin.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "young": {
+    "file": "data/portraits/young.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "banks": {
+    "file": "data/portraits/banks.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "mcconnell": {
+    "file": "data/portraits/mcconnell.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "paul": {
+    "file": "data/portraits/paul.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cassidy": {
+    "file": "data/portraits/cassidy.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "warren": {
+    "file": "data/portraits/warren.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "alsobrooks": {
+    "file": "data/portraits/alsobrooks.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "choke": 2
+  },
+  "vanhollen": {
+    "file": "data/portraits/vanhollen.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "king": {
+    "file": "data/portraits/king.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "peters": {
+    "file": "data/portraits/peters.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "slotkin": {
+    "file": "data/portraits/slotkin.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "smith": {
+    "file": "data/portraits/smith.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "schmitt": {
+    "file": "data/portraits/schmitt.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "wicker": {
+    "file": "data/portraits/wicker.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "daines": {
+    "file": "data/portraits/daines.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "sheehy": {
+    "file": "data/portraits/sheehy.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cramer": {
+    "file": "data/portraits/cramer.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "hoeven": {
+    "file": "data/portraits/hoeven.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "fischer": {
+    "file": "data/portraits/fischer.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "heinrich": {
+    "file": "data/portraits/heinrich.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "lujan": {
+    "file": "data/portraits/lujan.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "rosen": {
+    "file": "data/portraits/rosen.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "moreno": {
+    "file": "data/portraits/moreno.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "lankford": {
+    "file": "data/portraits/lankford.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "merkley": {
+    "file": "data/portraits/merkley.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "wyden": {
+    "file": "data/portraits/wyden.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "fetterman": {
+    "file": "data/portraits/fetterman.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "mccormick": {
+    "file": "data/portraits/mccormick.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "tscott": {
+    "file": "data/portraits/tscott.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "thune": {
+    "file": "data/portraits/thune.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "blackburn": {
+    "file": "data/portraits/blackburn.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "lee": {
+    "file": "data/portraits/lee.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "kaine": {
+    "file": "data/portraits/kaine.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "warner": {
+    "file": "data/portraits/warner.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "welch": {
+    "file": "data/portraits/welch.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cantwell": {
+    "file": "data/portraits/cantwell.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 2
+  },
+  "murray": {
+    "file": "data/portraits/murray.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "baldwin": {
+    "file": "data/portraits/baldwin.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "johnson": {
+    "file": "data/portraits/johnson.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "justice": {
+    "file": "data/portraits/justice.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "barrasso": {
+    "file": "data/portraits/barrasso.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "lummis": {
+    "file": "data/portraits/lummis.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "kaptur": {
+    "file": "data/portraits/kaptur.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "choke": 1
+  },
+  "castor": {
+    "file": "data/portraits/castor.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "hageman": {
+    "file": "data/portraits/hageman.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "rogers": {
+    "file": "data/portraits/rogers.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "lawler": {
+    "file": "data/portraits/lawler.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "barr": {
+    "file": "data/portraits/barr.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "cruz": {
+    "file": "data/portraits/cruz.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "sununu": {
+    "file": "data/portraits/sununu.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "evans": {
+    "file": "data/portraits/evans.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "perry": {
+    "file": "data/portraits/perry.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "clear": "red"
+  },
+  "mcollins": {
+    "file": "data/portraits/mcollins.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "peltola": {
+    "file": "data/portraits/peltola.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site"
+  },
+  "brown": {
+    "file": "data/portraits/brown.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
+  },
+  "gonzalez": {
+    "file": "data/portraits/gonzalez.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "model": 1
+  },
+  "collins": {
+    "file": "data/portraits/collins.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true,
+    "clear": "light"
+  },
+  "bluntrochester": {
+    "file": "data/portraits/bluntrochester.jpg",
+    "credit": "Photo supplied by the site's editor for use on this site",
+    "tighten": true
   }
 }

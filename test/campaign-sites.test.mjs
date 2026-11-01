@@ -74,7 +74,7 @@ test('a campaignSite set by hand skips the search; without a key nothing is call
   assert.equal((await snapshot(db,'campaign-site:hand')).confidence,'confirmed');assert.equal((await snapshot(db,'platform:hand')).sections.length,2);db.close();
 });
 test('when Tavily credits run out, all Tavily jobs pause for a day and other sources continue',async()=>{
-  const db=database();await statement(db,'DELETE FROM jobs').run();
+  const db=database();await initialize(db);await statement(db,'DELETE FROM jobs').run();
   for(const id of ['a','b'])await addJob(db,`campaign-site:${id}`,'campaign-site',id,{...collins,override:null});
   await addJob(db,'campaign:collins','campaign','collins',{committee:'C00314575',cycle:2026});
   const started=Date.now();let tavily=0;

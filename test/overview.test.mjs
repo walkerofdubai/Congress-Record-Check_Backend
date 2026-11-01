@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs/promises';
 const data=JSON.parse(await fs.readFile(new URL('../public/research.json',import.meta.url),'utf8'));
-const people=data.members.concat(data.cands||[]);
+const people=data.members.concat(data.cands||[],data.featured||[]);
 test('every ethics item that is shown on the Overview has a valid status tag',()=>{
   for(const p of people)for(const e of p.ethics){
     if(e.outcome==='None found')continue;

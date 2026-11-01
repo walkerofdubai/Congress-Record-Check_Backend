@@ -1,0 +1,1930 @@
+{
+ "about": "Executive-branch stock trades for profiled people. See scripts/build-exec-trades.mjs.",
+ "source": "https://github.com/disclosedcapitol/executive-branch-trades",
+ "credit": "Data: Disclosed Capitol, executive-branch-trades",
+ "license": "CC BY 4.0",
+ "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+ "changes": "Summarized for this site: a trade listed on more than one report counts once.",
+ "from": "OGE Form 278e and 278-T reports",
+ "deadline": 45,
+ "refreshed": "2026-10-20",
+ "built": "2026-10-30",
+ "people": {
+  "trump": {
+   "name": "Donald J. Trump",
+   "profile": "https://www.disclosedcapitol.com/politicians/1587",
+   "rows": 35756,
+   "trades": 31059,
+   "repeats": 4697,
+   "misdated": 106,
+   "buys": 21554,
+   "sells": 9399,
+   "other": 0,
+   "linked": 6792,
+   "first": "2017-01-31",
+   "last": "2026-07-31",
+   "lastFiled": "2026-05-08",
+   "late": {
+    "n": 4654,
+    "of": 6491
+   },
+   "value": {
+    "low": 1719420951,
+    "high": 5471795000,
+    "open": 0
+   },
+   "byYear": [
+    {
+     "year": "2017",
+     "buy": 21,
+     "sell": 19,
+     "other": 0
+    },
+    {
+     "year": "2018",
+     "buy": 50,
+     "sell": 80,
+     "other": 0
+    },
+    {
+     "year": "2019",
+     "buy": 24,
+     "sell": 21,
+     "other": 0
+    },
+    {
+     "year": "2020",
+     "buy": 41,
+     "sell": 45,
+     "other": 0
+    },
+    {
+     "year": "2025",
+     "buy": 16782,
+     "sell": 5669,
+     "other": 0
+    },
+    {
+     "year": "2026",
+     "buy": 4636,
+     "sell": 3565,
+     "other": 0
+    }
+   ],
+   "byKind": [
+    {
+     "kind": "named",
+     "label": "Named, no ticker (mostly company stocks)",
+     "n": 27997
+    },
+    {
+     "kind": "muni",
+     "label": "Municipal bonds",
+     "n": 1734
+    },
+    {
+     "kind": "bond",
+     "label": "Corporate and other bonds",
+     "n": 680
+    },
+    {
+     "kind": "fund",
+     "label": "Funds and ETFs",
+     "n": 357
+    },
+    {
+     "kind": "partnership",
+     "label": "Partnerships and trusts",
+     "n": 140
+    },
+    {
+     "kind": "treasury",
+     "label": "Treasuries",
+     "n": 45
+    }
+   ],
+   "byAmount": [
+    {
+     "label": "$1,001 - $15,000",
+     "n": 13563
+    },
+    {
+     "label": "$15,001 - $50,000",
+     "n": 9555
+    },
+    {
+     "label": "$50,001 - $100,000",
+     "n": 3216
+    },
+    {
+     "label": "$100,001 - $250,000",
+     "n": 2588
+    },
+    {
+     "label": "$250,001 - $500,000",
+     "n": 955
+    },
+    {
+     "label": "$500,001 - $1,000,000",
+     "n": 635
+    },
+    {
+     "label": "$1,000,001 - $5,000,000",
+     "n": 409
+    },
+    {
+     "label": "$5,000,001 - $25,000,000",
+     "n": 20
+    },
+    {
+     "label": "$25,000,001 - $50,000,000",
+     "n": 3
+    },
+    {
+     "label": "Other ranges",
+     "n": 9
+    }
+   ],
+   "reports": [
+    {
+     "filed": "2018-12-31",
+     "form": null,
+     "count": 1,
+     "listed": 92,
+     "misdated": 0,
+     "from": "2017-01-31",
+     "to": "2017-11-22"
+    },
+    {
+     "filed": "2019-12-31",
+     "form": null,
+     "count": 1,
+     "listed": 311,
+     "misdated": 0,
+     "from": "2018-01-25",
+     "to": "2018-12-21"
+    },
+    {
+     "filed": "2020-12-31",
+     "form": null,
+     "count": 1,
+     "listed": 105,
+     "misdated": 0,
+     "from": "2019-01-10",
+     "to": "2019-12-23"
+    },
+    {
+     "filed": "2021-12-31",
+     "form": null,
+     "count": 1,
+     "listed": 135,
+     "misdated": 0,
+     "from": "2020-01-09",
+     "to": "2020-12-23"
+    },
+    {
+     "filed": "2025-08-12",
+     "form": "278-T",
+     "count": 3,
+     "listed": 1259,
+     "misdated": 0,
+     "from": "2025-01-21",
+     "to": "2025-08-01"
+    },
+    {
+     "filed": "2025-09-03",
+     "form": "278-T",
+     "count": 1,
+     "listed": 50,
+     "misdated": 0,
+     "from": "2025-08-07",
+     "to": "2025-08-18"
+    },
+    {
+     "filed": "2025-10-17",
+     "form": "278-T",
+     "count": 1,
+     "listed": 78,
+     "misdated": 0,
+     "from": "2025-08-28",
+     "to": "2025-09-03"
+    },
+    {
+     "filed": "2025-10-20",
+     "form": "278-T",
+     "count": 2,
+     "listed": 270,
+     "misdated": 0,
+     "from": "2025-09-04",
+     "to": "2025-10-02"
+    },
+    {
+     "filed": "2025-11-14",
+     "form": "278-T",
+     "count": 1,
+     "listed": 64,
+     "misdated": 0,
+     "from": "2025-10-02",
+     "to": "2025-10-15"
+    },
+    {
+     "filed": "2025-12-18",
+     "form": "278-T",
+     "count": 1,
+     "listed": 216,
+     "misdated": 0,
+     "from": "2025-10-20",
+     "to": "2025-11-13"
+    },
+    {
+     "filed": "2026-01-14",
+     "form": "278-T",
+     "count": 1,
+     "listed": 331,
+     "misdated": 0,
+     "from": "2025-11-14",
+     "to": "2025-12-31"
+    },
+    {
+     "filed": "2026-02-26",
+     "form": "278-T",
+     "count": 2,
+     "listed": 502,
+     "misdated": 57,
+     "from": "2025-05-07",
+     "to": "2026-01-31"
+    },
+    {
+     "filed": "2026-04-20",
+     "form": "278-T",
+     "count": 1,
+     "listed": 398,
+     "misdated": 0,
+     "from": "2026-03-02",
+     "to": "2026-03-31"
+    },
+    {
+     "filed": "2026-05-08",
+     "form": "278-T",
+     "count": 2,
+     "listed": 6977,
+     "misdated": 62,
+     "from": "2026-01-01",
+     "to": "2026-03-30"
+    }
+   ],
+   "recent": [
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "ABBOTT LABS",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "ABBVIE INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "ACCENTURE PLC IRELAND F CLASS CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "ALLY FINL INC PERP -D NT 7.1000%",
+     "ticker": null,
+     "kind": "bond",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "ALTRIA GROUP INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "AMERICAN EXPRESS CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "AVALONBAY CMNTYS INC REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "BECTON DICKINSON & CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "BLACKROCK INC NEW",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BOOKING HLDGS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BOOKING HLDGS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "BROADCOM INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "CATERPILLAR INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CHEVRON CORP NEW",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "CISCO SYS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CITIZENS FINL GROUP INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "CME GROUP INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CONOCOPHILLIPS",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "COREBRIDGE FINL INC PERP -A 6.8750%",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CVS HEALTH CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "DUKE ENERGY CORP NEW",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "ECOLAB INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "EVERSOURCE ENERGY",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "EXXONMOBIL HLDGS CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "FASTENAL CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "FIDELITY NATL INFORMATIO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "HOME DEPOT INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "IBM CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "JOHNSON & JOHNSON",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "JPMORGAN CHASE & CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "JPMORGAN CHASE & CO PERP NN 6.8750%",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "KINDER MORGAN INC DEL",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "LINDE PLC F",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "LOCKHEED MARTIN CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "MERCK & CO. INC.",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "META PLATFORMS INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "MORGAN STANLEY",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "MOTOROLA SOLUTIONS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "NEXTERA ENERGY INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "NIKE INC CLASS CLASS B",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "OMNICOM GROUP INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "PARKER-HANNIFIN CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "PFIZER INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "PHILIP MORRIS INTL INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "PNC FINL SERVICES",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "PPG INDS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "PROCTER & GAMBLE CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "PUBLIC STORAGE REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "REPUBLIC SVCS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ROCKWELL AUTOMATION INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "RTX CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "S&P GLOBAL INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "STARBUCKS CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "TEXAS INSTRS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "THE COCA-COLA CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "TRUIST FINL CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "UNITEDHEALTH GROUP INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "VERIZON COMMUNICATIONS I",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$250,001 - $500,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "VISA INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "WALMART INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "WATSCO INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-31",
+     "filed": null,
+     "form": "278",
+     "days": null,
+     "type": "buy",
+     "asset": "WEC ENERGY GROUP INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$100,001 - $250,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "A10 NETWORKS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ABM INDS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ACADEMY SPORTS & OUTDOOR",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ACADIA PHARMACEUTICALS I",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ACADIA RLTY TR REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ACM RESH INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ACUSHNET HLDGS CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ADAPT HEALTH CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ADEIA INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ADMA BIOLOGICS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ADT INC DEL",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ADVANCE AUTO PTS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AGILYSYS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ALIGNMENT HEALTHCARE INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ALKERMES PLC F",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ALLEGIANT TRAVEL CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ALPHA & OMEGA SEMICOND F",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ALPHA METALLURGICAL RES",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AMENTUM HLDGS INC EQUITY",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AMERICAN EAGLE OUTFITTER",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AMERISAFE INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ANDERSONS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "APOLLO COML REAL ESTATE REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARCBEST CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARCUS BIOSCIENCES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARGAN INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARLO TECHNOLOGIES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARMOUR RESIDENTIAL REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARMSTRONG WORLD INDS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ARTIVION INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ATLANTIC UN BANKSHARES C",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ATMUS FILTRATION TECHNOL",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AVISTA CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "AXCELIS TECHNOLOGIES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BADGER METER INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BALCHEM CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BANC CALIF INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BANKUNITED INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BENCHMARK ELECTRS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BGC GROUP INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BLACKSTONE MTG TR INC REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BRADY CORP CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BRIGHT HORIZONS FAMILY S",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BRINKER INTL INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "BUCKLE INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CACTUS INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CAESARS ENTMT INC NEW",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CALIFORNIA RES CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CALIX INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CARGURUS INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CARMAX INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CASELLA WASTE SYS INC CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CATHAY GEN BANCORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CELANESE CORP DEL CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CENTERSPACE REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CENTRUS ENERGY CORP CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CHAMPION HOMES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CHEFS WHSE INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CHEMOURS CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CHESAPEAKE UTILS CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CLEANSPARK INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CLEARWAY ENERGY INC CLASS C",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "COLLEGIUM PHARMACEUTICAL",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "COLUMBIA BKG SYS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "COMMUNITY FINL SYS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "COMSTOCK RES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CONAGRA BRANDS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CONCENTRA GROUP HOLD EQU CLASS EQUITY",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CONSTRUCTION PARTNERS IN CLASS A",
+     "ticker": null,
+     "kind": "partnership",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "buy",
+     "asset": "COOK CNTY IL SALES TAX RV BE/R/ 5 DUE 111529 DTD 082526 FC 111526 2.960%",
+     "ticker": null,
+     "kind": "muni",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CORCEPT THERAPEUTICS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CORE NAT RES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CORVEL CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "COVISTA INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CREDIT ACCEP CORP MICH",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CSW INDUSTRIALS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CTS CORP",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "CUSHMAN & WAKEFIELD F",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DAVE INC CLASS CLASS A",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DIEBOLD NIXDORF INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DIGI INTL INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DIODES INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$50,001 - $100,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DNOW INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "DORMAN PRODS INC",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "EASTERN BANKSHARES I",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "EASTMAN CHEM CO",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ELEMENT SOLUTIONS IN",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$15,001 - $50,000"
+    },
+    {
+     "traded": "2026-07-29",
+     "filed": null,
+     "form": null,
+     "days": null,
+     "type": "sell",
+     "asset": "ELLINGTON FINL INC REIT",
+     "ticker": null,
+     "kind": "named",
+     "amount": "$1,001 - $15,000"
+    }
+   ]
+  }
+ }
+}

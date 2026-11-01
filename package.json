@@ -1,5 +1,5 @@
 {
-  "name": "congress-record-check",
+  "name": "public-ledger",
   "version": "1.0.0",
   "private": true,
   "type": "module",
@@ -11,9 +11,21 @@
     "test": "node --test test/*.test.mjs",
     "check": "node scripts/check.mjs",
     "seed:export": "node --env-file-if-exists=.dev.vars scripts/export-seed.mjs",
+    "scores:monthly": "node scripts/scores-monthly.mjs",
+    "social:bluesky": "node scripts/find-bluesky.mjs",
+    "senate:build": "node scripts/build-senate.mjs",
+    "exec:build": "node scripts/build-exec-trades.mjs",
+    "votes:party": "node scripts/build-vote-party.mjs",
+    "votes:positions": "node scripts/fill-vote-positions.mjs",
+    "bills:cosponsors": "node --env-file-if-exists=.dev.vars scripts/fill-bill-cosponsors.mjs",
+    "pacs:types": "node --env-file-if-exists=.dev.vars scripts/build-pac-types.mjs",
+    "funders:bundled": "node --env-file-if-exists=.dev.vars scripts/build-bundled.mjs",
+    "review:money": "node scripts/review-money.mjs",
+    "review:pledges": "node scripts/review-pledges.mjs",
+    "review:holdings": "node --no-warnings=ExperimentalWarning scripts/review-holdings.mjs",
     "cloudflare:preview": "wrangler dev",
     "cloudflare:deploy": "wrangler deploy",
-    "db:migrate": "wrangler d1 migrations apply congress-record-check --remote"
+    "db:migrate": "wrangler d1 migrations apply public-ledger --remote"
   },
   "dependencies": {
     "fast-xml-parser": "^5.0.0"

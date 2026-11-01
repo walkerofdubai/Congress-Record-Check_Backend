@@ -2,7 +2,7 @@
 // to or about each profiled candidate, from the FEC bulk file "Contributions from committees to candidates &
 // independent expenditures" (pas2). The page draws it on the same time axis as the group's key votes.
 //
-//   node scripts/build-funder-history.mjs            downloads the bulk files into .local/fec-bulk/ (about 90 MB)
+//   node scripts/build-funder-history.mjs            downloads the bulk files into .local/fec-bulk/ (about 140 MB)
 //   node scripts/build-funder-history.mjs --refresh  downloads them again, for newer FEC data
 //   FEC_BULK_BASE=<url> node scripts/...              use a mirror of https://www.fec.gov/files/bulk-downloads
 //
@@ -18,7 +18,8 @@ import readline from 'node:readline';
 import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 
-export const CYCLES=[2020,2022,2024,2026];
+// Every cycle from 2016 (it starts in January 2015), as the refresh's history does (config.historyFrom).
+export const CYCLES=[2016,2018,2020,2022,2024,2026];
 export const IE_BEFORE='2025-01-01';
 const BASE=process.env.FEC_BULK_BASE||'https://www.fec.gov/files/bulk-downloads';
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
@@ -109,7 +110,8 @@ async function main(){
   const out={
     about:'Monthly money from each researched group to or about each profiled candidate, from FEC bulk files. See scripts/build-funder-history.mjs.',
     built:new Date().toISOString().slice(0,10),
-    start:'2019-01-01', ieBefore:IE_BEFORE, contribThrough, sources,
+    start:`${CYCLES[0]-1}-01-01`, ieBefore:IE_BEFORE, contribThrough, sources,
+    groups:D.groupPos.map(g=>g.key),   // the groups this file was built for, so the page can tell a new group from no money
     people:aggregate(items),
   };
   fs.writeFileSync(path.join(ROOT,'public','funder-history.json'),JSON.stringify(out));

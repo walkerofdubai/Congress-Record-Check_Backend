@@ -4,10 +4,12 @@ import fs from 'node:fs/promises';
 const root=new URL('../public/',import.meta.url);
 const data=JSON.parse(await fs.readFile(new URL('research.json',root),'utf8'));
 const index=JSON.parse(await fs.readFile(new URL('portraits/index.json',root),'utf8'));
-const ids=new Set(data.members.concat(data.cands).map(s=>s.id));
-test('every portrait belongs to a profiled person, exists as a WebP, and says where it came from',async()=>{
+// Everyone profiled, plus every other sitting senator (their basic profiles' cards).
+const senate=JSON.parse(await fs.readFile(new URL('senate.json',root),'utf8')).senators;
+const ids=new Set(data.members.concat(data.cands,data.featured||[]).map(s=>s.id).concat(senate.map(s=>s.id)));
+test('every portrait belongs to a profiled person or a sitting senator, exists as a WebP, and says where it came from',async()=>{
   for(const [id,p] of Object.entries(index.people)){
-    assert.ok(ids.has(id),id+' is not in research.json');
+    assert.ok(ids.has(id),id+' is not in research.json or senate.json');
     assert.equal(p.file,`portraits/${id}.webp`);
     const b=await fs.readFile(new URL(p.file,root));
     assert.equal(b.toString('latin1',0,4)+b.toString('latin1',8,12),'RIFFWEBP',id+' is not a WebP');

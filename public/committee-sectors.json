@@ -1,0 +1,21 @@
+{
+  "about": "Which industry sectors each full committee oversees, for the committee-conflict stock-trading rule. Draft (placeholder): needs review before trading deductions are published. Keys are congress-legislators committee IDs (see public/committees.json); sector names are those in public/sectors.js. A subcommittee member counts under the full committee. Committees whose work spans the whole economy or none of it (Appropriations, Budget, Rules, Ethics, Foreign Affairs, Judiciary, Oversight, Intelligence and others) are left out, so they create no conflicts.",
+  "committees": {
+    "SSAF": {"sectors": ["Agriculture & Food"], "why": "Farm programs, food safety, nutrition programs and forestry"},
+    "SSAS": {"sectors": ["Defense & Aerospace"], "why": "Defense programs and weapons procurement"},
+    "SSBK": {"sectors": ["Finance & Insurance", "Real Estate & Construction"], "why": "Banks, securities markets, insurance and housing"},
+    "SSCM": {"sectors": ["Telecom & Media", "Technology", "Transportation"], "why": "Communications, the internet, consumer technology, aviation, rail and trucking"},
+    "SSEG": {"sectors": ["Energy", "Utilities", "Mining & Materials"], "why": "Energy production and policy, power markets and mining on federal lands"},
+    "SSEV": {"sectors": ["Transportation", "Utilities"], "why": "Highways, clean-air rules for power plants and vehicles, and water infrastructure"},
+    "SSFI": {"sectors": ["Health & Pharma", "Finance & Insurance"], "why": "Medicare and Medicaid, including drug pricing, and the tax code"},
+    "SSHR": {"sectors": ["Health & Pharma"], "why": "Public health, drug and device approval (FDA) and health insurance rules"},
+    "HSAG": {"sectors": ["Agriculture & Food"], "why": "Farm programs, food safety, nutrition programs and forestry"},
+    "HSAS": {"sectors": ["Defense & Aerospace"], "why": "Defense programs and weapons procurement"},
+    "HSBA": {"sectors": ["Finance & Insurance", "Real Estate & Construction"], "why": "Banks, securities markets, insurance and housing"},
+    "HSIF": {"sectors": ["Energy", "Utilities", "Health & Pharma", "Telecom & Media", "Technology"], "why": "Energy policy, public health and the FDA, communications and consumer technology"},
+    "HSII": {"sectors": ["Energy", "Mining & Materials"], "why": "Oil, gas and mineral leasing on federal lands and waters"},
+    "HSPW": {"sectors": ["Transportation"], "why": "Highways, aviation, rail, ports and pipelines safety"},
+    "HSWM": {"sectors": ["Health & Pharma", "Finance & Insurance"], "why": "Medicare, including drug pricing, and the tax code"},
+    "HSSY": {"sectors": ["Technology"], "why": "Federal research and technology programs, including space"}
+  }
+}

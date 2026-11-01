@@ -1,11 +1,94 @@
 # Save a copy as .dev.vars. Keep this file on your computer; never commit actual keys.
-# FEC: https://api.open.fec.gov/developers/
+# Leave a key blank to skip its sources; the app still runs on the reviewed research.
+
+# FEC: campaign totals, donors by employer, PAC contributions, outside spending, enforcement records
+# https://api.open.fec.gov/developers/
 FEC_API_KEY=
-# Congress.gov: https://api.congress.gov/sign-up/
+
+# Congress.gov: sponsored and cosponsored bills, House roll calls, bill details, CRS reports, committee meetings
+# https://api.congress.gov/sign-up/
 CONGRESS_API_KEY=
-# Tavily: https://app.tavily.com (campaign website search and platform extraction)
+
+# GovInfo: floor speeches and hearing transcripts. Leave blank to use the Congress.gov key.
+# https://www.govinfo.gov/api-signup
+GOVINFO_API_KEY=
+
+# Vote Smart: issue positions and interest-group ratings. Optional and NOT free: a paid license is needed
+# ($350 a month to build with, $4,850 a year to publish). Leave blank unless you buy one.
+# https://www.votesmart.org/votesmart-api
+VOTESMART_API_KEY=
+
+# Open States: state legislators' bills, votes and sponsorships
+# https://openstates.org/accounts/signup/
+OPENSTATES_API_KEY=
+
+# LegiScan: state bills, cross-checked against Open States
+# https://legiscan.com/legiscan
+LEGISCAN_API_KEY=
+
+# Optional. LDA.gov: lobbying filings (works without a key at a lower rate limit)
+# https://lda.gov/
+LDA_API_KEY=
+
+# Stock trades: the official House and Senate reports are read without a key. These three services are an optional
+# cross-check and run together.
+# Optional. Bargo: last 3 months (works without a key at a lower limit). https://www.bargo.ai/free-apis/dash
+BARGO_API_KEY=
+
+# Optional. Eulerpool: 100,000 requests a month free. https://eulerpool.com/developers/register
+EULERPOOL_API_KEY=
+
+# Optional. Financial Modeling Prep, if its free plan includes congressional trades.
+# https://site.financialmodelingprep.com/developer/docs/senate-trading-api
+FMP_API_KEY=
+
+# Not used. Disclosed Capitol's API: members' and executive-branch stock trades. The key is free, but its 750 credits are a
+# one-time trial and every call costs money after that, so nothing reads this key. The president's trades come from its
+# free open dataset instead (npm run exec:build, no key). https://www.disclosedcapitol.com/developers
+DISCLOSED_CAPITOL_API_KEY=
+
+# CourtListener: court opinions and dockets (free account, about 125 requests a day)
+# https://www.courtlistener.com/help/api/rest/
+COURTLISTENER_API_TOKEN=
+
+# Google: published fact-checks and officials' YouTube videos
+# (turn on the Fact Check Tools API and the YouTube Data API for this key)
+# https://developers.google.com/fact-check-tools
+GOOGLE_API_KEY=
+
+# Tavily: finds each campaign website and reads its platform pages. https://app.tavily.com
 TAVILY_API_KEY=
+
+# New York Times: articles naming each politician
+# https://developer.nytimes.com/
+NYT_API_KEY=
+
+# Regulations.gov: comments on federal rules. Leave blank to use the Congress.gov key.
+# https://open.gsa.gov/api/regulationsgov/
+REGULATIONS_API_KEY=
+
+# SAM.gov: companies' federal IDs, for matching donors to federal contracts
+# https://open.gsa.gov/api/entity-api
+SAM_API_KEY=
+
+# SEC EDGAR asks every request to name you: "Your Name you@example.com" (not a key)
+SEC_USER_AGENT=
+
+# Threads (Meta): politicians' Threads posts that mention one of the issues. Free, but searching other people's
+# posts needs Meta's approval: create an app with the Threads use case, add the threads_basic and
+# threads_keyword_search permissions, request advanced access for threads_keyword_search in App Review, then paste
+# a long-lived user access token here. Long-lived tokens last 60 days, so replace it before it expires.
+# https://developers.facebook.com/docs/threads/keyword-search
+THREADS_ACCESS_TOKEN=
+
+# No key needed: Senate and House roll calls, Senate and House committee lists, the House
+# disclosure index, members' trade reports (House Clerk PDFs and the Senate eFD site), members' press-release feeds on their official websites, Federal Register,
+# Bluesky, Wayback Machine, GDELT, DOJ press releases, ProPublica Nonprofit Explorer, FARA,
+# USAspending. To find more Bluesky accounts, run: npm run social:bluesky
+
 # Local refresh runs automatically while npm start is running.
 LOCAL_AUTORUN=true
+# Optional: source pages fetched per minute (default 40, up to 200). Each source still gets only its own share.
+LOCAL_STEPS=40
 # Optional: change the local port.
 PORT=8787
